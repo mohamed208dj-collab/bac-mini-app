@@ -3,70 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محتوى الشعبة | BAC Plus</title>
+    <title>الرئيسية | BAC Plus</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #f1f5f9; }
-        .section-card { transition: all 0.3s ease; }
-        .section-card:hover { transform: translateY(-5px); shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; }
+        .sidebar { background-color: #1e293b; transition: all 0.3s; }
+        .card-hover:hover { transform: translateY(-5px); transition: all 0.3s; }
     </style>
 </head>
-<body class="bg-gray-50 pb-12">
+<body class="flex min-h-screen">
 
-    <header class="bg-blue-600 text-white py-8 shadow-lg mb-10">
-        <div class="container mx-auto px-6 text-center">
-            <h1 id="branchTitle" class="text-3xl font-black">جاري تحميل القسم...</h1>
-            <p class="opacity-80 mt-2">كل ما تحتاجه للتميز في مكان واحد</p>
+    <aside class="sidebar w-64 text-white hidden md:flex flex-col sticky top-0 h-screen">
+        <div class="p-6 text-2xl font-black border-b border-gray-700 text-center">
+            BAC <span class="text-blue-500">Plus</span>
         </div>
-    </header>
-
-    <main class="container mx-auto px-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            
-            <div class="section-card bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-                <div class="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center mb-4 text-3xl">📚</div>
-                <h3 class="text-xl font-bold mb-2">دروس وملخصات</h3>
-                <p class="text-gray-500 text-sm mb-4">ملخصات حصرية وشاملة بأسلوبك الخاص.</p>
-                <a href="#" class="block text-center bg-blue-600 text-white py-2 rounded-xl font-bold hover:bg-blue-700">دخول</a>
+        <nav class="flex-grow p-4 space-y-2 mt-4">
+            <a href="#" class="block py-3 px-4 rounded-xl bg-blue-600 font-bold">🏠 الرئيسية</a>
+            <a href="divisions.html" class="block py-3 px-4 rounded-xl hover:bg-gray-700 transition">📚 اختيار الشعبة</a>
+            <a href="#" class="block py-3 px-4 rounded-xl hover:bg-gray-700 transition">📅 خطط الامتياز</a>
+            <a href="#" class="block py-3 px-4 rounded-xl hover:bg-gray-700 transition">📝 البكالوريات</a>
+            <a href="#" class="block py-3 px-4 rounded-xl hover:bg-gray-700 transition">🏆 المتصدرين</a>
+        </nav>
+        <div class="p-4 border-t border-gray-700">
+            <div class="bg-gray-800 p-3 rounded-lg text-sm text-center">
+                <p class="text-gray-400">نقاطك الحالية</p>
+                <p class="text-yellow-400 font-bold text-lg">✨ 150 نقطة</p>
             </div>
-
-            <div class="section-card bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-                <div class="w-14 h-14 bg-green-100 rounded-2xl flex items-center justify-center mb-4 text-3xl">📝</div>
-                <h3 class="text-xl font-bold mb-2">بكالوريات سابقة</h3>
-                <p class="text-gray-500 text-sm mb-4">مواضيع رسمية مع الحلول النموذجية.</p>
-                <a href="#" class="block text-center bg-green-600 text-white py-2 rounded-xl font-bold hover:bg-green-700">دخول</a>
-            </div>
-
-            <div class="section-card bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-                <div class="w-14 h-14 bg-purple-100 rounded-2xl flex items-center justify-center mb-4 text-3xl">🎯</div>
-                <h3 class="text-xl font-bold mb-2">خطط الامتياز</h3>
-                <p class="text-gray-500 text-sm mb-4">كيف تراجع وتتفوق في وقت قياسي.</p>
-                <a href="#" class="block text-center bg-purple-600 text-white py-2 rounded-xl font-bold hover:bg-purple-700">دخول</a>
-            </div>
-
-            <div class="section-card bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-                <div class="w-14 h-14 bg-red-100 rounded-2xl flex items-center justify-center mb-4 text-3xl">🎬</div>
-                <h3 class="text-xl font-bold mb-2">فيديوهات دراسة</h3>
-                <p class="text-gray-500 text-sm mb-4">شروحات فيديو تفاعلية لكل الدروس.</p>
-                <a href="#" class="block text-center bg-red-600 text-white py-2 rounded-xl font-bold hover:bg-red-700">دخول</a>
-            </div>
-
-            <div class="section-card bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-                <div class="w-14 h-14 bg-orange-100 rounded-2xl flex items-center justify-center mb-4 text-3xl">📝</div>
-                <h3 class="text-xl font-bold mb-2">امتحانات تجريبية</h3>
-                <p class="text-gray-500 text-sm mb-4">اختبر مستواك مع مواضيع مقترحة.</p>
-                <a href="#" class="block text-center bg-orange-600 text-white py-2 rounded-xl font-bold hover:bg-orange-700">دخول</a>
-            </div>
-
-            <div class="section-card bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-                <div class="w-14 h-14 bg-yellow-100 rounded-2xl flex items-center justify-center mb-4 text-3xl">💎</div>
-                <h3 class="text-xl font-bold mb-2">تحدي النقاط</h3>
-                <p class="text-gray-500 text-sm mb-4">اجمع النقاط واربح جوائز تعليمية.</p>
-                <a href="#" class="block text-center bg-yellow-500 text-white py-2 rounded-xl font-bold hover:bg-yellow-600">دخول</a>
-            </div>
-
         </div>
-        
-        <div class="mt-12 text-center">
-            <a href="divisions.html" class="text-blue-600 font-bold">← العودة لتغيير
+    </aside>
+
+    <main class="flex-grow">
+        <header class="bg-white shadow-sm p-4 flex justify-between items-center px-8">
+            <h1 class="text-xl font-bold text-gray-800">أهلاً بك، يا بطل! 🚀</h1>
+            <div class="flex items-center gap-4">
+                <button class="bg-blue-100 text-blue-600 px-4 py-2 rounded-full text-sm font-bold">تواصل معنا</button>
+                <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">A</div>
+            </div>
+        </header>
+
+        <div class="p-8">
+            <div class="mb-10 text-center md:text-right">
+                <h2 class="text-3xl font-black text-gray-900">اختر وجهتك الدراسية</h2>
+                <p class="text-gray-500">كل ما تحتاجه للنجاح في البكالوريا مجمع في مكان واحد</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <div class="card-hover bg-white p-6 rounded-3xl shadow-md border-b-4 border-blue-500">
+                    <div class="text-4xl mb-4">📖</div>
+                    <h3 class="text-xl font-bold mb-2">الدروس والملخصات</h3>
+                    <p class="text-gray-500 text-sm mb-4">ملخصات شاملة بأسلوب بسيط يسهل الحفظ.</p>
+                    <a href="divisions.html" class="text-blue-600 font-bold hover:underline">عرض الأقسام ←</a>
+                </div>
+
+                <div class="card-hover bg-white p-6 rounded-3xl shadow-md border-b-4 border-purple-500">
+                    <div class="text-4xl mb-4">📅</div>
+                    <h3 class="text-xl font-bold mb-2">خطط الامتياز</h3>
+                    <p class="text-gray-500 text-sm mb-4">جداول مراجعة ذكية لتقسيم وقتك بفعالية.</p>
+                    <a href="#" class="text-purple-600 font-bold hover:underline">ابدأ التخطيط ←</a>
+                </div>
+
+                <div class="card-hover bg-white p-6 rounded-3xl shadow-md border-b-4 border-green-500">
+                    <div class="text-4xl mb-4">✍️</div>
+                    <h3 class="text-xl font-bold mb-2">بكالوريات سابقة</h3>
+                    <p class="text-gray-500 text-sm mb-4">مواضيع رسمية مع الحلول النموذجية المفصلة.</p>
+                    <a href="#" class="text-green-600 font-bold hover:underline">تحميل المواضيع ←</a>
+                </div>
+
+                <div class="card-hover bg-white p-6 rounded-3xl shadow-md border-b-4 border-red-500">
+                    <div class="text-4xl mb-4">🧪</div>
+                    <h3 class="text-xl font-bold mb-2">امتحانات تجريبية</h3>
+                    <p class="text-gray-500 text-sm mb-4">اختبر نفسك مع مواضيع مقترحة من كبار الأساتذة.</p>
+                    <a href="#" class="text-red-600 font-bold hover:underline">ابدأ الاختبار ←</a>
+                </div>
+
+                <div class="card-hover bg-white p-6 rounded-3xl shadow-md border-b-4 border-yellow-500">
+                    <div class="text-4xl mb-4">📺</div>
+                    <h3 class="text-xl font-bold mb-2">فيديوهات دراسة</h3>
+                    <p class="text-gray-500 text-sm mb-4">شروحات فيديو تفاعلية لأصعب المفاهيم.</p>
+                    <a href="#" class="text-yellow-600 font-bold hover:underline">مشاهدة الفيديوهات ←</a>
+                </div>
+
+                <div class="card-hover bg-blue-600 p-6 rounded-3xl shadow-md text-white">
+                    <div class="text-4xl mb-4">🎁</div>
+                    <h3 class="text-xl font-bold mb-2">متجر النقاط</h3>
+                    <p class="text-blue-100 text-sm mb-4">استبدل نقاطك بملفات حصرية وجوائز قيمة.</p>
+                    <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-xl text-sm font-bold inline-block">دخول المتجر</a>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
