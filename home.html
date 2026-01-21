@@ -73,4 +73,22 @@
 
     <script>
         function updateTimer() {
-            const eventDate = new Date("June 08, 2026
+            const eventDate = new Date("June 08, 2026 08:00:00").getTime();
+            const now = new Date().getTime();
+            const diff = eventDate - now;
+
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = d < 10 ? '0'+d : d;
+            document.getElementById("hours").innerText = h < 10 ? '0'+h : h;
+            document.getElementById("minutes").innerText = m < 10 ? '0'+m : m;
+            document.getElementById("seconds").innerText = s < 10 ? '0'+s : s;
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+    </script>
+</body>
+</html>
