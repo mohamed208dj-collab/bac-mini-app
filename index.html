@@ -1,1 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة البكالوريا | طريقك نحو الامتياز</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
+        .hero-bg { background: linear-gradient(135deg, #0f172a 0%, #1e40af 100%); }
+        .card-hover:hover { transform: translateY(-10px); transition: all 0.3s ease; }
+    </style>
+</head>
+<body class="bg-gray-50">
 
+    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <img src="images/logo.png" alt="Logo" class="h-10 w-auto">
+                <span class="text-xl font-black text-blue-700">BAC DZ</span>
+            </div>
+            <div class="hidden md:flex gap-8 font-bold text-gray-700">
+                <a href="#sections" class="hover:text-blue-600 transition">الأقسام</a>
+                <a href="#about" class="hover:text-blue-600 transition">عن المنصة</a>
+                <a href="https://t.me/YourBotUser" class="text-blue-600 border-2 border-blue-600 px-4 py-1 rounded-full hover:bg-blue-600 hover:text-white transition">بوت التليجرام</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-bg text-white py-20 px-6">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between">
+            <div class="md:w-1/2 text-right">
+                <span class="bg-yellow-400 text-blue-900 px-4 py-1 rounded-full font-bold text-sm mb-4 inline-block">دفعة بكالوريا 2026</span>
+                <h1 class="text-5xl md:text-6xl font-black mb-6 leading-tight">كل ما تحتاجه <br><span class="text-blue-400">للتفوق</span> في مكان واحد.</h1>
+                <p class="text-lg text-gray-300 mb-8 leading-relaxed">أكبر منصة جزائرية توفر دروساً حصرية، خططاً دراسية ذكية، وحوليات البكالوريا لكل الشعب مع الحلول النموذجية.</p>
+                <div class="flex gap-4">
+                    <a href="#sections" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-bold shadow-lg shadow-blue-500/30 transition-all">ابدأ المراجعة</a>
+                    <a href="https://t.me/YourBotUser" class="bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-2xl font-bold backdrop-blur-sm transition-all">تواصل مع البوت</a>
+                </div>
+            </div>
+            <div class="md:w-1/2 mt-12 md:mt-0 flex justify-end">
+                <img src="images/hero.png" alt="Bac Exam" class="w-full max-w-lg drop-shadow-2xl">
+            </div>
+        </div>
+    </header>
+
+    <main id="sections" class="container mx-auto px-6 py-20">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-black text-gray-800">اختر وجهتك الدراسية</h2>
+            <p class="text-gray-500 mt-2">محتوى منظم حسب حاجتك كطالب بكالوريا</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 card-hover text-center">
+                <div class="w-20 h-20 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 text-4xl">📚</div>
+                <h3 class="text-2xl font-bold mb-4">الدروس والملخصات</h3>
+                <p class="text-gray-600 mb-6 font-medium">دروس مفصلة لكل المواد الأساسية والثانوية لجميع الشعب العلمية والأدبية.</p>
+                <a href="#" class="inline-block w-full py-3 bg-gray-100 hover:bg-blue-600 hover:text-white rounded-xl font-bold transition-all text-blue-600">تصفح الدروس</a>
+            </div>
+
+            <div class="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 card-hover text-center">
+                <div class="w-20 h-20 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center mx-auto mb-6 text-4xl">📝</div>
+                <h3 class="text-2xl font-bold mb-4">بنك البكالوريات</h3>
+                <p class="text-gray-600 mb-6 font-medium">مواضيع البكالوريا الرسمية من 2008 إلى غاية 2025 مع الحلول النموذجية الوزارية.</p>
+                <a href="#" class="inline-block w-full py-3 bg-gray-100 hover:bg-green-600 hover:text-white rounded-xl font-bold transition-all text-green-600">تحميل الحوليات</a>
+            </div>
+
+            <div class="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 card-hover text-center">
+                <div class="w-20 h-20 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 text-4xl">🗓️</div>
+                <h3 class="text-2xl font-bold mb-4">خطط المراجعة</h3>
+                <p class="text-gray-600 mb-6 font-medium">جداول دراسية أسبوعية وشهرية تساعدك على إنهاء البرنامج في الوقت المناسب.</p>
+                <a href="#" class="inline-block w-full py-3 bg-gray-100 hover:bg-purple-600 hover:text-white rounded-xl font-bold transition-all text-purple-600">مشاهدة الجداول</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t py-12 px-6 mt-10">
+        <div class="container mx-auto text-center">
+            <p class="text-gray-500 font-bold mb-2">© 2026 جميع الحقوق محفوظة لمنصة البكالوريا</p>
+            <p class="text-sm text-gray-400 font-medium">تم التطوير بكل ❤️ لدعم الطلبة الجزائريين</p>
+        </div>
+    </footer>
+
+</body>
+</html>
