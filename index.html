@@ -3,28 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BAC Plus | جاري التحميل</title>
+    <title>BAC Plus | مرحباً بك</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #0f172a; font-family: 'Cairo', sans-serif; overflow: hidden; }
+        body { font-family: 'Cairo', sans-serif; background-color: #0f172a; overflow: hidden; }
         .progress-bar { animation: loading 10s linear forwards; }
         @keyframes loading { 0% { width: 0%; } 100% { width: 100%; } }
+        .fade-in { animation: fadeIn 1.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="flex items-center justify-center h-screen">
 
-    <div class="text-center w-full max-w-md px-6">
-        <img src="images/splash.jpg" alt="Logo" class="rounded-3xl shadow-2xl mb-8 w-full h-auto border-4 border-blue-500">
-        
-        <div class="w-full bg-gray-800 h-2 rounded-full overflow-hidden">
-            <div class="bg-blue-500 h-full progress-bar"></div>
+    <div class="text-center w-full max-w-md px-6 fade-in">
+        <div class="mb-8">
+            <img src="images/splash.jpg" alt="BAC Plus" class="rounded-3xl shadow-2xl border-4 border-blue-500/30 w-full h-auto mx-auto">
         </div>
-        <p class="text-gray-400 mt-4 text-sm">جاري تحويلك إلى الصفحة الرئيسية...</p>
+
+        <h1 class="text-white text-3xl font-black mb-2">مرحباً بك في منصة</h1>
+        <h2 class="text-blue-500 text-4xl font-black mb-8 italic uppercase tracking-wider">BAC PLUS</h2>
+
+        <div class="w-full bg-gray-800 h-2 rounded-full overflow-hidden mb-4">
+            <div class="bg-blue-600 h-full progress-bar"></div>
+        </div>
+        <p class="text-gray-500 text-sm animate-pulse">جاري تحضير المحتوى الدراسي...</p>
     </div>
 
     <script>
-        // هذا هو الجزء المسؤول عن الربط (يديك لـ home.html بعد 10 ثواني)
+        // التحويل التلقائي لصفحة home.html بعد 10 ثواني
         setTimeout(function() {
             window.location.href = "home.html";
         }, 10000);
@@ -32,4 +39,3 @@
 
 </body>
 </html>
-
