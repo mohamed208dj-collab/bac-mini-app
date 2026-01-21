@@ -47,9 +47,22 @@
     </div>
 
     <script>
-        // تحديث النسبة المئوية وهمياً
+        // 1. تحديث النسبة المئوية وهمياً لغاية 100%
         let count = 0;
         const interval = setInterval(() => {
             count++;
-            document.getElementById('percent').innerText = count + "%";
-            if (count >= 100) clearInterval(interval
+            if (count <= 100) {
+                document.getElementById('percent').innerText = count + "%";
+            } else {
+                clearInterval(interval);
+            }
+        }, 100); // 100 ميلي ثانية * 100 = 10 ثواني
+
+        // 2. التحويل التلقائي لصفحة home.html بعد 10 ثواني بالضبط
+        setTimeout(function() {
+            window.location.href = "home.html";
+        }, 10000);
+    </script>
+
+</body>
+</html>
