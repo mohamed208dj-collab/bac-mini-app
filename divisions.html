@@ -1,1 +1,62 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختر شعبتك | BAC Plus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; }
+        .division-card:hover { transform: scale(1.05); transition: all 0.3s ease; }
+    </style>
+</head>
+<body class="py-12 px-6">
 
+    <div class="container mx-auto max-w-5xl">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-black text-gray-800 mb-4">اختر الشعبة الخاصة بك</h1>
+            <p class="text-gray-500 text-lg">سيتم تخصيص المحتوى بناءً على اختيارك</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <a href="content.html?branch=science" class="division-card bg-white p-8 rounded-3xl shadow-lg border-t-8 border-green-500 text-center block">
+                <div class="text-5xl mb-4">🧪</div>
+                <h2 class="text-2xl font-bold text-gray-800">علوم تجريبية</h2>
+            </a>
+
+            <a href="content.html?branch=math" class="division-card bg-white p-8 rounded-3xl shadow-lg border-t-8 border-blue-600 text-center block">
+                <div class="text-5xl mb-4">📐</div>
+                <h2 class="text-2xl font-bold text-gray-800">رياضيات</h2>
+            </a>
+
+            <a href="content.html?branch=tech" class="division-card bg-white p-8 rounded-3xl shadow-lg border-t-8 border-orange-500 text-center block">
+                <div class="text-5xl mb-4">⚙️</div>
+                <h2 class="text-2xl font-bold text-gray-800">تقني رياضي</h2>
+            </a>
+
+            <a href="content.html?branch=economy" class="division-card bg-white p-8 rounded-3xl shadow-lg border-t-8 border-yellow-500 text-center block">
+                <div class="text-5xl mb-4">📊</div>
+                <h2 class="text-2xl font-bold text-gray-800">تسيير واقتصاد</h2>
+            </a>
+
+            <a href="content.html?branch=languages" class="division-card bg-white p-8 rounded-3xl shadow-lg border-t-8 border-purple-500 text-center block">
+                <div class="text-5xl mb-4">🌍</div>
+                <h2 class="text-2xl font-bold text-gray-800">لغات أجنبية</h2>
+            </a>
+
+            <a href="content.html?branch=philosophy" class="division-card bg-white p-8 rounded-3xl shadow-lg border-t-8 border-red-500 text-center block">
+                <div class="text-5xl mb-4">📜</div>
+                <h2 class="text-2xl font-bold text-gray-800">آداب وفلسفة</h2>
+            </a>
+
+        </div>
+
+        <div class="mt-16 text-center">
+            <a href="home.html" class="text-gray-400 hover:text-blue-600 font-bold underline">العودة للرئيسية</a>
+        </div>
+    </div>
+
+</body>
+</html>
