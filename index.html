@@ -5,37 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BAC Plus | جاري التحميل</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #0f172a; overflow: hidden; }
-        .loading-bar { animation: progress 10s linear forwards; }
-        @keyframes progress { 0% { width: 0%; } 100% { width: 100%; } }
+        body { background-color: #0f172a; font-family: 'Cairo', sans-serif; overflow: hidden; }
+        .progress-bar { animation: loading 10s linear forwards; }
+        @keyframes loading { 0% { width: 0%; } 100% { width: 100%; } }
     </style>
 </head>
 <body class="flex items-center justify-center h-screen">
 
     <div class="text-center w-full max-w-md px-6">
-        <div class="mb-10 relative">
-            <img src="./images/splash.jpg" id="splashImg" alt="شعار المنصة" class="rounded-3xl shadow-2xl border-4 border-blue-500/50 w-full h-auto mx-auto object-cover min-h-[200px] bg-gray-800">
-            
-            <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-blue-600 text-white px-8 py-2 rounded-full text-sm font-bold shadow-xl">
-                جاري تحضير مستقبلك...
-            </div>
-        </div>
-
-        <h2 class="text-white text-2xl font-black mb-8">مرحباً بك في منصة BAC Plus</h2>
-
-        <div class="w-full bg-gray-800 h-3 rounded-full overflow-hidden border border-gray-700">
-            <div class="bg-gradient-to-r from-blue-500 to-indigo-600 h-full loading-bar"></div>
-        </div>
+        <img src="images/splash.jpg" alt="Logo" class="rounded-3xl shadow-2xl mb-8 w-full h-auto border-4 border-blue-500">
         
-        <p class="text-gray-500 mt-4 text-sm font-medium">سيتم تحويلك تلقائياً بعد 10 ثوانٍ</p>
+        <div class="w-full bg-gray-800 h-2 rounded-full overflow-hidden">
+            <div class="bg-blue-500 h-full progress-bar"></div>
+        </div>
+        <p class="text-gray-400 mt-4 text-sm">جاري تحويلك إلى المنصة الرئيسية...</p>
     </div>
 
     <script>
-        // التحقق من وجود الصفحة المستهدفة قبل التحويل
+        // هذا هو الجزء المسؤول عن الربط (يديك لـ home.html بعد 10 ثواني)
         setTimeout(function() {
-            window.location.href = "home.html"; 
+            window.location.href = "home.html";
         }, 10000);
     </script>
 
