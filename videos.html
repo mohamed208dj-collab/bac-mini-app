@@ -1,1 +1,103 @@
 
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>فيديوهات الدراسة</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+      direction: rtl;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .materials-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+    .material {
+      width: 220px;
+      background-color: #fff;
+      border-radius: 15px;
+      padding: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .material:hover {
+      transform: scale(1.05);
+    }
+    .material h2 {
+      margin-bottom: 10px;
+      color: white;
+      padding: 10px;
+      border-radius: 10px;
+    }
+    /* ألوان المواد */
+    .math h2 { background-color: #ff6f61; }
+    .physics h2 { background-color: #6b5b95; }
+    .chemistry h2 { background-color: #88b04b; }
+    .biology h2 { background-color: #f7cac9; color: #333; }
+    .history h2 { background-color: #92a8d1; }
+    .language h2 { background-color: #f9a825; }
+
+    iframe {
+      width: 100%;
+      height: 150px;
+      border: none;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>فيديوهات المواد</h1>
+  <div class="materials-container">
+
+    <!-- مادة الرياضيات -->
+    <div class="material math">
+      <h2>الرياضيات</h2>
+      <iframe src="https://www.youtube.com/embed/VIDEO_ID1" allowfullscreen></iframe>
+    </div>
+
+    <!-- مادة الفيزياء -->
+    <div class="material physics">
+      <h2>الفيزياء</h2>
+      <iframe src="https://www.youtube.com/embed/VIDEO_ID2" allowfullscreen></iframe>
+    </div>
+
+    <!-- مادة الكيمياء -->
+    <div class="material chemistry">
+      <h2>الكيمياء</h2>
+      <iframe src="https://www.youtube.com/embed/VIDEO_ID3" allowfullscreen></iframe>
+    </div>
+
+    <!-- مادة الأحياء -->
+    <div class="material biology">
+      <h2>الأحياء</h2>
+      <iframe src="https://www.youtube.com/embed/VIDEO_ID4" allowfullscreen></iframe>
+    </div>
+
+    <!-- مادة التاريخ -->
+    <div class="material history">
+      <h2>التاريخ</h2>
+      <iframe src="https://www.youtube.com/embed/VIDEO_ID5" allowfullscreen></iframe>
+    </div>
+
+    <!-- مادة اللغة -->
+    <div class="material language">
+      <h2>اللغة العربية</h2>
+      <iframe src="https://www.youtube.com/embed/VIDEO_ID6" allowfullscreen></iframe>
+    </div>
+
+  </div>
+</body>
+</html>
