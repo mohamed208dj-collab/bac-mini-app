@@ -1,1 +1,145 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BAC PLUS | طاقم النخبة الكامل</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { -webkit-touch-callout: none; box-sizing: border-box; }
+        body { font-family: 'Cairo', sans-serif; background-color: #020617; color: #fff; padding: 15px; }
 
+        .teacher-card {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.8));
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .teacher-card::before {
+            content: ""; position: absolute; top: 0; right: 0; width: 3px; height: 100%;
+            background: #3b82f6; box-shadow: 0 0 10px #3b82f6;
+        }
+
+        .avatar-box {
+            width: 60px; height: 60px; border-radius: 18px;
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            display: flex; align-items: center; justify-content: center; font-size: 22px;
+        }
+
+        .subject-badge {
+            font-size: 8px; font-weight: 900; color: #3b82f6; text-transform: uppercase;
+            letter-spacing: 1px; margin-bottom: 2px; display: block;
+        }
+
+        .status-tag {
+            font-size: 8px; padding: 1px 6px; border-radius: 4px;
+            background: rgba(59, 130, 246, 0.1); color: rgba(59, 130, 246, 0.8);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="pb-10">
+
+    <div class="flex items-center justify-between mb-8 pt-4 px-2">
+        <div>
+            <h1 class="text-xl font-black italic">طاقم <span class="text-blue-500">النخبة</span></h1>
+            <p class="text-[9px] text-gray-500 font-bold uppercase tracking-widest">Full Teaching Staff</p>
+        </div>
+        <a href="home.html" class="w-10 h-10 flex items-center justify-center bg-white/5 rounded-2xl border border-white/10">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" /></svg>
+        </a>
+    </div>
+
+    <div class="space-y-1">
+        
+        <div class="teacher-card">
+            <div class="avatar-box">📐</div>
+            <div class="flex-1">
+                <span class="subject-badge">العلوم الرياضية</span>
+                <h3 class="text-xs font-black">أستاذ المادة</h3>
+                <span class="status-tag">قيد التعيين</span>
+            </div>
+        </div>
+
+        <div class="teacher-card">
+            <div class="avatar-box">🧬</div>
+            <div class="flex-1">
+                <span class="subject-badge">علوم الطبيعة والحياة</span>
+                <h3 class="text-xs font-black">أستاذ المادة</h3>
+                <span class="status-tag">قيد التعيين</span>
+            </div>
+        </div>
+
+        <div class="teacher-card">
+            <div class="avatar-box">⚡</div>
+            <div class="flex-1">
+                <span class="subject-badge">العلوم الفيزيائية</span>
+                <h3 class="text-xs font-black">أستاذ المادة</h3>
+                <span class="status-tag">قيد التعيين</span>
+            </div>
+        </div>
+
+        <div class="teacher-card">
+            <div class="avatar-box">🖋️</div>
+            <div class="flex-1">
+                <span class="subject-badge">اللغة العربية وآدابها</span>
+                <h3 class="text-xs font-black">أستاذ المادة</h3>
+                <span class="status-tag">قيد التعيين</span>
+            </div>
+        </div>
+
+        <div class="teacher-card" style="border-right-color: #ef4444;">
+            <div class="avatar-box">🧠</div>
+            <div class="flex-1">
+                <span class="subject-badge" style="color: #ef4444;">الفلسفة</span>
+                <h3 class="text-xs font-black">أستاذ المادة</h3>
+                <span class="status-tag" style="color: #ef4444; background: rgba(239, 68, 68, 0.1);">قريباً</span>
+            </div>
+        </div>
+
+        <div class="teacher-card">
+            <div class="avatar-box">🗺️</div>
+            <div class="flex-1">
+                <span class="subject-badge">التاريخ والجغرافيا</span>
+                <h3 class="text-xs font-black">أستاذ المادة</h3>
+                <span class="status-tag">قيد التعيين</span>
+            </div>
+        </div>
+
+        <div class="teacher-card">
+            <div class="avatar-box">🌙</div>
+            <div class="flex-1">
+                <span class="subject-badge">العلوم الإسلامية</span>
+                <h3 class="text-xs font-black">أستاذ المادة</h3>
+                <span class="status-tag">قيد التعيين</span>
+            </div>
+        </div>
+
+        <div class="teacher-card">
+            <div class="avatar-box">🌍</div>
+            <div class="flex-1">
+                <span class="subject-badge">فرنسية / إنجليزية</span>
+                <h3 class="text-xs font-black">أساتذة المادة</h3>
+                <span class="status-tag">قيد التعيين</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="mt-10 p-6 rounded-[2rem] bg-white/5 border border-white/10 text-center">
+        <p class="text-[10px] text-gray-400 font-bold">
+            هل أنت أستاذ كفء وتطمح للانضمام إلى BAC PLUS؟ <br>
+            <span class="text-blue-500 block mt-2 text-xs">نحن بانتظارك لتصنع الفرق!</span>
+        </p>
+    </div>
+
+</body>
+</html>
