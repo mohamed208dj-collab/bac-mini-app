@@ -2,84 +2,183 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BAC PLUS | نظام النقاط</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BAC PLUS | مركز المكافآت</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #0f172a; color: white; }
-        .points-gradient { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); }
-        .diamond-shadow { filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.5)); }
-        .task-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); }
-        .progress-bar { width: 65%; height: 8px; background: #3b82f6; border-radius: 10px; box-shadow: 0 0 10px #3b82f6; }
+        * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; box-sizing: border-box; }
+        body { font-family: 'Cairo', sans-serif; background-color: #020617; color: #fff; padding: 15px; }
+
+        /* ستايل بطاقة المهام */
+        .quest-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            transition: 0.3s;
+        }
+        
+        .quest-card:active { transform: scale(0.98); background: rgba(30, 41, 59, 0.6); }
+
+        .btn-claim {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            font-size: 10px; font-weight: 900; padding: 8px 15px; border-radius: 12px;
+        }
+
+        .points-badge {
+            background: rgba(234, 179, 8, 0.1);
+            color: #eab308;
+            border: 1px solid rgba(234, 179, 8, 0.2);
+            padding: 2px 8px; border-radius: 8px; font-size: 10px; font-weight: 900;
+        }
+
+        #dailyWheel { transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="p-6">
+<body class="pb-10">
 
-    <nav class="max-w-2xl mx-auto flex justify-between items-center mb-10 animate__animated animate__fadeIn">
-        <a href="home.html" class="text-blue-400 font-bold flex items-center gap-2 hover:text-blue-300 transition">
-            <span>➡️</span> رجوع للرئيسية
+    <div class="flex items-center justify-between mb-8 pt-4">
+        <a href="home.html" class="w-10 h-10 flex items-center justify-center bg-white/5 rounded-2xl border border-white/10">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" /></svg>
         </a>
-        <div class="bg-blue-900/40 px-4 py-1 rounded-full border border-blue-500/30">
-            <span class="text-yellow-400">🏆</span> <span class="text-sm">المستوى 1</span>
+        <div class="bg-white/5 border border-white/10 px-4 py-2 rounded-2xl flex items-center gap-2">
+            <span class="text-yellow-400 font-bold">⭐</span>
+            <span id="userPoints" class="font-black text-sm">1250</span>
         </div>
-    </nav>
+    </div>
 
-    <main class="max-w-2xl mx-auto text-center">
-        
-        <div class="points-gradient p-10 rounded-[3rem] border border-blue-500/20 shadow-2xl mb-10 animate__animated animate__zoomIn">
-            <div class="text-6xl mb-4 diamond-shadow">💎</div>
-            <h2 class="text-gray-400 font-bold mb-2">رصيدك الحالي</h2>
-            <div class="text-5xl font-black text-white tracking-widest">0</div>
-            <p class="text-blue-400 text-sm mt-4">باقي 100 نقطة للوصول للمستوى التالي</p>
-            <div class="w-full bg-gray-700 h-2 mt-4 rounded-full overflow-hidden">
-                <div class="progress-bar"></div>
-            </div>
+    <div class="text-center mb-8">
+        <h2 class="text-xl font-black italic mb-6 text-blue-500">جرب حظك اليومي 🎡</h2>
+        <div class="relative w-56 h-56 mx-auto mb-6">
+            <div class="absolute -top-1 left-1/2 -translate-x-1/2 z-10 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[18px] border-t-red-500"></div>
+            <canvas id="dailyWheel" width="224" height="224" class="rounded-full shadow-[0_0_40px_rgba(59,130,246,0.2)]"></canvas>
         </div>
+        <button id="spinBtn" onclick="runSpin()" class="bg-white text-black font-black text-[11px] px-8 py-3 rounded-xl shadow-lg active:scale-90 transition">تدوير العجلة</button>
+    </div>
 
-        <div class="text-right mb-6 animate__animated animate__fadeInUp">
-            <h3 class="text-xl font-black flex items-center gap-2">
-                <span class="bg-blue-600 w-2 h-8 rounded-full"></span>
-                مهام يومية للحصول على النقاط
-            </h3>
-        </div>
+    <hr class="border-white/5 mb-8">
 
-        <div class="space-y-4 animate__animated animate__fadeInUp animate__delay-1s">
-            <div class="task-card p-5 rounded-2xl flex justify-between items-center opacity-60">
-                <div class="flex items-center gap-4">
-                    <div class="bg-blue-500/20 p-3 rounded-xl text-2xl">📖</div>
-                    <div class="text-right">
-                        <h4 class="font-bold">أكمل درس الرياضيات</h4>
-                        <p class="text-xs text-gray-400">+50 نقطة</p>
-                    </div>
+    <div class="px-2">
+        <h3 class="text-sm font-black mb-5 flex items-center gap-2">
+            <span>📋</span> مهام تجميع النقاط
+        </h3>
+
+        <div class="quest-card">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-blue-500/10 rounded-xl flex items-center justify-center text-xl">📝</div>
+                <div>
+                    <h4 class="text-xs font-black">حل بكالوريا سابقة</h4>
+                    <p class="text-[9px] text-gray-500 font-bold">أنهِ موضوعاً واحداً كاملاً</p>
                 </div>
-                <span class="text-xs bg-gray-800 px-3 py-1 rounded-full text-gray-400 italic">قريباً</span>
             </div>
-
-            <div class="task-card p-5 rounded-2xl flex justify-between items-center opacity-60">
-                <div class="flex items-center gap-4">
-                    <div class="bg-green-500/20 p-3 rounded-xl text-2xl">✅</div>
-                    <div class="text-right">
-                        <h4 class="font-bold">حل بكالوريا سابقة</h4>
-                        <p class="text-xs text-gray-400">+100 نقطة</p>
-                    </div>
-                </div>
-                <span class="text-xs bg-gray-800 px-3 py-1 rounded-full text-gray-400 italic">قريباً</span>
-            </div>
-
-            <div class="bg-blue-600/10 border border-blue-500/20 p-6 rounded-3xl mt-8">
-                <p class="text-blue-300 text-sm leading-relaxed font-bold italic">
-                    🚀 يتم حالياً تطوير نظام المهام الذكي. قريباً ستتمكن من تحويل نقاطك إلى ملخصات حصرية وهدايا!
-                </p>
+            <div class="flex flex-col items-center gap-2">
+                <span class="points-badge">+20 XP</span>
+                <button onclick="claim(20, this)" class="btn-claim">استلام</button>
             </div>
         </div>
 
-    </main>
+        <div class="quest-card">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-purple-500/10 rounded-xl flex items-center justify-center text-xl">📖</div>
+                <div>
+                    <h4 class="text-xs font-black">قراءة ملخص سريع</h4>
+                    <p class="text-[9px] text-gray-500 font-bold">اطلع على ملخص لأي مادة</p>
+                </div>
+            </div>
+            <div class="flex flex-col items-center gap-2">
+                <span class="points-badge">+10 XP</span>
+                <button onclick="claim(10, this)" class="btn-claim">استلام</button>
+            </div>
+        </div>
 
-    <footer class="text-center mt-12 text-gray-600 text-xs">
-        نظام المكافآت - BAC PLUS v1.0
-    </footer>
+        <div class="quest-card">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-green-500/10 rounded-xl flex items-center justify-center text-xl">🎥</div>
+                <div>
+                    <h4 class="text-xs font-black">مشاهدة فيديو تعليمي</h4>
+                    <p class="text-[9px] text-gray-500 font-bold">شاهد درساً كاملاً (15 دقيقة)</p>
+                </div>
+            </div>
+            <div class="flex flex-col items-center gap-2">
+                <span class="points-badge">+15 XP</span>
+                <button onclick="claim(15, this)" class="btn-claim">استلام</button>
+            </div>
+        </div>
 
+        <div class="quest-card opacity-60">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-orange-500/10 rounded-xl flex items-center justify-center text-xl">🔥</div>
+                <div>
+                    <h4 class="text-xs font-black">تحدي 7 أيام مراجعة</h4>
+                    <p class="text-[9px] text-gray-500 font-bold">حافظ على استمرارك أسبوعاً</p>
+                </div>
+            </div>
+            <div class="flex flex-col items-center gap-2">
+                <span class="points-badge">+50 XP</span>
+                <button class="bg-white/5 text-gray-500 text-[10px] px-3 py-2 rounded-xl" disabled>مغلق</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // كود العجلة
+        const canvas = document.getElementById('dailyWheel');
+        const ctx = canvas.getContext('2d');
+        const sectors = [5, 10, 2, 20, 5, 15, 2, 10];
+        const colors = ['#0f172a', '#3b82f6', '#0f172a', '#3b82f6', '#0f172a', '#3b82f6', '#0f172a', '#ef4444'];
+        let currentRotation = 0;
+
+        function draw() {
+            const arc = (2 * Math.PI) / sectors.length;
+            sectors.forEach((s, i) => {
+                ctx.beginPath(); ctx.fillStyle = colors[i]; ctx.moveTo(112, 112);
+                ctx.arc(112, 112, 110, i * arc, (i + 1) * arc); ctx.fill();
+                ctx.save(); ctx.translate(112, 112); ctx.rotate(i * arc + arc/2);
+                ctx.textAlign = "right"; ctx.fillStyle = "#fff"; ctx.font = "900 12px Cairo";
+                ctx.fillText(s, 100, 5); ctx.restore();
+            });
+        }
+
+        function runSpin() {
+            const btn = document.getElementById('spinBtn'); btn.disabled = true;
+            const deg = Math.floor(Math.random() * 360) + 2880; currentRotation += deg;
+            canvas.style.transform = `rotate(${currentRotation}deg)`;
+            setTimeout(() => {
+                const idx = sectors.length - 1 - Math.floor((currentRotation % 360) / (360 / sectors.length));
+                addPoints(sectors[idx]);
+                btn.innerText = "انتهى لليوم";
+            }, 4000);
+        }
+
+        // كود تسيير النقاط
+        let points = parseInt(localStorage.getItem('userPoints')) || 1250;
+        document.getElementById('userPoints').innerText = points;
+
+        function addPoints(val) {
+            points += val;
+            localStorage.setItem('userPoints', points);
+            document.getElementById('userPoints').innerText = points;
+            // أنيميشن خفيف للرقم
+            document.getElementById('userPoints').classList.add('scale-125', 'text-yellow-400');
+            setTimeout(() => document.getElementById('userPoints').classList.remove('scale-125', 'text-yellow-400'), 500);
+        }
+
+        function claim(val, btn) {
+            addPoints(val);
+            btn.innerText = "تم بنجاح";
+            btn.disabled = true;
+            btn.classList.replace('btn-claim', 'bg-green-600/20');
+            btn.classList.add('text-green-500');
+        }
+
+        draw();
+    </script>
 </body>
 </html>
