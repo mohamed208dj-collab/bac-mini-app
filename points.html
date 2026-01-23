@@ -3,24 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BAC PLUS | مركز التحديات</title>
+    <title>BAC PLUS | مركز المكافآت</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; box-sizing: border-box; }
-        body { font-family: 'Cairo', sans-serif; background-color: #020617; color: #fff; padding: 15px; overflow-x: hidden; }
+        body { font-family: 'Cairo', sans-serif; background-color: #020617; color: #fff; padding: 15px; }
 
-        /* العجلة */
+        /* ستايل العجلة */
         #wheel { transition: transform 3s cubic-bezier(0.15, 0, 0.15, 1); filter: drop-shadow(0 0 25px rgba(59, 130, 246, 0.3)); }
         .pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 20px solid #ef4444; z-index: 50; }
 
-        /* المهام */
+        /* ستايل المهام */
         .quest-item { background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; padding: 14px; margin-bottom: 10px; transition: 0.3s; cursor: pointer; }
-        .quest-item.completed { opacity: 0.4; pointer-events: none; border-color: #10b981; filter: grayscale(1); }
+        .quest-item.completed { opacity: 0.3; pointer-events: none; border-color: #10b981; filter: grayscale(1); }
 
-        /* التنبيهات الملونة */
-        #customAlert { display: none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 200; padding: 12px 25px; border-radius: 15px; font-weight: 900; font-size: 13px; animation: slideDown 0.4s ease; }
-        @keyframes slideDown { from { top: -50px; } to { top: 20px; } }
+        /* التنبيهات */
+        #customAlert { display: none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 200; padding: 12px 25px; border-radius: 15px; font-weight: 900; font-size: 13px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 
         /* Modal */
         #taskModal { display: none; background: rgba(2, 6, 23, 0.98); backdrop-filter: blur(20px); z-index: 100; }
@@ -33,11 +32,14 @@
     <div id="customAlert"></div>
 
     <div class="flex items-center justify-between mb-8 pt-4">
-        <div class="flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 px-5 py-2 rounded-2xl">
+        <div class="flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 px-5 py-2 rounded-2xl shadow-inner">
             <span class="text-yellow-400">⭐</span>
             <span id="score" class="font-black text-xl">0</span>
         </div>
-        <h1 class="text-lg font-black italic">BAC <span class="text-blue-500">REWARDS</span></h1>
+        <div class="text-left">
+            <h1 class="text-lg font-black italic">BAC <span class="text-blue-500">PLUS</span></h1>
+            <p class="text-[8px] text-gray-500 font-bold uppercase tracking-widest text-left">Rewards Center</p>
+        </div>
     </div>
 
     <div class="text-center mb-10">
@@ -49,12 +51,15 @@
     </div>
 
     <div class="px-2">
-        <h3 class="text-xs font-black opacity-50 mb-4 tracking-[0.2em] uppercase">المهام التعليمية (7)</h3>
+        <h3 class="text-xs font-black opacity-50 mb-4 tracking-[0.2em] uppercase flex justify-between">
+            <span>المهام التعليمية اليومية</span>
+            <span class="text-blue-500">7 مهام</span>
+        </h3>
         <div id="tasksList"></div>
     </div>
 
     <div id="taskModal" class="fixed inset-0 flex items-center justify-center p-6">
-        <div class="w-full max-w-sm bg-slate-900 border border-white/10 p-8 rounded-[2.5rem] text-center">
+        <div class="w-full max-w-sm bg-slate-900 border border-white/10 p-8 rounded-[2.5rem] text-center shadow-2xl">
             <h4 id="mSubject" class="text-[10px] font-black text-blue-500 mb-2 uppercase tracking-widest">--</h4>
             <p id="mQuestion" class="text-sm font-bold mb-6 leading-relaxed">--</p>
             <div id="mOptions"></div>
@@ -62,11 +67,16 @@
     </div>
 
     <script>
-        // 1. نظام النقاط (البداية من 0)
-        let points = localStorage.getItem('userPoints') ? parseInt(localStorage.getItem('userPoints')) : 0;
+        // --- منطق تصفير النقاط لأول مرة ---
+        if (localStorage.getItem('firstLaunch') === null) {
+            localStorage.setItem('userPoints', '0');
+            localStorage.setItem('firstLaunch', 'done');
+        }
+        
+        let points = parseInt(localStorage.getItem('userPoints')) || 0;
         document.getElementById('score').innerText = points;
 
-        // 2. إعداد العجلة (10 خانات)
+        // --- العجلة ---
         const canvas = document.getElementById('wheel');
         const ctx = canvas.getContext('2d');
         const sectors = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -94,16 +104,15 @@
 
             setTimeout(() => {
                 const actualDeg = deg % 360;
-                // تعديل الحساب ليكون السهم في وسط الرقم
                 const idx = sectors.length - 1 - Math.floor(((actualDeg + 18) % 360) / (360 / sectors.length));
                 addPoints(sectors[idx]);
                 localStorage.setItem('lastSpin', new Date().toDateString());
-                showAlert(`مبروك! ربحت ${sectors[idx]} نقاط`, "#10b981");
-                btn.innerText = "انتهى لليوم";
+                showAlert(`مبروك! ربحت ${sectors[idx]} نقطة`, "#10b981");
+                btn.innerText = "انتهت اللفة";
             }, 3000);
         }
 
-        // 3. بنك الأسئلة (7 مهام)
+        // --- المهام (كل مهمة بـ 1 نقطة) ---
         const bank = [
             {id:1, s:"عربية", q:"ما هو جمع 'حليب'؟", o:["أحلبة", "لا يوجد", "حلبات"], a:1},
             {id:2, s:"رياضيات", q:"مشتق x² هو:", o:["x", "2x", "1"], a:1},
@@ -118,12 +127,12 @@
             const list = document.getElementById('tasksList');
             list.innerHTML = '';
             bank.forEach(t => {
-                const done = localStorage.getItem(`task_${t.id}`);
+                const done = localStorage.getItem(`task_${t.id}_${new Date().toDateString()}`);
                 list.innerHTML += `
                     <div class="quest-item ${done ? 'completed' : ''}" onclick="openTask(${t.id})">
                         <div class="flex justify-between items-center">
-                            <div><h4 class="text-xs font-black">سؤال في الـ ${t.s}</h4><p class="text-[9px] text-gray-500 font-bold">اربح +10 نقاط</p></div>
-                            <span class="text-yellow-400 font-bold">+10</span>
+                            <div><h4 class="text-xs font-black">سؤال في الـ ${t.s}</h4><p class="text-[9px] text-gray-500">أجب لتربح نقطة واحدة</p></div>
+                            <span class="text-blue-400 font-black">+1</span>
                         </div>
                     </div>`;
             });
@@ -144,11 +153,11 @@
         function checkTask(id, chosen, correct) {
             document.getElementById('taskModal').style.display = 'none';
             if(chosen === correct) {
-                addPoints(10);
-                localStorage.setItem(`task_${id}`, true);
-                showAlert("إجابة صحيحة! +10 نقاط 🎉", "#10b981");
+                addPoints(1); // نقطة واحدة فقط كما طلبت
+                localStorage.setItem(`task_${id}_${new Date().toDateString()}`, true);
+                showAlert("صحيح! +1 نقطة 🌟", "#10b981");
             } else {
-                showAlert("إجابة خاطئة! حاول غداً", "#ef4444");
+                showAlert("خاطئ! حاول في مادة أخرى", "#ef4444");
             }
             loadTasks();
         }
