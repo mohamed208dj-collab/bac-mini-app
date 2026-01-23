@@ -3,159 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BAC PLUS | تحدي النقاط</title>
+    <title>BAC PLUS | التحديات الذكية</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; box-sizing: border-box; }
         body { font-family: 'Cairo', sans-serif; background-color: #020617; color: #fff; padding: 15px; }
 
-        /* ستايل العجلة */
-        #wheelCanvas { transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1); filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.3)); }
-        
-        /* Popup السؤال */
-        #quizModal { display: none; background: rgba(2, 6, 23, 0.95); backdrop-filter: blur(15px); }
-        
+        .quest-card { background: rgba(30, 41, 59, 0.4); border-radius: 20px; padding: 15px; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .quest-card.locked { opacity: 0.5; filter: grayscale(1); pointer-events: none; }
+
         .opt-btn { 
             background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-            padding: 12px; border-radius: 15px; width: 100%; text-align: right; transition: 0.2s;
+            padding: 12px; border-radius: 15px; width: 100%; text-align: right; transition: 0.2s; font-size: 13px;
         }
-        .opt-btn:active { transform: scale(0.95); background: #3b82f6; }
+        .opt-btn:active { background: #3b82f6; }
 
-        .quest-card { background: rgba(30, 41, 59, 0.4); border-radius: 20px; padding: 15px; border: 1px solid rgba(255,255,255,0.05); }
+        #quizModal { display: none; background: rgba(2, 6, 23, 0.98); backdrop-filter: blur(20px); z-index: 100; }
+        
+        .timer-text { font-size: 9px; color: #ef4444; font-weight: 900; }
     </style>
 </head>
 <body class="pb-20">
 
     <div class="flex items-center justify-between mb-8 pt-4">
-        <div class="flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 px-4 py-2 rounded-2xl">
+        <div class="bg-yellow-500/10 border border-yellow-500/20 px-4 py-2 rounded-2xl flex items-center gap-2">
             <span class="text-yellow-400">⭐</span>
             <span id="scoreDisplay" class="font-black">0</span>
         </div>
-        <h1 class="text-lg font-black italic text-blue-500">تحدي <span class="text-white">اليوم</span></h1>
+        <h1 class="text-lg font-black italic">تحدي <span class="text-blue-500">الذكاء</span></h1>
     </div>
 
-    <div class="text-center mb-10">
-        <div class="relative w-64 h-64 mx-auto mb-6">
-            <div class="absolute -top-2 left-1/2 -translate-x-1/2 z-10 w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-t-[20px] border-t-red-500"></div>
-            <canvas id="wheelCanvas" width="256" height="256"></canvas>
-        </div>
-        <button id="spinBtn" onclick="startSpin()" class="bg-blue-600 hover:bg-blue-500 px-10 py-3 rounded-2xl font-black text-xs shadow-xl transition-all active:scale-90">
-            إختبر حظك ومادتك
-        </button>
-    </div>
-
-    <div class="space-y-4">
-        <h3 class="text-xs font-black opacity-50 px-2 uppercase tracking-widest">مهام سريعة</h3>
-        
-        <div class="quest-card flex justify-between items-center">
-            <div>
-                <h4 class="text-xs font-black">سؤال الرياضيات</h4>
-                <p class="text-[9px] text-gray-500">حل المشتقة البسيطة</p>
-            </div>
-            <button onclick="openQuiz('math')" class="bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-[10px] font-black">ابدأ +10</button>
-        </div>
-
-        <div class="quest-card flex justify-between items-center">
-            <div>
-                <h4 class="text-xs font-black">مرادف لغوي</h4>
-                <p class="text-[9px] text-gray-500">ترجمة مصطلح تقني</p>
-            </div>
-            <button onclick="openQuiz('lang')" class="bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-[10px] font-black">ابدأ +10</button>
-        </div>
-    </div>
-
-    <div id="quizModal" class="fixed inset-0 z-50 flex items-center justify-center p-6">
-        <div class="w-full bg-slate-900 border border-white/10 p-8 rounded-[2.5rem] shadow-2xl">
-            <div id="quizIcon" class="text-4xl mb-4 text-center">🧠</div>
-            <h3 id="questionText" class="text-sm font-black text-center mb-8 leading-relaxed">ما هو مشتق الدالة $x^2$؟</h3>
-            <div id="options" class="space-y-3">
+    <div id="tasksList" class="space-y-4">
+        <div id="task-math" class="quest-card flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center text-xl">📐</div>
+                <div>
+                    <h4 class="text-xs font-black">تحدي الرياضيات</h4>
+                    <p id="timer-math" class="timer-text"></p>
                 </div>
+            </div>
+            <button onclick="startQuest('math')" class="bg-blue-600 px-4 py-2 rounded-xl text-[10px] font-black">إبدأ +20</button>
+        </div>
+
+        <div id="task-lang" class="quest-card flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center text-xl">🌍</div>
+                <div>
+                    <h4 class="text-xs font-black">مرادفات اللغات</h4>
+                    <p id="timer-lang" class="timer-text"></p>
+                </div>
+            </div>
+            <button onclick="startQuest('lang')" class="bg-green-600 px-4 py-2 rounded-xl text-[10px] font-black">إبدأ +15</button>
+        </div>
+    </div>
+
+    <div id="quizModal" class="fixed inset-0 flex items-center justify-center p-6">
+        <div class="w-full max-w-sm bg-slate-900 border border-white/10 p-8 rounded-[2.5rem] relative">
+            <div class="text-3xl mb-4 text-center">💡</div>
+            <h3 id="questionTitle" class="text-sm font-black text-center mb-6 leading-relaxed">--</h3>
+            <div id="optionsContainer" class="space-y-3"></div>
         </div>
     </div>
 
     <script>
-        // نظام النقاط (البداية من 0)
+        // بنك الأسئلة المتغير
+        const questionBank = {
+            math: [
+                { q: "ما هو مشتق الدالة x²؟", o: ["2x", "x", "1", "0"], a: 0 },
+                { q: "ما هي نهاية 1/x عند +∞؟", o: ["1", "+∞", "0", "-∞"], a: 2 },
+                { q: "مجموع زوايا المثلث هو:", o: ["90°", "180°", "360°", "270°"], a: 1 }
+            ],
+            lang: [
+                { q: "مرادف كلمة 'Magnificent' هو:", o: ["Bad", "Small", "Grand", "Beautiful"], a: 3 },
+                { q: "ضد كلمة 'Fast' هو:", o: ["Slow", "Quick", "Smart", "High"], a: 0 },
+                { q: "ترجمة كلمة 'Success' هي:", o: ["فشل", "نجاح", "محاولة", "تعب"], a: 1 }
+            ]
+        };
+
         let score = parseInt(localStorage.getItem('userScore')) || 0;
         document.getElementById('scoreDisplay').innerText = score;
 
-        // إعداد العجلة (مواد)
-        const canvas = document.getElementById('wheelCanvas');
-        const ctx = canvas.getContext('2d');
-        const materials = [
-            {n:"رياضيات", c:"#1e293b", q:"math"},
-            {n:"علوم", c:"#3b82f6", q:"science"},
-            {n:"فيزياء", c:"#1e293b", q:"physics"},
-            {n:"عربية", c:"#3b82f6", q:"arabic"},
-            {n:"فرنسية", c:"#1e293b", q:"lang"},
-            {n:"فلسفة", c:"#ef4444", q:"phil"} // خانة الحظ السيء أو الصعب
-        ];
-        let rotation = 0;
+        function startQuest(type) {
+            // اختيار سؤال عشوائي من القائمة
+            const questions = questionBank[type];
+            const randomIdx = Math.floor(Math.random() * questions.length);
+            const question = questions[randomIdx];
 
-        function drawWheel() {
-            const arc = (2 * Math.PI) / materials.length;
-            materials.forEach((m, i) => {
-                ctx.beginPath(); ctx.fillStyle = m.c; ctx.moveTo(128, 128);
-                ctx.arc(128, 128, 124, i*arc, (i+1)*arc); ctx.fill();
-                ctx.save(); ctx.translate(128, 128); ctx.rotate(i*arc + arc/2);
-                ctx.textAlign="right"; ctx.fillStyle="#fff"; ctx.font="900 12px Cairo";
-                ctx.fillText(m.n, 110, 5); ctx.restore();
-            });
+            showQuiz(question, type);
         }
 
-        function startSpin() {
-            // فحص إذا لعب اليوم
-            const lastSpin = localStorage.getItem('lastSpinDate');
-            const today = new Date().toDateString();
-            if(lastSpin === today) {
-                alert("لقد استنفدت لفة اليوم! عد غداً.");
-                return;
-            }
-
-            const btn = document.getElementById('spinBtn'); btn.disabled = true;
-            const extraDeg = Math.floor(Math.random() * 360) + 3600;
-            rotation += extraDeg;
-            canvas.style.transform = `rotate(${rotation}deg)`;
-
-            setTimeout(() => {
-                const actualDeg = rotation % 360;
-                const idx = materials.length - 1 - Math.floor(actualDeg / (360 / materials.length));
-                localStorage.setItem('lastSpinDate', today);
-                openQuiz(materials[idx].q);
-            }, 4000);
-        }
-
-        // نظام الأسئلة
-        const quizData = {
-            math: { q: "ما هو مشتق الدالة $f(x) = x^2$؟", o: ["$2x$", "$x$", "1", "$x^2$"], a: 0 },
-            lang: { q: "ما هو مرادف كلمة 'Hardworking' بالفرنسية؟", o: ["Triste", "Laborieux", "Rapide", "Petit"], a: 1 },
-            science: { q: "أين تتم عملية التركيب الضوئي؟", o: ["الجذور", "الصانعات الخضراء", "الساق"], a: 1 }
-        };
-
-        function openQuiz(type) {
-            const data = quizData[type] || quizData.math;
-            document.getElementById('questionText').innerText = data.q;
-            const optsDiv = document.getElementById('options');
-            optsDiv.innerHTML = '';
+        function showQuiz(data, type) {
+            document.getElementById('questionTitle').innerText = data.q;
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            
             data.o.forEach((opt, i) => {
-                optsDiv.innerHTML += `<button onclick="checkAnswer(${i}, ${data.a})" class="opt-btn">${opt}</button>`;
+                const btn = document.createElement('button');
+                btn.className = 'opt-btn';
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(i, data.a, type);
+                container.appendChild(btn);
             });
+
             document.getElementById('quizModal').style.display = 'flex';
         }
 
-        function checkAnswer(chosen, correct) {
-            if(chosen === correct) {
-                score += 20;
+        function checkAnswer(chosen, correct, type) {
+            document.getElementById('quizModal').style.display = 'none';
+            
+            if (chosen === correct) {
+                score += (type === 'math' ? 20 : 15);
                 localStorage.setItem('userScore', score);
                 document.getElementById('scoreDisplay').innerText = score;
-                alert("إجابة صحيحة! +20 نقطة 🎉");
+                alert("إجابة صحيحة! 🎉");
+                lockTask(type, 60); // قفل المهمة لمدة 60 دقيقة
             } else {
-                alert("للأسف إجابة خاطئة.. حاول في المهمة القادمة!");
+                alert("إجابة خاطئة! حاول لاحقاً.");
+                lockTask(type, 10); // قفل لمدة 10 دقائق فقط عند الخطأ
             }
-            document.getElementById('quizModal').style.display = 'none';
         }
 
-        drawWheel();
+        function lockTask(type, minutes) {
+            const expireTime = Date.now() + (minutes * 60 * 1000);
+            localStorage.setItem(`lock_${type}`, expireTime);
+            updateUI();
+        }
+
+        function updateUI() {
+            ['math', 'lang'].forEach(type => {
+                const lockTime = localStorage.getItem(`lock_${type}`);
+                const card = document.getElementById(`task-${type}`);
+                const timerText = document.getElementById(`timer-${type}`);
+                
+                if (lockTime && Date.now() < lockTime) {
+                    card.classList.add('locked');
+                    const remaining = Math.ceil((lockTime - Date.now()) / (60 * 1000));
+                    timerText.innerText = `متاحة بعد ${remaining} دقيقة`;
+                } else {
+                    card.classList.remove('locked');
+                    timerText.innerText = "متاحة الآن ✅";
+                }
+            });
+        }
+
+        // تحديث الواجهة كل دقيقة
+        setInterval(updateUI, 60000);
+        window.onload = updateUI;
     </script>
 </body>
 </html>
