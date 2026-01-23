@@ -12,6 +12,7 @@
             background: #020617; 
             color: white; 
             overflow: hidden; 
+            margin: 0;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -20,81 +21,67 @@
 
         /* شعار ثابت في الأعلى */
         .fixed-logo {
-            position: absolute;
-            top: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 100;
+            position: absolute; top: 50px; left: 50%;
+            transform: translateX(-50%); z-index: 100;
             text-align: center;
-            opacity: 0;
-            animation: fadeInLogo 1s ease forwards 0.5s;
         }
-        @keyframes fadeInLogo { from { opacity: 0; transform: translate(-50%, -20px); } to { opacity: 1; transform: translate(-50%, 0); } }
-
         .logo-text {
-            font-size: 1.5rem;
-            font-weight: 900;
-            font-style: italic;
-            letter-spacing: -1px;
+            font-size: 1.8rem; font-weight: 900; font-style: italic;
             background: linear-gradient(to bottom, #fff 50%, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
         /* حاوية التحميل الأولي */
-        #initial-loader { text-align: center; transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
-
+        #initial-loader { text-align: center; z-index: 50; }
         .main-loader-bar {
-            width: 200px; height: 3px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px; overflow: hidden;
-            position: relative; margin: 20px auto;
+            width: 200px; height: 3px; background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px; overflow: hidden; margin: 20px auto;
         }
         .main-loader-fill {
-            position: absolute; top: 0; right: 0; height: 100%;
-            background: #3b82f6; width: 0%;
+            height: 100%; background: #3b82f6; width: 0%;
             box-shadow: 0 0 20px #3b82f6;
-            animation: initialLoad 3s ease-in-out forwards;
+            animation: initialLoad 3s cubic-bezier(0.65, 0, 0.35, 1) forwards;
         }
         @keyframes initialLoad { 0% { width: 0%; } 100% { width: 100%; } }
 
         /* حاوية النصوص التعريفية */
-        #intro-content { display: none; text-align: center; max-width: 90%; margin-top: 50px; }
+        #intro-content { display: none; text-align: center; width: 100%; }
 
-        .step { display: none; perspective: 1000px; }
-        .step.active { display: block; animation: zoomInBlur 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
-        .step.exit { animation: zoomOutBlur 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+        .step { 
+            display: none; 
+            opacity: 0;
+        }
+        .step.active { 
+            display: block; 
+            animation: zoomInBlur 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards; 
+        }
+        .step.exit { 
+            animation: zoomOutBlur 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; 
+        }
 
         @keyframes zoomInBlur {
-            0% { opacity: 0; transform: scale(0.8) translateY(50px); filter: blur(20px); }
+            0% { opacity: 0; transform: scale(0.8) translateY(30px); filter: blur(15px); }
             100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
         }
-
         @keyframes zoomOutBlur {
             0% { opacity: 1; transform: scale(1); filter: blur(0); }
-            100% { opacity: 0; transform: scale(1.2) translateY(-30px); filter: blur(20px); }
+            100% { opacity: 0; transform: scale(1.1) translateY(-20px); filter: blur(15px); }
         }
-
-        /* توهج خلفي متحرك */
-        .bg-glow {
-            position: absolute; width: 500px; height: 500px; 
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
-            filter: blur(80px); border-radius: 50%; z-index: -1;
-            animation: drift 15s infinite alternate;
-        }
-        @keyframes drift { from { transform: translate(-30%, -30%); } to { transform: translate(30%, 30%); } }
 
         .emoji-glow {
-            font-size: 5rem; margin-bottom: 2rem;
-            filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.5));
-            animation: float 3s ease-in-out infinite;
+            font-size: 5rem; margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 25px rgba(59, 130, 246, 0.4));
         }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
         .timer-line {
-            position: absolute; bottom: 0; right: 0; height: 2px;
-            background: linear-gradient(to left, #3b82f6, transparent);
-            width: 0%;
+            position: absolute; bottom: 0; right: 0; height: 3px;
+            background: #3b82f6; width: 0%;
+        }
+
+        .bg-glow {
+            position: absolute; width: 500px; height: 500px; 
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.07) 0%, transparent 70%);
+            filter: blur(80px); border-radius: 50%; z-index: -1;
         }
     </style>
 </head>
@@ -104,8 +91,95 @@
 
     <div class="fixed-logo">
         <div class="logo-text">BAC PLUS</div>
-        <div class="h-[1px] w-8 bg-blue-500 mx-auto mt-1 opacity-50"></div>
     </div>
 
     <div id="initial-loader">
-        <h2
+        <div class="main-loader-bar">
+            <div class="main-loader-fill"></div>
+        </div>
+        <p class="text-[10px] text-gray-500 tracking-[0.3em] uppercase">Initializing Platform</p>
+    </div>
+
+    <div id="intro-content">
+        <div class="timer-line" id="timerLine"></div>
+        
+        <div class="step" id="step1">
+            <div class="emoji-glow">📚</div>
+            <h1 class="text-4xl md:text-6xl font-black mb-2 italic">دروس وملخصات ممتازة</h1>
+            <p class="text-blue-500 font-bold tracking-widest text-sm uppercase">High Quality Resources</p>
+        </div>
+
+        <div class="step" id="step2">
+            <div class="emoji-glow">🎬</div>
+            <h1 class="text-4xl md:text-6xl font-black mb-2 italic">فيديوهات بدقة عالية</h1>
+            <p class="text-blue-500 font-bold tracking-widest text-sm uppercase">4K Video Lessons</p>
+        </div>
+
+        <div class="step" id="step3">
+            <div class="emoji-glow">📅</div>
+            <h1 class="text-4xl md:text-6xl font-black mb-2 italic">خطط دراسية ذكية</h1>
+            <p class="text-blue-500 font-bold tracking-widest text-sm uppercase">Smart Study Plans</p>
+        </div>
+
+        <div class="step" id="step4">
+            <div class="emoji-glow">👨‍🏫</div>
+            <h1 class="text-4xl md:text-6xl font-black mb-2 italic">نخبة الأساتذة</h1>
+            <p class="text-blue-500 font-bold tracking-widest text-sm uppercase">Top Educators</p>
+        </div>
+    </div>
+
+    <script>
+        const loader = document.getElementById('initial-loader');
+        const intro = document.getElementById('intro-content');
+        const steps = document.querySelectorAll('.step');
+        const timerLine = document.getElementById('timerLine');
+        let currentStep = 0;
+        const displayTime = 2500; // مدة بقاء كل جملة
+
+        // تشغيل العملية فور تحميل الصفحة
+        window.addEventListener('load', () => {
+            // انتظر انتهاء شريط التحميل (3 ثواني)
+            setTimeout(() => {
+                loader.style.display = 'none';
+                intro.style.display = 'block';
+                showStep(0);
+            }, 3000);
+        });
+
+        function showStep(index) {
+            if (index < steps.length) {
+                const step = steps[index];
+                step.classList.add('active');
+                
+                // تحريك شريط الوقت السفلي
+                timerLine.style.transition = 'none';
+                timerLine.style.width = '0%';
+                setTimeout(() => {
+                    timerLine.style.transition = `width ${displayTime}ms linear`;
+                    timerLine.style.width = '100%';
+                }, 10);
+
+                // بعد انتهاء الوقت، أخرج الجملة الحالية وأظهر التالية
+                setTimeout(() => {
+                    step.classList.remove('active');
+                    step.classList.add('exit');
+                    
+                    setTimeout(() => {
+                        step.classList.remove('exit');
+                        step.style.display = 'none';
+                        showStep(index + 1);
+                    }, 600); // مدة أنيميشن الخروج
+                    
+                }, displayTime);
+            } else {
+                // الانتهاء والتحويل
+                document.body.style.opacity = '0';
+                document.body.style.transition = '1s';
+                setTimeout(() => {
+                    window.location.href = "home.html";
+                }, 1000);
+            }
+        }
+    </script>
+</body>
+</html>
