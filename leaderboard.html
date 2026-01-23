@@ -1,1 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAC PLUS | قائمة المتصدرين</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #030712;
+            --card-bg: rgba(17, 24, 39, 0.4);
+            --accent: #3b82f6;
+            --gold: #facc15;
+            --silver: #e5e7eb;
+            --bronze: #d97706;
+        }
+        body { 
+            font-family: 'Cairo', sans-serif; 
+            background-color: var(--bg); 
+            color: #f3f4f6;
+            background-image: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+        }
 
+        .premium-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 2rem;
+        }
+
+        .rank-card {
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .rank-card:hover { transform: translateY(-5px); border-color: var(--accent); }
+
+        /* تيجان المراكز الثلاثة الأولى */
+        .crown { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 2rem; }
+        
+        .gold-border { border: 2px solid var(--gold); box-shadow: 0 0 20px rgba(250, 204, 21, 0.2); }
+        .silver-border { border: 2px solid var(--silver); }
+        .bronze-border { border: 2px solid var(--bronze); }
+
+        #sidebar {
+            position: fixed; top: 0; right: -320px; width: 320px; height: 100%;
+            background: rgba(3, 7, 18, 0.98); backdrop-filter: blur(25px);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 2rem 1.5rem;
+        }
+        #sidebar.active { right: 0; }
+        
+        .menu-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 0.8rem 1rem; border-radius: 1.2rem;
+            margin-bottom: 0.6rem; display: flex; align-items: center; gap: 12px;
+        }
+    </style>
+</head>
+<body class="pb-12">
+
+    <div id="sidebar">
+        <div class="flex justify-between items-center mb-8 text-white">
+            <span class="text-[10px] font-black text-blue-500 uppercase italic">لوحة التحكم</span>
+            <button onclick="toggleSidebar()" class="text-gray-500 hover:text-white text-2xl">✕</button>
+        </div>
+        <div class="space-y-2">
+            <a href="index.html" class="menu-item"><span class="text-xl">🏠</span><p class="font-black text-sm text-white">الرئيسية</p></a>
+            <a href="leaderboard.html" class="menu-item border-blue-500/30 bg-blue-500/10"><span class="text-xl">🏆</span><p class="font-black text-sm text-blue-400">المتصدرين</p></a>
+            <a href="quiz.html" class="menu-item"><span class="text-xl">⚡</span><p class="font-black text-sm text-white">كويز سريع</p></a>
+        </div>
+    </div>
+
+    <nav class="p-6">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button onclick="toggleSidebar()" class="p-2 bg-white/5 rounded-xl border border-white/10 text-white">☰</button>
+            <div class="text-xl font-black italic text-white uppercase">Leaderboard <span class="text-blue
