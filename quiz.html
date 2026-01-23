@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BAC PLUS | حاسبة المعدل</title>
+    <title>BAC PLUS | حاسبة المعدل الاحترافية</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
+        /* نظام الحماية والمنع */
         * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Cairo', sans-serif; background-color: #030712; color: #f3f4f6; padding: 15px; }
+        body { font-family: 'Cairo', sans-serif; background-color: #030712; color: #f3f4f6; margin: 0; padding: 15px; }
 
-        /* ستايل المدخلات */
+        /* ستايل المدخلات - مسموح فيها الكتابة فقط */
         .grade-input {
             background: rgba(255, 255, 255, 0.05);
             border: 2px solid rgba(255, 255, 255, 0.1);
@@ -18,27 +19,36 @@
             color: white;
             text-align: center;
             font-weight: 900;
-            width: 80px;
-            height: 45px;
+            width: 85px;
+            height: 48px;
             outline: none;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             -webkit-user-select: text !important;
             user-select: text !important;
         }
-        .grade-input:focus { border-color: var(--br-color); box-shadow: 0 0 15px var(--br-shadow); }
+
+        .grade-input:focus { 
+            border-color: var(--br-color); 
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 20px var(--br-shadow);
+        }
 
         .calc-card {
             background: rgba(17, 24, 39, 0.8);
             backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 30px;
+            border-radius: 32px;
         }
 
-        /* زر الشعبة النشط */
-        .shoba-btn.active { background: var(--br-color); color: white; box-shadow: 0 10px 20px var(--br-shadow); }
+        /* حالة النجاح والرسوب */
+        .success-bg { background: linear-gradient(135deg, #059669, #064e3b) !important; border: none !important; }
+        .fail-bg { background: linear-gradient(135deg, #dc2626, #7f1d1d) !important; border: none !important; }
 
-        /* أنيميشن النتيجة */
-        .success-bg { background: linear-gradient(135deg, #059669, #064e3b) !important; }
-        .fail-bg { background: linear-gradient(135deg, #dc2626, #7f1d1d) !important; }
+        .shoba-btn.active {
+            background: var(--br-color);
+            color: white;
+            box-shadow: 0 10px 20px var(--br-shadow);
+        }
 
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -47,110 +57,114 @@
 <body class="pb-10">
 
     <div class="flex items-center justify-between mb-8 pt-4 px-2">
-        <a href="home.html" class="flex items-center gap-2 px-4 py-2 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 active:scale-95 transition">
-            <span class="text-xs font-black">خروج</span>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+        <a href="home.html" class="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-xl active:scale-95 transition">
+            <span class="text-[10px] font-black uppercase">خروج</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12" />
             </svg>
         </a>
         <div class="text-center">
-            <h1 class="text-xl font-black italic">حساب المعدل</h1>
-            <p id="branchName" class="text-[9px] font-bold text-gray-500 uppercase tracking-widest">اختر الشعبة</p>
+            <h1 class="text-xl font-black italic tracking-tighter">حساب <span class="text-blue-500">المعدل</span></h1>
+            <p id="branchTitle" class="text-[8px] font-bold uppercase tracking-[0.3em] text-gray-500">اختر شعبتك</p>
         </div>
-        <div class="w-16"></div> </div>
-
-    <div class="flex overflow-x-auto gap-3 mb-8 pb-4 no-scrollbar px-2">
-        <button onclick="setup('science', '#3b82f6')" id="btn-science" class="shoba-btn px-6 py-3 rounded-2xl border border-white/10 bg-white/5 font-black text-xs whitespace-nowrap transition-all">علوم تجريبية</button>
-        <button onclick="setup('math', '#ef4444')" id="btn-math" class="shoba-btn px-6 py-3 rounded-2xl border border-white/10 bg-white/5 font-black text-xs whitespace-nowrap transition-all">رياضيات</button>
-        <button onclick="setup('tech', '#f97316')" id="btn-tech" class="shoba-btn px-6 py-3 rounded-2xl border border-white/10 bg-white/5 font-black text-xs whitespace-nowrap transition-all">تقني رياضي</button>
-        <button onclick="setup('adab', '#a855f7')" id="btn-adab" class="shoba-btn px-6 py-3 rounded-2xl border border-white/10 bg-white/5 font-black text-xs whitespace-nowrap transition-all">أدب وفلسفة</button>
-        <button onclick="setup('lang', '#10b981')" id="btn-lang" class="shoba-btn px-6 py-3 rounded-2xl border border-white/10 bg-white/5 font-black text-xs whitespace-nowrap transition-all">لغات أجنبية</button>
-        <button onclick="setup('gestion', '#facc15')" id="btn-gestion" class="shoba-btn px-6 py-3 rounded-2xl border border-white/10 bg-white/5 font-black text-xs whitespace-nowrap transition-all">تسيير واقتصاد</button>
+        <div class="w-16"></div>
     </div>
 
-    <div class="calc-card p-5 mx-2">
-        <div id="subjectList" class="space-y-4"></div>
+    <div class="flex overflow-x-auto gap-3 mb-8 pb-4 no-scrollbar px-2">
+        <button onclick="init('science', '#3b82f6')" id="btn-science" class="shoba-btn px-6 py-3 rounded-2xl border border-white/10 bg-white/5 font-black text-xs whitespace-nowrap transition-all duration-300">علوم تجريبية</button>
+        <button onclick="init('math', '#ef4444')" id="btn-math" class="shoba-btn px-6 py-3 rounded-2xl border border-white/10 bg-white/5 font-black text-xs whitespace-nowrap transition-all duration-300">رياضيات</button>
+        <button onclick="init('tech', '#f97316')" id="btn-tech" class="shoba-btn px-6 py-3 rounded-2xl border border-white/10 bg-white/5 font-black text-xs whitespace-nowrap transition-all duration-300">تقني رياضي</button>
+        <button onclick="init('adab', '#a855f7')" id="btn-adab" class="shoba-btn px-6 py-3 rounded-2xl border border-white/10 bg-white/5 font-black text-xs whitespace-nowrap transition-all duration-300">أدب وفلسفة</button>
+        <button onclick="init('lang', '#10b981')" id="btn-lang" class="shoba-btn px-6 py-3 rounded-2xl border border-white/10 bg-white/5 font-black text-xs whitespace-nowrap transition-all duration-300">لغات أجنبية</button>
+        <button onclick="init('gestion', '#facc15')" id="btn-gestion" class="shoba-btn px-6 py-3 rounded-2xl border border-white/10 bg-white/5 font-black text-xs whitespace-nowrap transition-all duration-300">تسيير واقتصاد</button>
+    </div>
 
-        <div id="resultCard" class="mt-10 p-8 rounded-[2rem] text-center bg-white/5 border border-white/10 transition-all duration-700 overflow-hidden relative">
-            <div id="glow" class="absolute inset-0 opacity-20 blur-3xl"></div>
-            <p class="text-[10px] font-black uppercase tracking-widest mb-2 opacity-60">المعدل العام</p>
+    <div class="calc-card p-6 mb-6 mx-2">
+        <div id="subjectGrid" class="space-y-4">
+            </div>
+
+        <div id="resultCard" class="mt-12 p-8 rounded-[2.5rem] text-center bg-white/5 border border-white/10 transition-all duration-500 relative overflow-hidden">
+            <p class="text-[9px] font-black uppercase tracking-[0.4em] mb-2 opacity-50">المعدل النهائي</p>
             <h2 id="totalGpa" class="text-6xl font-black tracking-tighter mb-4">00.00</h2>
             
-            <div id="statusBox" class="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-black/30 backdrop-blur-md border border-white/10">
+            <div id="statusTag" class="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-black/20 backdrop-blur-md border border-white/5">
                 <span id="statusIcon">🔘</span>
-                <span id="statusText" class="text-xs font-black uppercase italic">أدخل النقاط</span>
+                <span id="statusText" class="text-[10px] font-black uppercase">انتظار البيانات</span>
             </div>
         </div>
     </div>
 
     <script>
         const db = {
-            science: { name: "علوم تجريبية", color: "#3b82f6", shadow: "rgba(59, 130, 246, 0.4)", subs: [{n:"علوم الطبيعة", c:6}, {n:"الفيزياء", c:5}, {n:"الرياضيات", c:5}, {n:"اللغة العربية", c:3}, {n:"اجتماعيات", c:2}, {n:"فرنسية", c:2}, {n:"إنجليزية", c:2}, {n:"إسلامية", c:2}, {n:"فلسفة", c:2}, {n:"رياضة", c:1}] },
-            math: { name: "رياضيات", color: "#ef4444", shadow: "rgba(239, 68, 68, 0.4)", subs: [{n:"الرياضيات", c:7}, {n:"الفيزياء", c:6}, {n:"اللغة العربية", c:3}, {n:"علوم الطبيعة", c:2}, {n:"اجتماعيات", c:2}, {n:"فلسفة", c:2}, {n:"فرنسية", c:2}, {n:"إنجليزية", c:2}, {n:"إسلامية", c:2}, {n:"رياضة", c:1}] },
-            tech: { name: "تقني رياضي", color: "#f97316", shadow: "rgba(249, 115, 22, 0.4)", subs: [{n:"التكنولوجيا", c:7}, {n:"الرياضيات", c:6}, {n:"الفيزياء", c:6}, {n:"اللغة العربية", c:3}, {n:"اجتماعيات", c:2}, {n:"فلسفة", c:2}, {n:"فرنسية", c:2}, {n:"إنجليزية", c:2}, {n:"إسلامية", c:2}, {n:"رياضة", c:1}] },
-            adab: { name: "أدب وفلسفة", color: "#a855f7", shadow: "rgba(168, 85, 247, 0.4)", subs: [{n:"فلسفة", c:6}, {n:"اللغة العربية", c:6}, {n:"اجتماعيات", c:4}, {n:"لغة فرنسية", c:3}, {n:"لغة إنجليزية", c:3}, {n:"إسلامية", c:2}, {n:"رياضيات", c:2}, {n:"رياضة", c:1}] },
-            lang: { name: "لغات أجنبية", color: "#10b981", shadow: "rgba(16, 185, 129, 0.4)", subs: [{n:"لغة أجنبية 3", c:5}, {n:"لغة إنجليزية", c:5}, {n:"اللغة العربية", c:5}, {n:"لغة فرنسية", c:4}, {n:"اجتماعيات", c:2}, {n:"فلسفة", c:2}, {n:"رياضيات", c:2}, {n:"إسلامية", c:2}, {n:"رياضة", c:1}] },
-            gestion: { name: "تسيير واقتصاد", color: "#facc15", shadow: "rgba(250, 204, 21, 0.4)", subs: [{n:"محاسبة", c:6}, {n:"اقتصاد", c:5}, {n:"الرياضيات", c:5}, {n:"اجتماعيات", c:4}, {n:"اللغة العربية", c:3}, {n:"القانون", c:2}, {n:"فرنسية", c:2}, {n:"إنجليزية", c:2}, {n:"فلسفة", c:2}, {n:"إسلامية", c:2}, {n:"رياضة", c:1}] }
+            science: { n: "علوم تجريبية", c: "#3b82f6", s: "rgba(59, 130, 246, 0.4)", m: [{n:"علوم الطبيعة", c:6}, {n:"الفيزياء", c:5}, {n:"الرياضيات", c:5}, {n:"اللغة العربية", c:3}, {n:"اجتماعيات", c:2}, {n:"فرنسية", c:2}, {n:"إنجليزية", c:2}, {n:"إسلامية", c:2}, {n:"فلسفة", c:2}, {n:"رياضة", c:1}] },
+            math: { n: "رياضيات", c: "#ef4444", s: "rgba(239, 68, 68, 0.4)", m: [{n:"الرياضيات", c:7}, {n:"الفيزياء", c:6}, {n:"اللغة العربية", c:3}, {n:"علوم الطبيعة", c:2}, {n:"اجتماعيات", c:2}, {n:"فلسفة", c:2}, {n:"فرنسية", c:2}, {n:"إنجليزية", c:2}, {n:"إسلامية", c:2}, {n:"رياضة", c:1}] },
+            tech: { n: "تقني رياضي", c: "#f97316", s: "rgba(249, 115, 22, 0.4)", m: [{n:"التكنولوجيا", c:7}, {n:"الرياضيات", c:6}, {n:"الفيزياء", c:6}, {n:"اللغة العربية", c:3}, {n:"اجتماعيات", c:2}, {n:"فلسفة", c:2}, {n:"فرنسية", c:2}, {n:"إنجليزية", c:2}, {n:"إسلامية", c:2}, {n:"رياضة", c:1}] },
+            adab: { n: "أدب وفلسفة", c: "#a855f7", s: "rgba(168, 85, 247, 0.4)", m: [{n:"فلسفة", c:6}, {n:"اللغة العربية", c:6}, {n:"اجتماعيات", c:4}, {n:"لغة فرنسية", c:3}, {n:"لغة إنجليزية", c:3}, {n:"إسلامية", c:2}, {n:"رياضيات", c:2}, {n:"رياضة", c:1}] },
+            lang: { n: "لغات أجنبية", c: "#10b981", s: "rgba(16, 185, 129, 0.4)", m: [{n:"لغة أجنبية 3", c:5}, {n:"لغة إنجليزية", c:5}, {n:"اللغة العربية", c:5}, {n:"لغة فرنسية", c:4}, {n:"اجتماعيات", c:2}, {n:"فلسفة", c:2}, {n:"رياضيات", c:2}, {n:"إسلامية", c:2}, {n:"رياضة", c:1}] },
+            gestion: { n: "تسيير واقتصاد", c: "#facc15", s: "rgba(250, 204, 21, 0.4)", m: [{n:"محاسبة", c:6}, {n:"اقتصاد", c:5}, {n:"الرياضيات", c:5}, {n:"اجتماعيات", c:4}, {n:"اللغة العربية", c:3}, {n:"القانون", c:2}, {n:"فرنسية", c:2}, {n:"إنجليزية", c:2}, {n:"فلسفة", c:2}, {n:"إسلامية", c:2}, {n:"رياضة", c:1}] }
         };
 
-        function setup(key, color) {
+        function init(key, color) {
             document.documentElement.style.setProperty('--br-color', color);
-            document.documentElement.style.setProperty('--br-shadow', db[key].shadow);
-            document.getElementById('branchName').innerText = "شعبة " + db[key].name;
+            document.documentElement.style.setProperty('--br-shadow', db[key].s);
+            document.getElementById('branchTitle').innerText = "شعبة " + db[key].n;
             document.querySelectorAll('.shoba-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('btn-'+key).classList.add('active');
 
-            const list = document.getElementById('subjectList');
-            list.innerHTML = '';
-            db[key].subs.forEach(s => {
-                list.innerHTML += `
+            const grid = document.getElementById('subjectGrid');
+            grid.innerHTML = '';
+            db[key].m.forEach(s => {
+                grid.innerHTML += `
                     <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border-r-4 transition-all" style="border-color: ${color}">
-                        <div><p class="font-black text-sm">${s.n}</p><p class="text-[9px] text-gray-500 font-bold uppercase italic">المعامل: ${s.c}</p></div>
-                        <input type="number" step="0.01" min="0" max="20" placeholder="00" oninput="validate(this); calc();" class="grade-input" data-c="${s.c}">
+                        <div><p class="font-black text-sm text-white">${s.n}</p><p class="text-[9px] text-gray-500 font-bold italic">المعامل: ${s.c}</p></div>
+                        <input type="number" step="0.01" oninput="validate(this); calc();" class="grade-input" data-c="${s.c}" placeholder="00">
                     </div>`;
             });
             calc();
         }
 
-        function validate(input) {
-            if (parseFloat(input.value) > 20) input.value = 20;
-            if (parseFloat(input.value) < 0) input.value = 0;
-        }
-
-        function calc() {
-            let points = 0, coeffs = 0, filled = 0;
-            const inputs = document.querySelectorAll('.grade-input');
-            
-            inputs.forEach(i => {
-                let v = parseFloat(i.value) || 0;
-                if(i.value !== "") filled++;
-                points += (v * parseFloat(i.getAttribute('data-c')));
-                coeffs += parseFloat(i.getAttribute('data-c'));
-            });
-
-            const gpa = points / coeffs;
-            document.getElementById('totalGpa').innerText = gpa.toFixed(2);
-            
-            const card = document.getElementById('resultCard');
-            const statusIcon = document.getElementById('statusIcon');
-            const statusText = document.getElementById('statusText');
-
-            if (filled === 0) {
-                card.className = "mt-10 p-8 rounded-[2rem] text-center bg-white/5 border border-white/10 transition-all duration-700 overflow-hidden relative";
-                statusIcon.innerText = "🔘";
-                statusText.innerText = "أدخل النقاط";
-            } else if (gpa >= 10) {
-                card.className = "mt-10 p-8 rounded-[2rem] text-center success-bg shadow-2xl shadow-emerald-900/40 transition-all duration-700 overflow-hidden relative";
-                statusIcon.innerText = "✅";
-                statusText.innerText = "ناجح";
-            } else {
-                card.className = "mt-10 p-8 rounded-[2rem] text-center fail-bg shadow-2xl shadow-red-900/40 transition-all duration-700 overflow-hidden relative";
-                statusIcon.innerText = "❌";
-                statusText.innerText = "راسب";
+        function validate(el) {
+            // الرقابة الصارمة: ممنوع فوق 20
+            if (el.value !== "" && parseFloat(el.value) > 20) {
+                el.value = 20;
+            }
+            if (el.value !== "" && parseFloat(el.value) < 0) {
+                el.value = 0;
             }
         }
 
-        window.onload = () => setup('science', '#3b82f6');
+        function calc() {
+            let pts = 0, cfs = 0, count = 0;
+            document.querySelectorAll('.grade-input').forEach(i => {
+                if(i.value !== "") {
+                    let v = parseFloat(i.value);
+                    let c = parseFloat(i.getAttribute('data-c'));
+                    pts += (v * c);
+                    cfs += c;
+                    count++;
+                }
+            });
+
+            const gpa = count > 0 ? (pts / cfs) : 0;
+            document.getElementById('totalGpa').innerText = gpa.toFixed(2);
+            
+            const card = document.getElementById('resultCard');
+            const icon = document.getElementById('statusIcon');
+            const txt = document.getElementById('statusText');
+
+            if (count === 0) {
+                card.className = "mt-12 p-8 rounded-[2.5rem] text-center bg-white/5 border border-white/10 transition-all duration-500 relative overflow-hidden";
+                icon.innerText = "🔘"; txt.innerText = "انتظار البيانات";
+            } else if (gpa >= 10) {
+                card.className = "mt-12 p-8 rounded-[2.5rem] text-center success-bg shadow-2xl shadow-emerald-900/40 transition-all duration-500 relative overflow-hidden";
+                icon.innerText = "✅"; txt.innerText = "ناجح";
+            } else {
+                card.className = "mt-12 p-8 rounded-[2.5rem] text-center fail-bg shadow-2xl shadow-red-900/40 transition-all duration-500 relative overflow-hidden";
+                icon.innerText = "❌"; txt.innerText = "راسب";
+            }
+        }
+
+        window.onload = () => init('science', '#3b82f6');
         document.addEventListener('contextmenu', e => e.preventDefault());
     </script>
 </body>
