@@ -3,60 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اختر شعبتك | BAC Plus</title>
+    <title>BAC PLUS | اختر الشعبة</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; }
-        .division-card:hover { transform: scale(1.05); transition: all 0.3s ease; }
+        body { font-family: 'Cairo', sans-serif; background-color: #f3f4f6; }
+        
+        .division-card {
+            background: white;
+            border-radius: 2.5rem;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+            position: relative;
+        }
+
+        .division-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .icon-container {
+            width: 90px;
+            height: 90px;
+            background-color: #f0fdf4; /* لون خلفية الأيقونة */
+            border-radius: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            align-self: flex-end; /* لجهة اليسار في RTL */
+        }
+
+        .btn-enter {
+            width: 100%;
+            padding: 0.7rem;
+            border-radius: 999px;
+            color: white;
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+            text-align: center;
+            transition: opacity 0.3s;
+        }
+
+        .btn-enter:hover { opacity: 0.9; }
+
+        /* ألوان خاصة لكل شعبة */
+        .sci { background-color: #3b82f6; } /* أزرق */
+        .tech { background-color: #f97316; } /* برتقالي */
+        .math { background-color: #ef4444; } /* أحمر */
+        .gest { background-color: #10b981; } /* أخضر */
+        .let { background-color: #8b5cf6; } /* بنفسجي */
+        .lang { background-color: #eab308; } /* أصفر */
+
     </style>
 </head>
-<body class="py-12 px-6">
+<body class="p-4 md:p-8">
 
-    <div class="container mx-auto max-w-5xl">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl font-black text-gray-800 mb-4">اختر الشعبة الخاصة بك</h1>
-            <p class="text-gray-500 text-lg">سيتم تخصيص المحتوى بناءً على اختيارك</p>
+    <header class="max-w-4xl mx-auto flex justify-between items-center mb-10 animate__animated animate__fadeIn">
+        <h1 class="text-2xl font-black text-gray-800">📂 اختر شعبتك</h1>
+        <a href="home.html" class="bg-gray-800 text-white px-5 py-2 rounded-full font-bold text-sm shadow-md">الرئيسية</a>
+    </header>
+
+    <main class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 pb-10">
+
+        <div class="division-card animate__animated animate__zoomIn">
+            <div class="icon-container" style="background-color: #eff6ff;">🧬</div>
+            <h2 class="text-2xl font-black text-gray-800">علوم تجريبية</h2>
+            <p class="text-gray-500 font-bold mt-2">دروس وملخصات شاملة بأسلوبك الخاص.</p>
+            <a href="science-materials.html" class="btn-enter sci shadow-lg shadow-blue-200">دخول</a>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            
-            <a href="content.html?branch=science" class="division-card bg-white p-8 rounded-3xl shadow-lg border-t-8 border-green-500 text-center block">
-                <div class="text-5xl mb-4">🧪</div>
-                <h2 class="text-2xl font-bold text-gray-800">علوم تجريبية</h2>
-            </a>
-
-            <a href="content.html?branch=math" class="division-card bg-white p-8 rounded-3xl shadow-lg border-t-8 border-blue-600 text-center block">
-                <div class="text-5xl mb-4">📐</div>
-                <h2 class="text-2xl font-bold text-gray-800">رياضيات</h2>
-            </a>
-
-            <a href="content.html?branch=tech" class="division-card bg-white p-8 rounded-3xl shadow-lg border-t-8 border-orange-500 text-center block">
-                <div class="text-5xl mb-4">⚙️</div>
-                <h2 class="text-2xl font-bold text-gray-800">تقني رياضي</h2>
-            </a>
-
-            <a href="content.html?branch=economy" class="division-card bg-white p-8 rounded-3xl shadow-lg border-t-8 border-yellow-500 text-center block">
-                <div class="text-5xl mb-4">📊</div>
-                <h2 class="text-2xl font-bold text-gray-800">تسيير واقتصاد</h2>
-            </a>
-
-            <a href="content.html?branch=languages" class="division-card bg-white p-8 rounded-3xl shadow-lg border-t-8 border-purple-500 text-center block">
-                <div class="text-5xl mb-4">🌍</div>
-                <h2 class="text-2xl font-bold text-gray-800">لغات أجنبية</h2>
-            </a>
-
-            <a href="content.html?branch=philosophy" class="division-card bg-white p-8 rounded-3xl shadow-lg border-t-8 border-red-500 text-center block">
-                <div class="text-5xl mb-4">📜</div>
-                <h2 class="text-2xl font-bold text-gray-800">آداب وفلسفة</h2>
-            </a>
-
+        <div class="division-card animate__animated animate__zoomIn animate__delay-1s">
+            <div class="icon-container" style="background-color: #fff7ed;">📐</div>
+            <h2 class="text-2xl font-black text-gray-800">تقني رياضي</h2>
+            <p class="text-gray-500 font-bold mt-2">مواضيع حصرية لكل التخصصات التقنية.</p>
+            <a href="#" class="btn-enter tech shadow-lg shadow-orange-200">دخول</a>
         </div>
 
-        <div class="mt-16 text-center">
-            <a href="home.html" class="text-gray-400 hover:text-blue-600 font-bold underline">العودة الى الصفحة الرئيسية</a>
+        <div class="division-card animate__animated animate__zoomIn animate__delay-2s">
+            <div class="icon-container" style="background-color: #fef2f2;">🔢</div>
+            <h2 class="text-2xl font-black text-gray-800">رياضيات</h2>
+            <p class="text-gray-500 font-bold mt-2">تعمق في الدوال والتحويلات النقطية.</p>
+            <a href="#" class="btn-enter math shadow-lg shadow-red-200">دخول</a>
         </div>
-    </div>
+
+        <div class="division-card animate__animated animate__zoomIn animate__delay-3s">
+            <div class="icon-container" style="background-color: #ecfdf5;">📊</div>
+            <h2 class="text-2xl font-black text-gray-800">تسيير واقتصاد</h2>
+            <p class="text-gray-500 font-bold mt-2">ملخصات المحاسبة والقانون والاقتصاد.</p>
+            <a href="#" class="btn-enter gest shadow-lg shadow-emerald-200">دخول</a>
+        </div>
+
+        <div class="division-card animate__animated animate__zoomIn">
+            <div class="icon-container" style="background-color: #f5f3ff;">✒️</div>
+            <h2 class="text-2xl font-black text-gray-800">آداب وفلسفة</h2>
+            <p class="text-gray-500 font-bold mt-2">جميع المقالات الفلسفية بطريقة مبسطة.</p>
+            <a href="#" class="btn-enter let shadow-lg shadow-purple-200">دخول</a>
+        </div>
+
+        <div class="division-card animate__animated animate__zoomIn">
+            <div class="icon-container" style="background-color: #fefce8;">🌍</div>
+            <h2 class="text-2xl font-black text-gray-800">لغات أجنبية</h2>
+            <p class="text-gray-500 font-bold mt-2">قواعد اللغات والفقرات المقترحة.</p>
+            <a href="#" class="btn-enter lang shadow-lg shadow-yellow-200">دخول</a>
+        </div>
+
+    </main>
 
 </body>
 </html>
