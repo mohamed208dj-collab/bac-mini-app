@@ -9,7 +9,7 @@
     <style>
         body { 
             font-family: 'Cairo', sans-serif; 
-            background: #030712; 
+            background: #020617; 
             color: white; 
             overflow: hidden; 
             display: flex;
@@ -18,121 +18,159 @@
             height: 100vh;
         }
 
-        /* حاوية النصوص */
-        .content-box { text-align: center; max-width: 90%; }
+        /* حاوية التحميل الأولي */
+        #initial-loader {
+            text-align: center;
+            transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-        /* أنيميشن الظهور والاختفاء */
+        .main-loader-bar {
+            width: 200px; height: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px; overflow: hidden;
+            position: relative; margin: 20px auto;
+        }
+        .main-loader-fill {
+            position: absolute; top: 0; right: 0; height: 100%;
+            background: #3b82f6; width: 0%;
+            box-shadow: 0 0 15px #3b82f6;
+            animation: initialLoad 3s ease-in-out forwards;
+        }
+        @keyframes initialLoad { 0% { width: 0%; } 100% { width: 100%; } }
+
+        /* حاوية النصوص التعريفية */
+        #intro-content { display: none; text-align: center; max-width: 90%; }
+
         .step {
             display: none;
-            animation: slideInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            perspective: 1000px;
         }
-        .step.active { display: block; }
-        .step.exit { animation: slideOutUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        .step.active { display: block; animation: zoomInBlur 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+        .step.exit { animation: zoomOutBlur 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
 
-        @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(40px); filter: blur(10px); }
-            to { opacity: 1; transform: translateY(0); filter: blur(0); }
-        }
-
-        @keyframes slideOutUp {
-            from { opacity: 1; transform: translateY(0); }
-            to { opacity: 0; transform: translateY(-40px); filter: blur(10px); }
+        @keyframes zoomInBlur {
+            0% { opacity: 0; transform: scale(0.8) translateY(50px); filter: blur(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
         }
 
-        /* شريط الوقت العلوي */
-        .timer-bar {
-            position: absolute; top: 0; left: 0; height: 3px;
-            background: linear-gradient(to right, #3b82f6, #60a5fa);
-            width: 0%; z-index: 100;
+        @keyframes zoomOutBlur {
+            0% { opacity: 1; transform: scale(1); filter: blur(0); }
+            100% { opacity: 0; transform: scale(1.2) translateY(-30px); filter: blur(20px); }
         }
 
+        /* توهج خلفي متحرك */
         .bg-glow {
-            position: absolute; width: 500px; height: 500px; 
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
-            filter: blur(80px); border-radius: 50%; z-index: -1;
+            position: absolute; width: 400px; height: 400px; 
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+            filter: blur(60px); border-radius: 50%; z-index: -1;
+            animation: drift 10s infinite alternate;
+        }
+        @keyframes drift {
+            from { transform: translate(-20%, -20%); }
+            to { transform: translate(20%, 20%); }
         }
 
-        .badge {
-            display: inline-block;
-            padding: 4px 12px;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 99px;
-            color: #3b82f6;
-            font-size: 10px;
-            font-weight: 900;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-            letter-spacing: 2px;
+        .emoji-glow {
+            font-size: 5rem; margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.4));
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+        .timer-line {
+            position: absolute; bottom: 0; right: 0; height: 2px;
+            background: #3b82f6; width: 0%;
         }
     </style>
 </head>
 <body>
 
     <div class="bg-glow"></div>
-    <div class="timer-bar" id="progressBar"></div>
 
-    <div class="content-box">
+    <div id="initial-loader">
+        <h2 class="text-xs font-black tracking-[0.5em] text-blue-500 mb-4 uppercase">System Initializing</h2>
+        <div class="main-loader-bar">
+            <div class="main-loader-fill"></div>
+        </div>
+        <p class="text-gray-500 text-[10px] italic">BAC PLUS // v2.0</p>
+    </div>
+
+    <div id="intro-content">
+        <div class="timer-line" id="timerLine"></div>
+        
         <div class="step active" id="step1">
-            <span class="badge">المحتوى التعليمي</span>
-            <div class="text-6xl mb-6">📚</div>
-            <h1 class="text-4xl font-black mb-4 italic leading-tight">دروس وملخصات ممتازة</h1>
-            <p class="text-gray-500 font-bold italic uppercase tracking-tighter">معدة خصيصاً للتفوق في البكالوريا</p>
+            <div class="emoji-glow">📚</div>
+            <h1 class="text-5xl font-black mb-4 italic tracking-tighter">دروس وملخصات ممتازة</h1>
+            <p class="text-blue-400 font-bold text-lg">محتوى حصري بأعلى المعايير</p>
         </div>
 
         <div class="step" id="step2">
-            <span class="badge">التعلم المرئي</span>
-            <div class="text-6xl mb-6">📽️</div>
-            <h1 class="text-4xl font-black mb-4 italic leading-tight">فيديوهات دراسية بدقة عالية</h1>
-            <p class="text-gray-500 font-bold italic uppercase tracking-tighter">شروحات مفصلة لكل المحاور</p>
+            <div class="emoji-glow">🎬</div>
+            <h1 class="text-5xl font-black mb-4 italic tracking-tighter">فيديوهات بدقة عالية</h1>
+            <p class="text-blue-400 font-bold text-lg">تجربة تعلم بصرية لا تُنسى</p>
         </div>
 
         <div class="step" id="step3">
-            <span class="badge">التنظيم الذكي</span>
-            <div class="text-6xl mb-6">📅</div>
-            <h1 class="text-4xl font-black mb-4 italic leading-tight">خطط دراسية ذكية</h1>
-            <p class="text-gray-500 font-bold italic uppercase tracking-tighter">نظم وقتك كالمحترفين</p>
+            <div class="emoji-glow">🧠</div>
+            <h1 class="text-5xl font-black mb-4 italic tracking-tighter">خطط دراسية ذكية</h1>
+            <p class="text-blue-400 font-bold text-lg">طريقك نحو الـ 18 ممهد بالذكاء</p>
         </div>
 
         <div class="step" id="step4">
-            <span class="badge">المرافقة</span>
-            <div class="text-6xl mb-6">👨‍🏫</div>
-            <h1 class="text-4xl font-black mb-4 italic leading-tight">متابعة من أساتذة مختصين وذو كفاءة</h1>
-            <p class="text-gray-500 font-bold italic uppercase tracking-tighter">نحن معك حتى باب الجامعة</p>
+            <div class="emoji-glow">👑</div>
+            <h1 class="text-5xl font-black mb-4 italic tracking-tighter">نخبة الأساتذة</h1>
+            <p class="text-blue-400 font-bold text-lg">متابعة شخصية من أكفأ الكوادر</p>
         </div>
     </div>
 
     <script>
+        const loader = document.getElementById('initial-loader');
+        const intro = document.getElementById('intro-content');
         const steps = document.querySelectorAll('.step');
-        const progressBar = document.getElementById('progressBar');
+        const timerLine = document.getElementById('timerLine');
         let currentStep = 0;
-        const durationPerStep = 2500; // مدة عرض كل جملة (2.5 ثانية)
+        const stepDuration = 2800;
+
+        // 1. انتظار شريط التحميل الأولي
+        setTimeout(() => {
+            loader.style.opacity = '0';
+            loader.style.transform = 'scale(0.9)';
+            
+            setTimeout(() => {
+                loader.style.display = 'none';
+                intro.style.display = 'block';
+                startIntro();
+            }, 800);
+        }, 3200); // مدة التحميل + وقت إضافي بسيط
+
+        function startIntro() {
+            runStepTimer();
+            const interval = setInterval(() => {
+                if (currentStep < steps.length - 1) {
+                    nextStep();
+                } else {
+                    clearInterval(interval);
+                    setTimeout(finish, stepDuration);
+                }
+            }, stepDuration + 600);
+        }
 
         function nextStep() {
-            // إضافة أنيميشن الخروج للمرحلة الحالية
             steps[currentStep].classList.add('exit');
-            
             setTimeout(() => {
                 steps[currentStep].classList.remove('active', 'exit');
                 currentStep++;
-
-                if (currentStep < steps.length) {
-                    // إظهار المرحلة التالية
-                    steps[currentStep].classList.add('active');
-                    startBar();
-                } else {
-                    // الانتقال النهائي
-                    finish();
-                }
-            }, 800); // مدة أنيميشن الخروج
+                steps[currentStep].classList.add('active');
+                runStepTimer();
+            }, 600);
         }
 
-        function startBar() {
-            progressBar.style.transition = 'none';
-            progressBar.style.width = '0%';
+        function runStepTimer() {
+            timerLine.style.transition = 'none';
+            timerLine.style.width = '0%';
             setTimeout(() => {
-                progressBar.style.transition = `width ${durationPerStep}ms linear`;
-                progressBar.style.width = '100%';
+                timerLine.style.transition = `width ${stepDuration}ms linear`;
+                timerLine.style.width = '100%';
             }, 50);
         }
 
@@ -143,16 +181,6 @@
                 window.location.href = "home.html";
             }, 1000);
         }
-
-        // البداية
-        startBar();
-        const mainInterval = setInterval(() => {
-            if (currentStep < steps.length) {
-                nextStep();
-            } else {
-                clearInterval(mainInterval);
-            }
-        }, durationPerStep + 800);
     </script>
 </body>
 </html>
