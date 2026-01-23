@@ -3,84 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BAC PLUS | اختيار الشعبة</title>
+    <title>BAC PLUS | الشعب</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
         body { font-family: 'Cairo', sans-serif; background-color: #f3f4f6; }
         .division-card {
             background: white;
-            border-radius: 2.5rem;
-            padding: 2rem;
+            border-radius: 2rem;
+            padding: 1.5rem;
             text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
             border: 1px solid #e5e7eb;
+            transition: transform 0.3s ease;
         }
-        .division-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-        .icon-circle {
-            width: 80px; height: 80px; border-radius: 1.5rem;
+        .division-card:hover { transform: translateY(-5px); }
+        .icon-box {
+            width: 70px; height: 70px; border-radius: 1rem;
             display: flex; align-items: center; justify-content: center;
-            font-size: 3rem; margin: 0 auto 1.5rem;
+            font-size: 2.5rem; margin: 0 auto 1rem;
         }
         .btn-enter {
-            width: 100%; padding: 0.8rem; border-radius: 999px;
-            color: white; font-weight: 800; font-size: 1.1rem;
-            margin-top: 1.5rem; display: block; transition: transform 0.2s;
+            display: block; width: 100%; padding: 0.75rem;
+            border-radius: 999px; color: white; font-weight: 800;
+            margin-top: 1rem; text-decoration: none;
         }
-        .btn-enter:active { transform: scale(0.95); }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-4">
 
-    <header class="max-w-4xl mx-auto flex justify-between items-center mb-10 animate__animated animate__fadeIn">
-        <h1 class="text-2xl font-black text-gray-800">📂 ملفات الشعب</h1>
-        <a href="home.html" class="bg-gray-800 text-white px-6 py-2 rounded-full font-bold text-sm">الرئيسية</a>
+    <header class="flex justify-between items-center mb-8 max-w-4xl mx-auto">
+        <h1 class="text-2xl font-black text-gray-800">📂 الشعب الدراسية</h1>
+        <a href="home.html" class="bg-gray-800 text-white px-4 py-2 rounded-xl text-sm font-bold">الرئيسية</a>
     </header>
 
-    <main class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+    <main class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
 
-        <div class="division-card animate__animated animate__fadeInUp">
-            <div class="icon-circle" style="background-color: #eff6ff;">🧬</div>
-            <h2 class="text-2xl font-black text-gray-800">علوم تجريبية</h2>
-            <p class="text-gray-500 font-bold mt-2">ملخصات العلوم، الفيزياء والرياضيات</p>
-            <a href="science-materials.html" class="btn-enter bg-blue-600 shadow-lg shadow-blue-200">دخول</a>
+        <div class="division-card">
+            <div class="icon-box" style="background-color: #eff6ff;">🧬</div>
+            <h2 class="text-xl font-black text-gray-800">علوم تجريبية</h2>
+            <a href="science-materials.html" class="btn-enter bg-blue-600">دخول</a>
         </div>
 
-        <div class="division-card animate__animated animate__fadeInUp">
-            <div class="icon-circle" style="background-color: #fff7ed;">📐</div>
-            <h2 class="text-2xl font-black text-gray-800">تقني رياضي</h2>
-            <p class="text-gray-500 font-bold mt-2">تكنولوجيا، هندسة ومواد تقنية</p>
-            <a href="tech-materials.html" class="btn-enter bg-orange-500 shadow-lg shadow-orange-200">دخول</a>
+        <div class="division-card">
+            <div class="icon-box" style="background-color: #fff7ed;">📐</div>
+            <h2 class="text-xl font-black text-gray-800">تقني رياضي</h2>
+            <a href="tech-materials.html" class="btn-enter bg-orange-500">دخول</a>
         </div>
 
-        <div class="division-card animate__animated animate__fadeInUp">
-            <div class="icon-circle" style="background-color: #fef2f2;">🔢</div>
-            <h2 class="text-2xl font-black text-gray-800">رياضيات</h2>
-            <p class="text-gray-500 font-bold mt-2">تعمق في الحساب والمنطق الرياضي</p>
-            <a href="math-materials.html" class="btn-enter bg-red-600 shadow-lg shadow-red-200">دخول</a>
+        <div class="division-card">
+            <div class="icon-box" style="background-color: #fef2f2;">🔢</div>
+            <h2 class="text-xl font-black text-gray-800">رياضيات</h2>
+            <a href="math-materials.html" class="btn-enter bg-red-600">دخول</a>
         </div>
 
-        <div class="division-card animate__animated animate__fadeInUp">
-            <div class="icon-circle" style="background-color: #ecfdf5;">📊</div>
-            <h2 class="text-2xl font-black text-gray-800">تسيير واقتصاد</h2>
-            <p class="text-gray-500 font-bold mt-2">محاسبة، اقتصاد ومناجمت</p>
-            <a href="gest-materials.html" class="btn-enter bg-emerald-500 shadow-lg shadow-emerald-200">دخول</a>
+        <div class="division-card">
+            <div class="icon-box" style="background-color: #ecfdf5;">📊</div>
+            <h2 class="text-xl font-black text-gray-800">تسيير واقتصاد</h2>
+            <a href="gest-materials.html" class="btn-enter bg-emerald-500">دخول</a>
         </div>
 
-        <div class="division-card animate__animated animate__fadeInUp">
-            <div class="icon-circle" style="background-color: #f5f3ff;">✒️</div>
-            <h2 class="text-2xl font-black text-gray-800">آداب وفلسفة</h2>
-            <p class="text-gray-500 font-bold mt-2">تحليل أدبي ومقالات فلسفية</p>
-            <a href="let-materials.html" class="btn-enter bg-purple-600 shadow-lg shadow-purple-200">دخول</a>
+        <div class="division-card">
+            <div class="icon-box" style="background-color: #f5f3ff;">✒️</div>
+            <h2 class="text-xl font-black text-gray-800">آداب وفلسفة</h2>
+            <a href="let-materials.html" class="btn-enter bg-purple-600">دخول</a>
         </div>
 
-        <div class="division-card animate__animated animate__fadeInUp">
-            <div class="icon-circle" style="background-color: #fefce8;">🌍</div>
-            <h2 class="text-2xl font-black text-gray-800">لغات أجنبية</h2>
-            <p class="text-gray-500 font-bold mt-2">إسبانية، ألمانية، إنجليزية وفرنسية</p>
-            <a href="lang-materials.html" class="btn-enter bg-yellow-500 shadow-lg shadow-yellow-200">دخول</a>
+        <div class="division-card">
+            <div class="icon-box" style="background-color: #fefce8;">🌍</div>
+            <h2 class="text-xl font-black text-gray-800">لغات أجنبية</h2>
+            <a href="lang-materials.html" class="btn-enter bg-yellow-500">دخول</a>
         </div>
 
     </main>
