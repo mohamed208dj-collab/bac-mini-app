@@ -1,1 +1,57 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BAC PLUS | ملفي الشخصي</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #030712; color: #fff; padding: 20px; }
+        .glass-card { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); border-radius: 35px; }
+        .glow-blue { box-shadow: 0 0 30px rgba(59, 130, 246, 0.2); }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen">
 
+    <div class="glass-card w-full max-w-sm p-8 text-center glow-blue">
+        <div class="relative w-28 h-28 mx-auto mb-6">
+            <div id="user-avatar" class="w-full h-full bg-blue-600 rounded-[2.5rem] flex items-center justify-center text-4xl shadow-2xl border-4 border-white/5 overflow-hidden">
+                👤
+            </div>
+            <div class="absolute -bottom-2 -right-2 bg-blue-500 p-2 rounded-xl border-4 border-[#030712]">
+                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18.717-.962 4.084-1.362 5.441-.168.568-.42.758-.622.777-.444.041-.781-.293-1.21-.573-.672-.438-1.052-.712-1.704-1.14-.754-.495-.265-.767.165-1.214.112-.117 2.062-1.892 2.1-2.063.004-.022.009-.105-.041-.149-.049-.044-.122-.03-.175-.018-.075.016-1.272.808-3.583 2.37-.339.233-.646.347-.92.34-.303-.008-.885-.173-1.318-.314-.53-.172-.953-.264-.916-.557.019-.153.23-.309.632-.468 2.47-1.076 4.116-1.786 4.938-2.13 2.344-.98 2.83-1.15 3.148-1.156.07 0 .227.017.329.1.086.07.11.164.119.231.01.074.012.213 0 .272z"/></svg>
+            </div>
+        </div>
+
+        <h2 id="user-name" class="text-2xl font-black mb-1">تحميل...</h2>
+        <p class="text-blue-500 text-xs font-bold mb-8 uppercase tracking-widest italic">طالب في BAC PLUS</p>
+
+        <div class="grid grid-cols-2 gap-3 mb-8">
+            <div class="bg-white/5 p-4 rounded-3xl border border-white/5">
+                <p class="text-[9px] text-gray-500 font-black mb-1 uppercase">رصيد النقاط</p>
+                <h4 id="user-points" class="text-xl font-black text-yellow-400">0</h4>
+            </div>
+            <div class="bg-white/5 p-4 rounded-3xl border border-white/5">
+                <p class="text-[9px] text-gray-500 font-black mb-1 uppercase">معرف الحساب</p>
+                <h4 id="user-id" class="text-[10px] font-mono text-blue-400">#---</h4>
+            </div>
+        </div>
+
+        <a href="home.html" class="block w-full py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-sm font-black transition">العودة للرئيسية</a>
+    </div>
+
+    <script>
+        // دالة لجلب البيانات من localStorage
+        window.onload = function() {
+            const name = localStorage.getItem('userName') || "طالب مجتهد";
+            const points = localStorage.getItem('userPoints') || "0";
+            const id = localStorage.getItem('bac_user_id') || "#NEW_USER";
+            
+            document.getElementById('user-name').innerText = name;
+            document.getElementById('user-points').innerText = points;
+            document.getElementById('user-id').innerText = id;
+        }
+    </script>
+</body>
+</html>
