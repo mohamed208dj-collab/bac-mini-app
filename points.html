@@ -3,91 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BAC PLUS | مركز المكافآت</title>
+    <title>BAC PLUS | مركز التحديات</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; box-sizing: border-box; }
-        body { font-family: 'Cairo', sans-serif; background-color: #020617; color: #fff; padding: 15px; }
+        body { font-family: 'Cairo', sans-serif; background-color: #020617; color: #fff; padding: 15px; overflow-x: hidden; }
 
-        /* العجلة الاحترافية */
-        #wheel { transition: transform 3s cubic-bezier(0.2, 0, 0.2, 1); filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.4)); }
-        
-        .pointer {
-            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
-            width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent;
-            border-top: 25px solid #ef4444; z-index: 50; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
-        }
+        /* العجلة */
+        #wheel { transition: transform 3s cubic-bezier(0.15, 0, 0.15, 1); filter: drop-shadow(0 0 25px rgba(59, 130, 246, 0.3)); }
+        .pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 20px solid #ef4444; z-index: 50; }
 
-        /* ستايل المهام */
-        .quest-item {
-            background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 24px; padding: 16px; margin-bottom: 12px; transition: 0.3s;
-        }
-        .quest-item.completed { opacity: 0.5; pointer-events: none; border-color: #10b981; }
+        /* المهام */
+        .quest-item { background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; padding: 14px; margin-bottom: 10px; transition: 0.3s; cursor: pointer; }
+        .quest-item.completed { opacity: 0.4; pointer-events: none; border-color: #10b981; filter: grayscale(1); }
 
-        .btn-action { background: #3b82f6; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
+        /* التنبيهات الملونة */
+        #customAlert { display: none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 200; padding: 12px 25px; border-radius: 15px; font-weight: 900; font-size: 13px; animation: slideDown 0.4s ease; }
+        @keyframes slideDown { from { top: -50px; } to { top: 20px; } }
 
         /* Modal */
         #taskModal { display: none; background: rgba(2, 6, 23, 0.98); backdrop-filter: blur(20px); z-index: 100; }
+        .opt-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 14px; border-radius: 15px; width: 100%; text-align: right; font-weight: 700; margin-bottom: 8px; transition: 0.2s; }
+        .opt-btn:active { background: #3b82f6; }
     </style>
 </head>
-<body class="pb-20">
+<body class="pb-10">
 
-    <div class="flex items-center justify-between mb-8 pt-4 px-2">
-        <div class="flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-2 rounded-2xl">
+    <div id="customAlert"></div>
+
+    <div class="flex items-center justify-between mb-8 pt-4">
+        <div class="flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 px-5 py-2 rounded-2xl">
             <span class="text-yellow-400">⭐</span>
-            <span id="score" class="font-black text-lg">0</span>
+            <span id="score" class="font-black text-xl">0</span>
         </div>
-        <div class="text-left">
-            <p class="text-[8px] font-black text-blue-500 uppercase tracking-[0.3em]">اليوم المتتالي</p>
-            <p id="streak" class="text-xs font-black">🔥 1 يوم</p>
-        </div>
+        <h1 class="text-lg font-black italic">BAC <span class="text-blue-500">REWARDS</span></h1>
     </div>
 
-    <div class="text-center mb-12">
-        <div class="relative w-64 h-64 mx-auto mb-8">
+    <div class="text-center mb-10">
+        <div class="relative w-64 h-64 mx-auto mb-6">
             <div class="pointer"></div>
             <canvas id="wheel" width="256" height="256"></canvas>
         </div>
-        <button id="spinBtn" onclick="spin()" class="btn-action px-10 py-4 rounded-2xl font-black text-xs transition active:scale-95">
-            إسحب نقاطك اليومية
-        </button>
+        <button id="spinBtn" onclick="spin()" class="bg-blue-600 px-10 py-3 rounded-2xl font-black text-xs shadow-lg active:scale-95 transition">تدوير العجلة اليومي</button>
     </div>
 
     <div class="px-2">
-        <h3 class="text-sm font-black mb-6 flex items-center gap-2">
-            <span class="w-2 h-6 bg-blue-500 rounded-full"></span>
-            مهام المعرفة (+10 نقاط)
-        </h3>
-
-        <div id="tasksContainer">
-            </div>
+        <h3 class="text-xs font-black opacity-50 mb-4 tracking-[0.2em] uppercase">المهام التعليمية (7)</h3>
+        <div id="tasksList"></div>
     </div>
 
     <div id="taskModal" class="fixed inset-0 flex items-center justify-center p-6">
         <div class="w-full max-w-sm bg-slate-900 border border-white/10 p-8 rounded-[2.5rem] text-center">
-            <h4 id="mSubject" class="text-[10px] font-black text-blue-500 mb-2 italic">--</h4>
-            <p id="mQuestion" class="text-sm font-bold mb-8 leading-relaxed">--</p>
-            <div id="mOptions" class="space-y-3"></div>
+            <h4 id="mSubject" class="text-[10px] font-black text-blue-500 mb-2 uppercase tracking-widest">--</h4>
+            <p id="mQuestion" class="text-sm font-bold mb-6 leading-relaxed">--</p>
+            <div id="mOptions"></div>
         </div>
     </div>
 
     <script>
-        let points = parseInt(localStorage.getItem('userPoints')) || 0;
+        // 1. نظام النقاط (البداية من 0)
+        let points = localStorage.getItem('userPoints') ? parseInt(localStorage.getItem('userPoints')) : 0;
         document.getElementById('score').innerText = points;
 
-        // 1. إعداد العجلة (نقاط من 1 لـ 10)
+        // 2. إعداد العجلة (10 خانات)
         const canvas = document.getElementById('wheel');
         const ctx = canvas.getContext('2d');
         const sectors = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-        const colors = ['#0f172a', '#3b82f6', '#0f172a', '#3b82f6', '#0f172a', '#3b82f6', '#0f172a', '#3b82f6', '#0f172a', '#ef4444'];
+        const colors = ['#1e293b', '#3b82f6', '#1e293b', '#3b82f6', '#1e293b', '#3b82f6', '#1e293b', '#3b82f6', '#1e293b', '#ef4444'];
 
         function drawWheel() {
             const arc = (2 * Math.PI) / sectors.length;
             sectors.forEach((s, i) => {
                 ctx.beginPath(); ctx.fillStyle = colors[i]; ctx.moveTo(128, 128);
-                ctx.arc(128, 128, 124, i*arc, (i+1)*arc); ctx.fill();
+                ctx.arc(128, 128, 125, i*arc, (i+1)*arc); ctx.fill();
                 ctx.save(); ctx.translate(128, 128); ctx.rotate(i*arc + arc/2);
                 ctx.textAlign="right"; ctx.fillStyle="#fff"; ctx.font="900 16px Cairo";
                 ctx.fillText(s, 110, 8); ctx.restore();
@@ -95,43 +84,46 @@
         }
 
         function spin() {
-            const lastSpin = localStorage.getItem('lastSpin');
-            if(lastSpin === new Date().toDateString()) return alert("عد غداً لتدوير العجلة!");
-
-            const btn = document.getElementById('spinBtn');
-            btn.disabled = true;
-            const deg = Math.floor(Math.random() * 360) + 2160; // دوران سريع 3 ثواني
+            if(localStorage.getItem('lastSpin') === new Date().toDateString()) {
+                showAlert("عد غداً للمحاولة ثانية!", "#ef4444");
+                return;
+            }
+            const btn = document.getElementById('spinBtn'); btn.disabled = true;
+            const deg = Math.floor(Math.random() * 360) + 2160; 
             canvas.style.transform = `rotate(${deg}deg)`;
 
             setTimeout(() => {
                 const actualDeg = deg % 360;
-                const idx = sectors.length - 1 - Math.floor(actualDeg / (360 / sectors.length));
+                // تعديل الحساب ليكون السهم في وسط الرقم
+                const idx = sectors.length - 1 - Math.floor(((actualDeg + 18) % 360) / (360 / sectors.length));
                 addPoints(sectors[idx]);
                 localStorage.setItem('lastSpin', new Date().toDateString());
-                btn.innerText = "تم استلام النقاط";
+                showAlert(`مبروك! ربحت ${sectors[idx]} نقاط`, "#10b981");
+                btn.innerText = "انتهى لليوم";
             }, 3000);
         }
 
-        // 2. نظام المهام المتغير
+        // 3. بنك الأسئلة (7 مهام)
         const bank = [
-            {id: 1, s: "عربية", q: "ما هو جمع كلمة 'حليب'؟", o: ["أحلبة", "لا يوجد", "حلبان"], a: 1},
-            {id: 2, s: "إنجليزي", q: "Meaning of 'Sustainable'?", o: ["مؤقت", "مستدام", "سريع"], a: 1},
-            {id: 3, s: "علوم", q: "مقر تركيب البروتين هو:", o: ["النواة", "الريبوزوم", "السيتوبلازم"], a: 1}
+            {id:1, s:"عربية", q:"ما هو جمع 'حليب'؟", o:["أحلبة", "لا يوجد", "حلبات"], a:1},
+            {id:2, s:"رياضيات", q:"مشتق x² هو:", o:["x", "2x", "1"], a:1},
+            {id:3, s:"إنجليزي", q:"Opposite of 'Fast'?", o:["Slow", "Quick", "Smart"], a:0},
+            {id:4, s:"إسلامية", q:"كم عدد سور القرآن؟", o:["110", "114", "120"], a:1},
+            {id:5, s:"تاريخ", q:"اندلاع الثورة التحريرية كان في:", o:["1954", "1962", "1945"], a:0},
+            {id:6, s:"علوم", q:"مقر التركيب الضوئي هو:", o:["الجذور", "الصانعات الخضراء", "النواة"], a:1},
+            {id:7, s:"فرنسية", q:"Feminin de 'Beau'?", o:["Belle", "Bon", "Beauté"], a:0}
         ];
 
         function loadTasks() {
-            const container = document.getElementById('tasksContainer');
-            container.innerHTML = '';
+            const list = document.getElementById('tasksList');
+            list.innerHTML = '';
             bank.forEach(t => {
-                const isDone = localStorage.getItem(`task_${t.id}`);
-                container.innerHTML += `
-                    <div class="quest-item ${isDone ? 'completed' : ''}" onclick="openTask(${t.id})">
+                const done = localStorage.getItem(`task_${t.id}`);
+                list.innerHTML += `
+                    <div class="quest-item ${done ? 'completed' : ''}" onclick="openTask(${t.id})">
                         <div class="flex justify-between items-center">
-                            <div>
-                                <h4 class="text-xs font-black">سؤال في ${t.s}</h4>
-                                <p class="text-[9px] text-gray-500">أجب بشكل صحيح لتحصل على 10 نقاط</p>
-                            </div>
-                            <span class="text-xs">💰</span>
+                            <div><h4 class="text-xs font-black">سؤال في الـ ${t.s}</h4><p class="text-[9px] text-gray-500 font-bold">اربح +10 نقاط</p></div>
+                            <span class="text-yellow-400 font-bold">+10</span>
                         </div>
                     </div>`;
             });
@@ -144,20 +136,20 @@
             const opts = document.getElementById('mOptions');
             opts.innerHTML = '';
             t.o.forEach((opt, i) => {
-                opts.innerHTML += `<button onclick="checkTask(${id}, ${i}, ${t.a})" class="w-full p-4 bg-white/5 border border-white/10 rounded-2xl text-xs font-bold text-right active:bg-blue-600 transition">${opt}</button>`;
+                opts.innerHTML += `<button onclick="checkTask(${id}, ${i}, ${t.a})" class="opt-btn">${opt}</button>`;
             });
             document.getElementById('taskModal').style.display = 'flex';
         }
 
         function checkTask(id, chosen, correct) {
+            document.getElementById('taskModal').style.display = 'none';
             if(chosen === correct) {
                 addPoints(10);
                 localStorage.setItem(`task_${id}`, true);
-                alert("برافو! إجابة صحيحة +10 نقاط");
+                showAlert("إجابة صحيحة! +10 نقاط 🎉", "#10b981");
             } else {
-                alert("للأسف إجابة خاطئة!");
+                showAlert("إجابة خاطئة! حاول غداً", "#ef4444");
             }
-            document.getElementById('taskModal').style.display = 'none';
             loadTasks();
         }
 
@@ -167,8 +159,15 @@
             document.getElementById('score').innerText = points;
         }
 
-        drawWheel();
-        loadTasks();
+        function showAlert(msg, color) {
+            const alert = document.getElementById('customAlert');
+            alert.innerText = msg;
+            alert.style.backgroundColor = color;
+            alert.style.display = 'block';
+            setTimeout(() => { alert.style.display = 'none'; }, 2500);
+        }
+
+        drawWheel(); loadTasks();
     </script>
 </body>
 </html>
