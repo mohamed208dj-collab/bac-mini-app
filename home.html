@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BAC PLUS | منصة النخبة</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -12,6 +12,22 @@
             --card-bg: rgba(17, 24, 39, 0.4);
             --accent: #3b82f6;
         }
+
+        /* --- كود منع القوائم وتحديد النصوص (حل المشكلة) --- */
+        * {
+            -webkit-touch-callout: none !important; /* يمنع القائمة السياقية في iOS وتليجرام */
+            -webkit-user-select: none !important;    /* يمنع تحديد النصوص */
+            user-select: none !important;
+            -webkit-tap-highlight-color: transparent; /* إخفاء لون التحديد عند النقر */
+            touch-action: manipulation; /* يحسن استجابة اللمس ويمنع التكبير التلقائي */
+        }
+
+        /* السماح للمدخلات فقط بالعمل بشكل طبيعي */
+        input, textarea {
+            -webkit-user-select: text !important;
+            user-select: text !important;
+        }
+
         body { 
             font-family: 'Cairo', sans-serif; 
             background-color: var(--bg); 
@@ -38,6 +54,7 @@
             padding: 0.8rem 1rem; border-radius: 1.2rem;
             margin-bottom: 0.6rem; transition: 0.3s;
             display: flex; align-items: center; gap: 12px;
+            -webkit-user-drag: none; /* يمنع سحب الزر */
         }
         .menu-item:hover { background: rgba(59, 130, 246, 0.1); border-color: var(--accent); transform: translateX(-5px); }
 
@@ -203,83 +220,18 @@
             </div>
         </section>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="premium-card p-8 group text-center" style="--color: #3b82f6; --shadow: rgba(59, 130, 246, 0.3);">
-                <div class="text-5xl mb-6 transform transition-transform group-hover:scale-110">🎓</div>
-                <h3 class="text-xl font-black mb-3 italic">الدروس والشعب</h3>
-                <p class="text-gray-500 text-xs mb-8 font-bold italic">منهاج كامل مرتب حسب شعبتك.</p>
-                <a href="divisions.html" class="btn-modern block py-3.5 rounded-2xl font-black text-xs text-white">استكشف</a>
+        <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            <div class="premium-card p-6 md:p-8 group text-center" style="--color: #3b82f6; --shadow: rgba(59, 130, 246, 0.3);">
+                <div class="text-4xl md:text-5xl mb-6 transform transition-transform group-hover:scale-110">🎓</div>
+                <h3 class="text-sm md:text-xl font-black mb-3 italic">الدروس والشعب</h3>
+                <a href="divisions.html" class="btn-modern block py-3 rounded-2xl font-black text-[10px] md:text-xs text-white uppercase tracking-tighter">استكشف</a>
             </div>
-
-            <div class="premium-card p-8 group text-center" style="--color: #ef4444; --shadow: rgba(239, 68, 68, 0.3);">
-                <div class="text-5xl mb-6 transform transition-transform group-hover:scale-110">📺</div>
-                <h3 class="text-xl font-black mb-3 italic">فيديوهات الدراسة</h3>
-                <p class="text-gray-500 text-xs mb-8 font-bold italic">أقوى الشروحات المرئية التفاعلية.</p>
-                <a href="videos.html" class="btn-modern block py-3.5 rounded-2xl font-black text-xs text-white">شاهد الآن</a>
+            <div class="premium-card p-6 md:p-8 group text-center" style="--color: #ef4444; --shadow: rgba(239, 68, 68, 0.3);">
+                <div class="text-4xl md:text-5xl mb-6 transform transition-transform group-hover:scale-110">📺</div>
+                <h3 class="text-sm md:text-xl font-black mb-3 italic">فيديوهات الدراسة</h3>
+                <a href="videos.html" class="btn-modern block py-3 rounded-2xl font-black text-[10px] md:text-xs text-white uppercase tracking-tighter">شاهد الآن</a>
             </div>
-
-            <div class="premium-card p-8 group text-center" style="--color: #10b981; --shadow: rgba(16, 185, 129, 0.3);">
-                <div class="text-5xl mb-6 transform transition-transform group-hover:scale-110">📚</div>
-                <h3 class="text-xl font-black mb-3 italic">الملخصات والكتب</h3>
-                <p class="text-gray-500 text-xs mb-8 font-bold italic">مكتبة PDF رقمية للمراجعة.</p>
-                <a href="mlokhasat.html" class="btn-modern block py-3.5 rounded-2xl font-black text-xs text-white">تحميل</a>
-            </div>
-
-            <div class="premium-card p-8 group text-center" style="--color: #facc15; --shadow: rgba(250, 204, 21, 0.3);">
-                <div class="text-5xl mb-6 transform transition-transform group-hover:scale-110">📄</div>
-                <h3 class="text-xl font-black mb-3 italic">بكالوريات سابقة</h3>
-                <p class="text-gray-500 text-xs mb-8 font-bold italic">مواضيع رسمية مع الحلول.</p>
-                <a href="bac-subjects.html" class="btn-modern block py-3.5 rounded-2xl font-black text-xs text-white">تصفح</a>
-            </div>
-
-            <div class="premium-card p-8 group text-center" style="--color: #a855f7; --shadow: rgba(168, 85, 247, 0.3);">
-                <div class="text-5xl mb-6 transform transition-transform group-hover:scale-110">🗓️</div>
-                <h3 class="text-xl font-black mb-3 italic">خطط دراسية</h3>
-                <p class="text-gray-500 text-xs mb-8 font-bold italic">جداول زمنية ذكية لتنظيم وقتك.</p>
-                <a href="plans.html" class="btn-modern block py-3.5 rounded-2xl font-black text-xs text-white">خطتي</a>
-            </div>
-
-            <div class="premium-card p-8 group text-center" style="--color: #f97316; --shadow: rgba(249, 115, 22, 0.3);">
-                <div class="text-5xl mb-6 transform transition-transform group-hover:scale-110">👨‍🏫</div>
-                <h3 class="text-xl font-black mb-3 italic">أساتذة المنصة</h3>
-                <p class="text-gray-500 text-xs mb-8 font-bold italic">نخبة الكفاءات لمرافقتك.</p>
-                <a href="teachers.html" class="btn-modern block py-3.5 rounded-2xl font-black text-xs text-white">تعرف عليهم</a>
-            </div>
-
-            <div class="premium-card p-8 group text-center" style="--color: #ec4899; --shadow: rgba(236, 72, 153, 0.3);">
-                <div class="text-5xl mb-6 transform transition-transform group-hover:scale-110">🔥</div>
-                <h3 class="text-xl font-black mb-3 italic">اربح نقاط</h3>
-                <p class="text-gray-500 text-xs mb-8 font-bold italic">تحديات يومية وهدايا قيّمة.</p>
-                <a href="points.html" class="btn-modern block py-3.5 rounded-2xl font-black text-xs text-white">ابدأ الآن</a>
-            </div>
-
-            <div class="premium-card p-8 group text-center" style="--color: #06b6d4; --shadow: rgba(6, 182, 212, 0.3);">
-                <div class="text-5xl mb-6 transform transition-transform group-hover:scale-110">🤝</div>
-                <h3 class="text-xl font-black mb-3 italic">تواصل معنا</h3>
-                <p class="text-gray-500 text-xs mb-8 font-bold italic">نحن هنا لدعمك في كل خطوة.</p>
-                <a href="tawasal.html" class="btn-modern block py-3.5 rounded-2xl font-black text-xs text-white">مراسلة</a>
-            </div>
-        </div>
-    </main>
-
-    <footer class="text-center py-20 opacity-30 italic">
-        <p class="text-[10px] font-black tracking-[0.5em] uppercase text-white">BAC PLUS PREMIUM EXPERIENCE // 2026</p>
-    </footer>
-
-    <script>
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('active');
-        }
-
-        const countDownDate = new Date("June 15, 2026 08:00:00").getTime();
-        setInterval(function() {
-            const now = new Date().getTime();
-            const distance = countDownDate - now;
-            document.getElementById("days").innerHTML = Math.floor(distance / (1000 * 60 * 60 * 24));
-            document.getElementById("hours").innerHTML = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            document.getElementById("minutes").innerHTML = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            document.getElementById("seconds").innerHTML = Math.floor((distance % (1000 * 60)) / 1000);
-        }, 1000);
-    </script>
-</body>
-</html>
+            <div class="premium-card p-6 md:p-8 group text-center" style="--color: #10b981; --shadow: rgba(16, 185, 129, 0.3);">
+                <div class="text-4xl md:text-5xl mb-6 transform transition-transform group-hover:scale-110">📚</div>
+                <h3 class="text-sm md:text-xl font-black mb-3 italic">الملخصات</h3>
+                <a href="mlokhasat.html" class="btn-modern block py-3 rounded-2xl font
