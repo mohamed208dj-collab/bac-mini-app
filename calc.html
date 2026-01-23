@@ -7,13 +7,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* 1. منع كل أنواع القوائم والتحديد (الحماية القصوى) */
+        /* الحماية القصوى */
         * {
             -webkit-touch-callout: none !important;
             -webkit-user-select: none !important;
             user-select: none !important;
             -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
         }
 
         body { 
@@ -21,84 +20,155 @@
             background-color: #030712; 
             color: #f3f4f6;
             margin: 0;
-            padding: 20px;
-            background-image: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
+            padding: 15px;
+            background-image: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
         }
 
-        /* 2. تصميم الجدول الزجاجي */
         .glass-card {
             background: rgba(17, 24, 39, 0.6);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 24px;
             overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
-        .table-row {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        .tab-btn {
             transition: 0.3s;
+            white-space: nowrap;
         }
 
-        .table-row:last-child { border-bottom: none; }
-
-        /* 3. تأثير عند الضغط */
-        .table-row:active {
-            background: rgba(59, 130, 246, 0.1);
+        .tab-btn.active {
+            background: #3b82f6;
+            color: white;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
         }
 
-        .badge-coeff {
-            background: linear-gradient(45deg, #3b82f6, #2563eb);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        .row-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .badge-num {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            min-width: 32px;
+            height: 32px;
         }
     </style>
 </head>
 <body class="pb-10">
 
-    <div class="flex items-center justify-between mb-10">
+    <div class="flex items-center justify-between mb-6">
         <a href="home.html" class="w-10 h-10 flex items-center justify-center bg-white/5 rounded-full border border-white/10">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
             </svg>
         </a>
         <div class="text-center">
-            <h1 class="text-xl font-black italic tracking-tighter">معاملات المواد</h1>
-            <p class="text-[9px] text-blue-500 font-bold uppercase tracking-widest">شعبة علوم تجريبية</p>
+            <h1 class="text-lg font-black italic">معاملات المواد الرسميّة</h1>
+            <p class="text-[8px] text-blue-500 font-bold tracking-[0.3em] uppercase">Bac Plus Database</p>
         </div>
         <div class="w-10"></div>
     </div>
 
+    <div class="flex overflow-x-auto gap-2 mb-6 pb-2 no-scrollbar" style="-ms-overflow-style: none; scrollbar-width: none;">
+        <button onclick="updateTable('science')" id="btn-science" class="tab-btn active px-5 py-2.5 rounded-xl text-xs font-black border border-white/10 bg-white/5">علوم تجريبية</button>
+        <button onclick="updateTable('math')" id="btn-math" class="tab-btn px-5 py-2.5 rounded-xl text-xs font-black border border-white/10 bg-white/5">رياضيات</button>
+        <button onclick="updateTable('tech')" id="btn-tech" class="tab-btn px-5 py-2.5 rounded-xl text-xs font-black border border-white/10 bg-white/5">تقني رياضي</button>
+        <button onclick="updateTable('adab')" id="btn-adab" class="tab-btn px-5 py-2.5 rounded-xl text-xs font-black border border-white/10 bg-white/5">أدب وفلسفة</button>
+        <button onclick="updateTable('lang')" id="btn-lang" class="tab-btn px-5 py-2.5 rounded-xl text-xs font-black border border-white/10 bg-white/5">لغات أجنبية</button>
+        <button onclick="updateTable('gestion')" id="btn-gestion" class="tab-btn px-5 py-2.5 rounded-xl text-xs font-black border border-white/10 bg-white/5">تسيير واقتصاد</button>
+    </div>
+
     <div class="glass-card">
-        <div class="grid grid-cols-2 bg-white/5 p-4 border-bottom border-white/10">
-            <span class="text-xs font-black text-gray-400 uppercase italic text-right">المادة</span>
-            <span class="text-xs font-black text-gray-400 uppercase italic text-center">المعامل</span>
+        <div class="grid grid-cols-2 bg-white/10 p-4 border-b border-white/10">
+            <span class="text-[10px] font-black text-gray-400 uppercase">المادة</span>
+            <span class="text-[10px] font-black text-gray-400 uppercase text-center">المعامل</span>
         </div>
-
-        <div class="flex flex-col">
-            <div class="grid grid-cols-2 p-5 items-center table-row">
-                <div class="flex items-center gap-4">
-                    <span class="text-2xl">🧬</span>
-                    <span class="font-bold text-sm">علوم الطبيعة</span>
-                </div>
-                <div class="flex justify-center">
-                    <span class="badge-coeff w-8 h-8 flex items-center justify-center rounded-lg font-black text-white">6</span>
-                </div>
+        <div id="table-body" class="flex flex-col">
             </div>
+    </div>
 
-            <div class="grid grid-cols-2 p-5 items-center table-row">
-                <div class="flex items-center gap-4">
-                    <span class="text-2xl">🧪</span>
-                    <span class="font-bold text-sm">فيزياء</span>
-                </div>
-                <div class="flex justify-center">
-                    <span class="badge-coeff w-8 h-8 flex items-center justify-center rounded-lg font-black text-white">5</span>
-                </div>
-            </div>
+    <script>
+        const data = {
+            science: [
+                {n: "علوم الطبيعة والحياة", c: 6, e: "🧬"}, {n: "العلوم الفيزيائية", c: 5, e: "🧪"},
+                {n: "الرياضيات", c: 5, e: "📐"}, {n: "اللغة العربية", c: 3, e: "📖"},
+                {n: "تاريخ وجغرافيا", c: 2, e: "🌍"}, {n: "اللغة الفرنسية", c: 2, e: "🇫🇷"},
+                {n: "اللغة الإنجليزية", c: 2, e: "🇬🇧"}, {n: "العلوم الإسلامية", c: 2, e: "🕌"},
+                {n: "فلسفة", c: 2, e: "🧠"}, {n: "تربية بدنية", c: 1, e: "🏃"}
+            ],
+            math: [
+                {n: "الرياضيات", c: 7, e: "📐"}, {n: "العلوم الفيزيائية", c: 6, e: "🧪"},
+                {n: "اللغة العربية", c: 3, e: "📖"}, {n: "علوم الطبيعة", c: 2, e: "🧬"},
+                {n: "فلسفة", c: 2, e: "🧠"}, {n: "تاريخ وجغرافيا", c: 2, e: "🌍"},
+                {n: "فرنسية", c: 2, e: "🇫🇷"}, {n: "إنجليزية", c: 2, e: "🇬🇧"},
+                {n: "إسلامية", c: 2, e: "🕌"}, {n: "تربية بدنية", c: 1, e: "🏃"}
+            ],
+            tech: [
+                {n: "التكنولوجيا (الهندسة)", c: 7, e: "⚙️"}, {n: "الرياضيات", c: 6, e: "📐"},
+                {n: "العلوم الفيزيائية", c: 6, e: "🧪"}, {n: "اللغة العربية", c: 3, e: "📖"},
+                {n: "تاريخ وجغرافيا", c: 2, e: "🌍"}, {n: "فرنسية", c: 2, e: "🇫🇷"},
+                {n: "إنجليزية", c: 2, e: "🇬🇧"}, {n: "فلسفة", c: 2, e: "🧠"},
+                {n: "إسلامية", c: 2, e: "🕌"}, {n: "تربية بدنية", c: 1, e: "🏃"}
+            ],
+            adab: [
+                {n: "فلسفة", c: 6, e: "🧠"}, {n: "اللغة العربية", c: 6, e: "📖"},
+                {n: "تاريخ وجغرافيا", c: 4, e: "🌍"}, {n: "اللغة الإنجليزية", c: 3, e: "🇬🇧"},
+                {n: "اللغة الفرنسية", c: 3, e: "🇫🇷"}, {n: "العلوم الإسلامية", c: 2, e: "🕌"},
+                {n: "رياضيات", c: 2, e: "📐"}, {n: "تربية بدنية", c: 1, e: "🏃"}
+            ],
+            lang: [
+                {n: "اللغة الأجنبية الثالثة", c: 5, e: "🇪🇸"}, {n: "اللغة الإنجليزية", c: 5, e: "🇬🇧"},
+                {n: "اللغة العربية", c: 5, e: "📖"}, {n: "اللغة الفرنسية", c: 4, e: "🇫🇷"},
+                {n: "تاريخ وجغرافيا", c: 2, e: "🌍"}, {n: "فلسفة", c: 2, e: "🧠"},
+                {n: "رياضيات", c: 2, e: "📐"}, {n: "العلوم الإسلامية", c: 2, e: "🕌"},
+                {n: "تربية بدنية", c: 1, e: "🏃"}
+            ],
+            gestion: [
+                {n: "تسيير محاسبي ومالي", c: 6, e: "📊"}, {n: "اقتصاد ومناجمنت", c: 5, e: "📉"},
+                {n: "الرياضيات", c: 5, e: "📐"}, {n: "القانون", c: 2, e: "⚖️"},
+                {n: "اللغة العربية", c: 3, e: "📖"}, {n: "تاريخ وجغرافيا", c: 4, e: "🌍"},
+                {n: "فرنسية", c: 2, e: "🇫🇷"}, {n: "إنجليزية", c: 2, e: "🇬🇧"},
+                {n: "فلسفة", c: 2, e: "🧠"}, {n: "إسلامية", c: 2, e: "🕌"}, {n: "تربية بدنية", c: 1, e: "🏃"}
+            ]
+        };
 
-            <div class="grid grid-cols-2 p-5 items-center table-row">
-                <div class="flex items-center gap-4">
-                    <span class="text-2xl">📐</span>
-                    <span class="font-bold text-sm">رياضيات</span>
-                </div>
-                <div class="flex justify-center">
-                    <span class="badge-coeff w-8 h-8 flex items-center justify-center rounded-lg font-black text-white">5
+        function updateTable(shoba) {
+            // تحديث الأزرار
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-' + shoba).classList.add('active');
+
+            // تحديث محتوى الجدول
+            const body = document.getElementById('table-body');
+            body.innerHTML = '';
+            
+            data[shoba].forEach(item => {
+                const row = `
+                    <div class="grid grid-cols-2 p-4 items-center row-item">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xl">${item.e}</span>
+                            <span class="font-bold text-[13px]">${item.n}</span>
+                        </div>
+                        <div class="flex justify-center">
+                            <span class="badge-num flex items-center justify-center rounded-lg font-black text-white text-sm shadow-lg">${item.c}</span>
+                        </div>
+                    </div>
+                `;
+                body.innerHTML += row;
+            });
+        }
+
+        // تشغيل العلوم تجريبية افتراضياً
+        window.onload = () => updateTable('science');
+
+        // الحماية
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('dragstart', e => e.preventDefault());
+    </script>
+</body>
+</html>
