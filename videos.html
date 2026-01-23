@@ -1,9 +1,108 @@
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <div class="flex items-center p-4 bg-white rounded-xl shadow-sm border-r-4 border-blue-600">
-        <div class="bg-blue-100 p-3 rounded-full ml-4">🔢</div>
-        <div class="text-right">
-            <h4 class="font-bold">مادة الرياضيات</h4>
-            <p class="text-xs text-gray-500">شروحات شاملة للمنهاج</p>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة BAC PLUS | فيديوهات الدراسة</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; }
+        .subject-card { transition: all 0.3s ease; border-right: 6px solid; }
+        .subject-card:hover { transform: translateX(-10px); shadow: lg; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <header class="max-w-4xl mx-auto flex justify-between items-center mb-10 animate__animated animate__fadeIn">
+        <h1 class="text-2xl font-black text-gray-800">📺 فيديوهات الدراسة</h1>
+        <a href="home.html" class="bg-blue-600 text-white px-5 py-2 rounded-full font-bold text-sm shadow-md hover:bg-blue-700 transition">رجوع للرئيسية</a>
+    </header>
+
+    <main class="max-w-4xl mx-auto">
+        
+        <h2 class="text-lg font-black mb-4 text-blue-700 flex items-center">
+            <span class="ml-2">🧪</span> المواد العلمية والأساسية
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10 animate__animated animate__fadeInUp">
+            
+            <a href="#" class="subject-card bg-white p-5 rounded-2xl shadow-sm border-blue-600 flex items-center">
+                <div class="text-3xl ml-4">📐</div>
+                <div>
+                    <h3 class="font-bold text-gray-800">الرياضيات</h3>
+                    <p class="text-xs text-gray-500">شروحات شاملة لجميع الوحدات</p>
+                </div>
+            </a>
+
+            <a href="#" class="subject-card bg-white p-5 rounded-2xl shadow-sm border-green-600 flex items-center">
+                <div class="text-3xl ml-4">🧬</div>
+                <div>
+                    <h3 class="font-bold text-gray-800">علوم الطبيعة والحياة</h3>
+                    <p class="text-xs text-gray-500">منهجية الإجابة ورسومات تخطيطية</p>
+                </div>
+            </a>
+
+            <a href="#" class="subject-card bg-white p-5 rounded-2xl shadow-sm border-purple-600 flex items-center">
+                <div class="text-3xl ml-4">⚛️</div>
+                <div>
+                    <h3 class="font-bold text-gray-800">العلوم الفيزيائية</h3>
+                    <p class="text-xs text-gray-500">ملخصات القوانين وتجارب مخبرية</p>
+                </div>
+            </a>
         </div>
-    </div>
-    </div>
+
+        <h2 class="text-lg font-black mb-4 text-orange-600 flex items-center">
+            <span class="ml-2">📚</span> اللغات والعلوم الإنسانية
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 animate__animated animate__fadeInUp animate__delay-1s">
+            
+            <a href="#" class="subject-card bg-white p-5 rounded-2xl shadow-sm border-orange-500 flex items-center">
+                <div class="text-3xl ml-4">✍️</div>
+                <div>
+                    <h3 class="font-bold text-gray-800">اللغة العربية</h3>
+                    <p class="text-xs text-gray-500">تحليل النصوص والقواعد</p>
+                </div>
+            </a>
+
+            <a href="#" class="subject-card bg-white p-5 rounded-2xl shadow-sm border-red-500 flex items-center">
+                <div class="text-3xl ml-4">💡</div>
+                <div>
+                    <h3 class="font-bold text-gray-800">الفلسفة</h3>
+                    <p class="text-xs text-gray-500">مقالات جاهزة ومنهجية المقارنة</p>
+                </div>
+            </a>
+
+            <a href="#" class="subject-card bg-white p-5 rounded-2xl shadow-sm border-yellow-500 flex items-center">
+                <div class="text-3xl ml-4">🌍</div>
+                <div>
+                    <h3 class="font-bold text-gray-800">التاريخ والجغرافيا</h3>
+                    <p class="text-xs text-gray-500">خرائط ودروس تفاعلية</p>
+                </div>
+            </a>
+
+            <a href="#" class="subject-card bg-white p-5 rounded-2xl shadow-sm border-indigo-500 flex items-center">
+                <div class="text-3xl ml-4">🇬🇧</div>
+                <div>
+                    <h3 class="font-bold text-gray-800">اللغة الإنجليزية</h3>
+                    <p class="text-xs text-gray-500">Grammar & Vocabulary</p>
+                </div>
+            </a>
+
+            <a href="#" class="subject-card bg-white p-5 rounded-2xl shadow-sm border-blue-400 flex items-center">
+                <div class="text-3xl ml-4">🇫🇷</div>
+                <div>
+                    <h3 class="font-bold text-gray-800">اللغة الفرنسية</h3>
+                    <p class="text-xs text-gray-500">Compte rendu & Textes</p>
+                </div>
+            </a>
+        </div>
+
+    </main>
+
+    <footer class="text-center mt-12 text-gray-400 text-sm">
+        منصة BAC PLUS - طريقك نحو النجاح
+    </footer>
+
+</body>
+</html>
