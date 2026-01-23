@@ -3,153 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BAC PLUS | التحديات الذكية</title>
+    <title>BAC PLUS | تحدي العجلة</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; box-sizing: border-box; }
-        body { font-family: 'Cairo', sans-serif; background-color: #020617; color: #fff; padding: 15px; }
+        body { font-family: 'Cairo', sans-serif; background-color: #020617; color: #fff; padding: 15px; overflow-x: hidden; }
 
-        .quest-card { background: rgba(30, 41, 59, 0.4); border-radius: 20px; padding: 15px; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
-        .quest-card.locked { opacity: 0.5; filter: grayscale(1); pointer-events: none; }
+        /* ستايل العجلة */
+        #wheelCanvas { transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1); filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.2)); }
+        
+        .pointer {
+            position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent;
+            border-top: 25px solid #ef4444; z-index: 50;
+        }
 
+        /* Modal السؤال */
+        #quizModal { display: none; background: rgba(2, 6, 23, 0.98); backdrop-filter: blur(25px); z-index: 100; }
+        
         .opt-btn { 
             background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-            padding: 12px; border-radius: 15px; width: 100%; text-align: right; transition: 0.2s; font-size: 13px;
+            padding: 15px; border-radius: 18px; width: 100%; text-align: right; transition: 0.2s; font-size: 13px; font-weight: 700;
         }
-        .opt-btn:active { background: #3b82f6; }
+        .opt-btn:active { background: #3b82f6; transform: scale(0.96); }
 
-        #quizModal { display: none; background: rgba(2, 6, 23, 0.98); backdrop-filter: blur(20px); z-index: 100; }
-        
-        .timer-text { font-size: 9px; color: #ef4444; font-weight: 900; }
+        .score-card { background: linear-gradient(135deg, rgba(30,41,59,0.8), rgba(15,23,42,0.9)); border: 1px solid rgba(255,255,255,0.1); }
     </style>
 </head>
-<body class="pb-20">
+<body class="flex flex-col items-center justify-center min-h-screen">
 
-    <div class="flex items-center justify-between mb-8 pt-4">
-        <div class="bg-yellow-500/10 border border-yellow-500/20 px-4 py-2 rounded-2xl flex items-center gap-2">
-            <span class="text-yellow-400">⭐</span>
-            <span id="scoreDisplay" class="font-black">0</span>
+    <div class="fixed top-6 left-0 right-0 px-6 flex justify-between items-center z-40">
+        <a href="home.html" class="w-10 h-10 flex items-center justify-center bg-white/5 rounded-full border border-white/10">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" /></svg>
+        </a>
+        <div class="score-card px-5 py-2 rounded-2xl flex items-center gap-2 shadow-xl">
+            <span class="text-yellow-400 font-bold">⭐</span>
+            <span id="scoreDisplay" class="font-black text-lg">0</span>
         </div>
-        <h1 class="text-lg font-black italic">تحدي <span class="text-blue-500">الذكاء</span></h1>
     </div>
 
-    <div id="tasksList" class="space-y-4">
-        <div id="task-math" class="quest-card flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center text-xl">📐</div>
-                <div>
-                    <h4 class="text-xs font-black">تحدي الرياضيات</h4>
-                    <p id="timer-math" class="timer-text"></p>
-                </div>
-            </div>
-            <button onclick="startQuest('math')" class="bg-blue-600 px-4 py-2 rounded-xl text-[10px] font-black">إبدأ +20</button>
+    <div class="text-center mt-10">
+        <h1 class="text-2xl font-black italic mb-2 tracking-tighter">عجلة <span class="text-blue-500">المواد</span></h1>
+        <p id="statusMsg" class="text-[10px] text-gray-500 font-bold mb-8 uppercase tracking-widest">لف العجلة لتحدي نفسك</p>
+
+        <div class="relative w-72 h-72 mx-auto mb-10">
+            <div class="pointer"></div>
+            <canvas id="wheelCanvas" width="288" height="288"></canvas>
         </div>
 
-        <div id="task-lang" class="quest-card flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center text-xl">🌍</div>
-                <div>
-                    <h4 class="text-xs font-black">مرادفات اللغات</h4>
-                    <p id="timer-lang" class="timer-text"></p>
-                </div>
-            </div>
-            <button onclick="startQuest('lang')" class="bg-green-600 px-4 py-2 rounded-xl text-[10px] font-black">إبدأ +15</button>
-        </div>
+        <button id="spinBtn" onclick="spinWheel()" class="bg-blue-600 hover:bg-blue-500 px-12 py-4 rounded-[2rem] font-black text-xs shadow-[0_10px_30px_rgba(37,99,235,0.3)] transition-all active:scale-90 disabled:opacity-30 disabled:pointer-events-none">
+            إضغط للتدوير (1 لفة/يوم)
+        </button>
     </div>
 
     <div id="quizModal" class="fixed inset-0 flex items-center justify-center p-6">
-        <div class="w-full max-w-sm bg-slate-900 border border-white/10 p-8 rounded-[2.5rem] relative">
-            <div class="text-3xl mb-4 text-center">💡</div>
-            <h3 id="questionTitle" class="text-sm font-black text-center mb-6 leading-relaxed">--</h3>
+        <div class="w-full max-w-sm bg-slate-900 border border-white/10 p-8 rounded-[2.5rem] shadow-2xl text-center">
+            <div id="subjectBadge" class="inline-block px-4 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-[10px] font-black text-blue-400 mb-6 uppercase italic">--</div>
+            <h3 id="questionTitle" class="text-sm font-black mb-8 leading-relaxed">--</h3>
             <div id="optionsContainer" class="space-y-3"></div>
         </div>
     </div>
 
     <script>
-        // بنك الأسئلة المتغير
-        const questionBank = {
-            math: [
-                { q: "ما هو مشتق الدالة x²؟", o: ["2x", "x", "1", "0"], a: 0 },
-                { q: "ما هي نهاية 1/x عند +∞؟", o: ["1", "+∞", "0", "-∞"], a: 2 },
-                { q: "مجموع زوايا المثلث هو:", o: ["90°", "180°", "360°", "270°"], a: 1 }
-            ],
-            lang: [
-                { q: "مرادف كلمة 'Magnificent' هو:", o: ["Bad", "Small", "Grand", "Beautiful"], a: 3 },
-                { q: "ضد كلمة 'Fast' هو:", o: ["Slow", "Quick", "Smart", "High"], a: 0 },
-                { q: "ترجمة كلمة 'Success' هي:", o: ["فشل", "نجاح", "محاولة", "تعب"], a: 1 }
-            ]
-        };
-
+        // 1. إعداد النقاط واللف اليومي
         let score = parseInt(localStorage.getItem('userScore')) || 0;
         document.getElementById('scoreDisplay').innerText = score;
 
-        function startQuest(type) {
-            // اختيار سؤال عشوائي من القائمة
-            const questions = questionBank[type];
-            const randomIdx = Math.floor(Math.random() * questions.length);
-            const question = questions[randomIdx];
+        // 2. بنك الأسئلة للمواد الأساسية فقط
+        const qBank = {
+            "رياضيات": [
+                {q: "ما هو مشتق الدالة $x^2$؟", o: ["$2x$", "$x$", "1", "$0$"], a: 0},
+                {q: "نهاية $1/x$ عند $+\\infty$ هي:", o: ["$1$", "$0$", "$+\\infty$", "$-1$"], a: 1}
+            ],
+            "فيزياء": [
+                {q: "وحدة قياس المقاومة الكهربائية هي:", o: ["الفولط", "الأمبير", "الأوم", "الواط"], a: 2},
+                {q: "ما هو رمز ثابت الجذب العام؟", o: ["$G$", "$g$", "$k$", "$F$"], a: 0}
+            ],
+            "علوم": [
+                {q: "أين يتم تركيب البروتين في الخلية؟", o: ["النواة", "الريبوزومات", "الميتوكوندري", "الجهاز الغولجي"], a: 1}
+            ],
+            "عربية": [
+                {q: "ما نوع الصورة البيانية في 'الجندي أسد'؟", o: ["استعارة مكنية", "تشبيه بليغ", "كناية", "مجاز مرسل"], a: 1}
+            ],
+            "إسلامية": [
+                {q: "أول من آمن من الرجال هو:", o: ["عمر بن الخطاب", "عثمان بن عفان", "أبو بكر الصديق", "علي بن أبي طالب"], a: 2}
+            ],
+            "فرنسية": [
+                {q: "Quel est le synonyme de 'Magnifique' ?", o: ["Petit", "Beau", "Grand", "Mauvais"], a: 1}
+            ],
+            "إنجليزي": [
+                {q: "Antonym of 'Success' is:", o: ["Victory", "Failure", "Winner", "Try"], a: 1}
+            ],
+            "فلسفة": [
+                {q: "من قائل عبارة 'أنا أفكر إذن أنا موجود'؟", o: ["سقراط", "ديكارت", "كانط", "أرسطو"], a: 1}
+            ]
+        };
 
-            showQuiz(question, type);
+        const subjects = Object.keys(qBank);
+        const colors = ['#1e293b', '#3b82f6', '#1e293b', '#3b82f6', '#1e293b', '#3b82f6', '#1e293b', '#ef4444'];
+        
+        const canvas = document.getElementById('wheelCanvas');
+        const ctx = canvas.getContext('2d');
+        let rotation = 0;
+
+        function drawWheel() {
+            const arc = (2 * Math.PI) / subjects.length;
+            subjects.forEach((name, i) => {
+                ctx.beginPath();
+                ctx.fillStyle = colors[i % colors.length];
+                ctx.moveTo(144, 144);
+                ctx.arc(144, 144, 140, i * arc, (i + 1) * arc);
+                ctx.fill();
+                ctx.save();
+                ctx.translate(144, 144);
+                ctx.rotate(i * arc + arc / 2);
+                ctx.textAlign = "right";
+                ctx.fillStyle = "#fff";
+                ctx.font = "900 12px Cairo";
+                ctx.fillText(name, 130, 5);
+                ctx.restore();
+            });
         }
 
-        function showQuiz(data, type) {
-            document.getElementById('questionTitle').innerText = data.q;
+        function spinWheel() {
+            const lastSpin = localStorage.getItem('lastSpinDate');
+            const today = new Date().toDateString();
+            
+            if(lastSpin === today) {
+                alert("لقد استعملت لفة اليوم! عد غداً.");
+                return;
+            }
+
+            const btn = document.getElementById('spinBtn');
+            btn.disabled = true;
+            
+            const extraDeg = Math.floor(Math.random() * 360) + 3600; 
+            rotation += extraDeg;
+            canvas.style.transform = `rotate(${rotation}deg)`;
+
+            setTimeout(() => {
+                const actualDeg = rotation % 360;
+                const idx = subjects.length - 1 - Math.floor(actualDeg / (360 / subjects.length));
+                const sub = subjects[idx];
+                
+                localStorage.setItem('lastSpinDate', today);
+                showQuiz(sub);
+            }, 4000);
+        }
+
+        function showQuiz(sub) {
+            const questions = qBank[sub];
+            const q = questions[Math.floor(Math.random() * questions.length)];
+            
+            document.getElementById('subjectBadge').innerText = `مادة ${sub}`;
+            document.getElementById('questionTitle').innerText = q.q;
+            
             const container = document.getElementById('optionsContainer');
             container.innerHTML = '';
             
-            data.o.forEach((opt, i) => {
+            q.o.forEach((opt, i) => {
                 const btn = document.createElement('button');
                 btn.className = 'opt-btn';
                 btn.innerText = opt;
-                btn.onclick = () => checkAnswer(i, data.a, type);
+                btn.onclick = () => check(i, q.a);
                 container.appendChild(btn);
             });
-
+            
             document.getElementById('quizModal').style.display = 'flex';
         }
 
-        function checkAnswer(chosen, correct, type) {
+        function check(idx, correct) {
             document.getElementById('quizModal').style.display = 'none';
-            
-            if (chosen === correct) {
-                score += (type === 'math' ? 20 : 15);
+            if(idx === correct) {
+                score += 20;
                 localStorage.setItem('userScore', score);
                 document.getElementById('scoreDisplay').innerText = score;
-                alert("إجابة صحيحة! 🎉");
-                lockTask(type, 60); // قفل المهمة لمدة 60 دقيقة
+                alert("إجابة صحيحة! +20 نقطة 🎉");
             } else {
-                alert("إجابة خاطئة! حاول لاحقاً.");
-                lockTask(type, 10); // قفل لمدة 10 دقائق فقط عند الخطأ
+                alert("إجابة خاطئة.. حظاً موفقاً غداً!");
             }
         }
 
-        function lockTask(type, minutes) {
-            const expireTime = Date.now() + (minutes * 60 * 1000);
-            localStorage.setItem(`lock_${type}`, expireTime);
-            updateUI();
-        }
-
-        function updateUI() {
-            ['math', 'lang'].forEach(type => {
-                const lockTime = localStorage.getItem(`lock_${type}`);
-                const card = document.getElementById(`task-${type}`);
-                const timerText = document.getElementById(`timer-${type}`);
-                
-                if (lockTime && Date.now() < lockTime) {
-                    card.classList.add('locked');
-                    const remaining = Math.ceil((lockTime - Date.now()) / (60 * 1000));
-                    timerText.innerText = `متاحة بعد ${remaining} دقيقة`;
-                } else {
-                    card.classList.remove('locked');
-                    timerText.innerText = "متاحة الآن ✅";
-                }
-            });
-        }
-
-        // تحديث الواجهة كل دقيقة
-        setInterval(updateUI, 60000);
-        window.onload = updateUI;
+        drawWheel();
     </script>
 </body>
 </html>
