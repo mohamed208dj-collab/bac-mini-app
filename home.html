@@ -3,148 +3,282 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BAC PLUS | الرئيسية</title>
+    <title>BAC PLUS | منصة النخبة</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --bg-dark: #020617; }
-        body { font-family: 'Cairo', sans-serif; background-color: var(--bg-dark); color: white; min-height: 100vh; overflow-x: hidden; }
-        
-        /* تأثير الزجاج الفخم */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 2.5rem;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        :root {
+            --bg: #030712;
+            --card-bg: rgba(17, 24, 39, 0.4);
+            --accent: #3b82f6;
         }
-        .glass-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--color);
-            box-shadow: 0 0 40px -10px var(--shadow);
-            background: rgba(255, 255, 255, 0.05);
+        body { 
+            font-family: 'Cairo', sans-serif; 
+            background-color: var(--bg); 
+            color: #f3f4f6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.05) 0%, transparent 40%);
         }
 
-        /* الأزرار */
-        .btn-premium {
-            background: var(--color);
-            transition: 0.3s;
-            box-shadow: 0 5px 15px var(--shadow);
-            border-radius: 1rem;
-            font-weight: 900;
-            font-size: 0.8rem;
-            text-transform: uppercase;
+        /* ستايل القائمة الجانبية (Sidebar) */
+        #sidebar {
+            position: fixed; top: 0; right: -320px; width: 320px; height: 100%;
+            background: rgba(3, 7, 18, 0.98); backdrop-filter: blur(25px);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 2rem 1.5rem;
         }
-        .btn-premium:hover { filter: brightness(1.2); transform: scale(1.05); }
+        #sidebar.active { right: 0; box-shadow: -20px 0 60px rgba(0,0,0,0.8); }
 
-        /* العداد */
-        .timer-unit {
+        .menu-item {
             background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1.5rem;
-            width: 85px; padding: 1rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 0.8rem 1rem; border-radius: 1.2rem;
+            margin-bottom: 0.6rem; transition: 0.3s;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .menu-item:hover { background: rgba(59, 130, 246, 0.1); border-color: var(--accent); transform: translateX(-5px); }
+
+        .top-nav {
+            backdrop-filter: blur(15px);
+            background: rgba(3, 7, 18, 0.6);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: sticky; top: 0; z-index: 100;
+        }
+
+        .user-profile {
+            border: 2px solid rgba(59, 130, 246, 0.5);
+            transition: 0.3s; cursor: pointer;
+        }
+        .user-profile:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+            transform: scale(1.05);
+        }
+
+        .premium-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 2.5rem;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .premium-card:hover {
+            transform: translateY(-12px);
+            border-color: var(--color);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 20px -5px var(--shadow);
+        }
+
+        .hero-title {
+            background: linear-gradient(to bottom, #fff 30%, #6b7280);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn-modern {
+            background: var(--color);
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
     </style>
 </head>
-<body class="p-4 md:p-10">
+<body class="pb-12">
 
-    <header class="max-w-6xl mx-auto text-center py-12">
-        <h1 class="text-6xl md:text-7xl font-black italic bg-gradient-to-b from-white to-gray-500 bg-clip-text text-transparent tracking-tighter">BAC PLUS</h1>
-        <p class="text-blue-400 font-bold mt-2 tracking-[0.2em] uppercase text-sm italic">Premium Study Experience</p>
+    <div id="sidebar">
+        <div class="flex justify-between items-center mb-8 text-white">
+            <span class="text-[10px] font-black text-blue-500 uppercase tracking-[0.2em] italic">لوحة التحكم</span>
+            <button onclick="toggleSidebar()" class="text-gray-500 hover:text-white transition text-2xl">✕</button>
+        </div>
+
+        <div class="mb-8 space-y-4">
+            <div class="bg-gradient-to-r from-yellow-500/10 to-transparent p-4 rounded-2xl border border-yellow-500/20">
+                <p class="text-[9px] text-yellow-500 font-black uppercase mb-1 tracking-tighter text-right">رصيد النقاط</p>
+                <div class="flex items-center gap-2 justify-start">
+                    <span class="text-xl">🪙</span>
+                    <span class="text-xl font-black text-white">1,450</span>
+                </div>
+            </div>
+
+            <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
+                <div class="flex justify-between mb-2">
+                    <p class="text-[9px] text-gray-400 font-black uppercase italic">إنجاز البرنامج الدراسي</p>
+                    <span class="text-[9px] text-blue-400 font-black">42%</span>
+                </div>
+                <div class="w-full bg-gray-800 h-1.5 rounded-full overflow-hidden flex justify-start">
+                    <div class="bg-blue-500 h-full w-[42%] shadow-[0_0_15px_#3b82f6]"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="space-y-2">
+            <a href="index.html" class="menu-item border-blue-500/30 bg-blue-500/5">
+                <span class="text-xl">🏠</span>
+                <div><p class="font-black text-sm text-blue-400">الرئيسية</p></div>
+            </a>
+            <a href="leaderboard.html" class="menu-item">
+                <span class="text-xl">🏆</span>
+                <div><p class="font-black text-sm text-white">المتصدرين</p></div>
+            </a>
+            <a href="daily-check.html" class="menu-item">
+                <span class="text-xl">📅</span>
+                <div><p class="font-black text-sm text-white">دخول يومي</p></div>
+            </a>
+            <a href="quiz.html" class="menu-item">
+                <span class="text-xl">⚡</span>
+                <div><p class="font-black text-sm text-white">كويز سريع</p></div>
+            </a>
+            <a href="calc.html" class="menu-item">
+                <span class="text-xl">🧮</span>
+                <div><p class="font-black text-sm text-white">حساب المعدل</p></div>
+            </a>
+            <a href="coefficients.html" class="menu-item">
+                <span class="text-xl">📊</span>
+                <div><p class="font-black text-sm text-white">معاملات المواد</p></div>
+            </a>
+            <a href="focus.html" class="menu-item border-purple-500/20 group">
+                <span class="text-xl">🎧</span>
+                <div><p class="font-black text-sm text-purple-400">وضع التركيز</p></div>
+            </a>
+        </div>
+    </div>
+
+    <nav class="top-nav px-6 py-4 mb-8">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button onclick="toggleSidebar()" class="flex items-center gap-2 p-2 bg-white/5 rounded-xl hover:bg-blue-600 transition group border border-white/10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+
+            <div class="text-xl font-black italic tracking-tighter text-white">
+                BAC <span class="text-blue-500 underline">PLUS</span>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="text-left hidden md:block">
+                    <p class="text-[10px] text-gray-500 font-bold leading-none uppercase">طالب متميز</p>
+                    <p class="text-xs font-black text-white">مستخدم تلجرام</p>
+                </div>
+                <a href="profile.html" class="user-profile w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center overflow-hidden shadow-lg shadow-blue-500/20">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="max-w-7xl mx-auto text-center mb-16 px-6">
+        <div class="inline-block px-6 py-2 mb-6 border border-blue-500/30 rounded-full bg-blue-500/10 text-center">
+            <span class="text-blue-400 text-xs font-bold tracking-widest uppercase italic">مستقبل الدراسة في الجزائر</span>
+        </div>
+        <h1 class="hero-title text-6xl md:text-9xl font-black italic mb-6 text-center">BAC PLUS</h1>
+        <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto font-bold leading-relaxed italic text-center">
+            مرحباً بك مجدداً! طريقك نحو التميز يبدأ من هنا.
+        </p>
     </header>
 
-    <main class="max-w-6xl mx-auto">
-        
-        <section class="glass-card p-8 mb-12 text-center" style="--color: #3b82f6; --shadow: rgba(59, 130, 246, 0.3);">
-            <h2 class="text-gray-400 font-bold mb-6 text-xs uppercase tracking-widest italic">الموعد الرسمي لبكالوريا 2026</h2>
-            <div class="flex justify-center gap-4" id="timer">
-                <div class="timer-unit"><span id="days" class="text-3xl font-black block">--</span><span class="text-[10px] text-gray-500 uppercase">يوم</span></div>
-                <div class="timer-unit"><span id="hours" class="text-3xl font-black block">--</span><span class="text-[10px] text-gray-500 uppercase">ساعة</span></div>
-                <div class="timer-unit"><span id="minutes" class="text-3xl font-black block">--</span><span class="text-[10px] text-gray-500 uppercase">دقيقة</span></div>
-                <div class="timer-unit"><span id="seconds" class="text-3xl font-black block text-blue-500">--</span><span class="text-[10px] text-gray-400 font-bold uppercase">ثانية</span></div>
+    <main class="max-w-7xl mx-auto px-6">
+        <section class="premium-card p-10 mb-16 text-center" style="--color: #3b82f6; --shadow: rgba(59, 130, 246, 0.2);">
+            <p class="text-gray-500 font-bold mb-8 tracking-[0.2em] uppercase text-xs">الوقت المتبقي // بكالوريا 2026</p>
+            <div class="flex flex-wrap justify-center gap-4 md:gap-8" id="timer">
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-4 min-w-[80px] md:min-w-[110px]">
+                    <span id="days" class="text-3xl md:text-5xl font-black">--</span>
+                    <p class="text-[10px] text-gray-500 mt-2 font-black">يوم</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-4 min-w-[80px] md:min-w-[110px]">
+                    <span id="hours" class="text-3xl md:text-5xl font-black">--</span>
+                    <p class="text-[10px] text-gray-500 mt-2 font-black">ساعة</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-4 min-w-[80px] md:min-w-[110px]">
+                    <span id="minutes" class="text-3xl md:text-5xl font-black">--</span>
+                    <p class="text-[10px] text-gray-500 mt-2 font-black">دقيقة</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-4 min-w-[80px] md:min-w-[110px]">
+                    <span id="seconds" class="text-3xl md:text-5xl font-black text-blue-500">--</span>
+                    <p class="text-[10px] text-gray-400 mt-2 font-black uppercase">ثانية</p>
+                </div>
             </div>
         </section>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-16 italic">
-            
-            <div class="glass-card p-8 text-center" style="--color: #3b82f6; --shadow: rgba(59, 130, 246, 0.3);">
-                <div class="text-5xl mb-4 text-blue-400">🎓</div>
-                <h3 class="text-xl font-black mb-2 italic">الدروس والشعب</h3>
-                <p class="text-gray-500 text-[11px] mb-6 font-bold leading-relaxed">منهاجك الدراسي كامل ومفصل.</p>
-                <a href="divisions.html" class="btn-premium block py-3">دخول القسم</a>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="premium-card p-8 group text-center" style="--color: #3b82f6; --shadow: rgba(59, 130, 246, 0.3);">
+                <div class="text-5xl mb-6 transform transition-transform group-hover:scale-110">🎓</div>
+                <h3 class="text-xl font-black mb-3 italic">الدروس والشعب</h3>
+                <p class="text-gray-500 text-xs mb-8 font-bold italic">منهاج كامل مرتب حسب شعبتك.</p>
+                <a href="divisions.html" class="btn-modern block py-3.5 rounded-2xl font-black text-xs text-white">استكشف</a>
             </div>
 
-            <div class="glass-card p-8 text-center" style="--color: #ef4444; --shadow: rgba(239, 68, 68, 0.3);">
-                <div class="text-5xl mb-4 text-red-500">📺</div>
-                <h3 class="text-xl font-black mb-2 italic">فيديوهات الدراسة</h3>
-                <p class="text-gray-500 text-[11px] mb-6 font-bold leading-relaxed">أقوى قنوات اليوتيوب التعليمية.</p>
-                <a href="videos.html" class="btn-premium block py-3">مشاهدة</a>
+            <div class="premium-card p-8 group text-center" style="--color: #ef4444; --shadow: rgba(239, 68, 68, 0.3);">
+                <div class="text-5xl mb-6 transform transition-transform group-hover:scale-110">📺</div>
+                <h3 class="text-xl font-black mb-3 italic">فيديوهات الدراسة</h3>
+                <p class="text-gray-500 text-xs mb-8 font-bold italic">أقوى الشروحات المرئية التفاعلية.</p>
+                <a href="videos.html" class="btn-modern block py-3.5 rounded-2xl font-black text-xs text-white">شاهد الآن</a>
             </div>
 
-            <div class="glass-card p-8 text-center" style="--color: #10b981; --shadow: rgba(16, 185, 129, 0.3);">
-                <div class="text-5xl mb-4 text-emerald-500">📚</div>
-                <h3 class="text-xl font-black mb-2 italic">الملخصات والكتب</h3>
-                <p class="text-gray-500 text-[11px] mb-6 font-bold leading-relaxed">ملفات PDF مختارة بعناية.</p>
-                <a href="mlokhasat.html" class="btn-premium block py-3">تحميل</a>
+            <div class="premium-card p-8 group text-center" style="--color: #10b981; --shadow: rgba(16, 185, 129, 0.3);">
+                <div class="text-5xl mb-6 transform transition-transform group-hover:scale-110">📚</div>
+                <h3 class="text-xl font-black mb-3 italic">الملخصات والكتب</h3>
+                <p class="text-gray-500 text-xs mb-8 font-bold italic">مكتبة PDF رقمية للمراجعة.</p>
+                <a href="mlokhasat.html" class="btn-modern block py-3.5 rounded-2xl font-black text-xs text-white">تحميل</a>
             </div>
 
-            <div class="glass-card p-8 text-center" style="--color: #facc15; --shadow: rgba(250, 204, 21, 0.3);">
-                <div class="text-5xl mb-4 text-yellow-400">📄</div>
-                <h3 class="text-xl font-black mb-2 italic">بكالوريات سابقة</h3>
-                <p class="text-gray-500 text-[11px] mb-6 font-bold leading-relaxed">مواضيع وحلول رسمية.</p>
-                <a href="bac-subjects.html" class="btn-premium block py-3">تصفح</a>
+            <div class="premium-card p-8 group text-center" style="--color: #facc15; --shadow: rgba(250, 204, 21, 0.3);">
+                <div class="text-5xl mb-6 transform transition-transform group-hover:scale-110">📄</div>
+                <h3 class="text-xl font-black mb-3 italic">بكالوريات سابقة</h3>
+                <p class="text-gray-500 text-xs mb-8 font-bold italic">مواضيع رسمية مع الحلول.</p>
+                <a href="bac-subjects.html" class="btn-modern block py-3.5 rounded-2xl font-black text-xs text-white">تصفح</a>
             </div>
 
-            <div class="glass-card p-8 text-center" style="--color: #a855f7; --shadow: rgba(168, 85, 247, 0.3);">
-                <div class="text-5xl mb-4 text-purple-500">🗓️</div>
-                <h3 class="text-xl font-black mb-2 italic">خطط دراسية</h3>
-                <p class="text-gray-500 text-[11px] mb-6 font-bold leading-relaxed">برامج مراجعة ذكية.</p>
-                <a href="plans.html" class="btn-premium block py-3">ابدأ الآن</a>
+            <div class="premium-card p-8 group text-center" style="--color: #a855f7; --shadow: rgba(168, 85, 247, 0.3);">
+                <div class="text-5xl mb-6 transform transition-transform group-hover:scale-110">🗓️</div>
+                <h3 class="text-xl font-black mb-3 italic">خطط دراسية</h3>
+                <p class="text-gray-500 text-xs mb-8 font-bold italic">جداول زمنية ذكية لتنظيم وقتك.</p>
+                <a href="plans.html" class="btn-modern block py-3.5 rounded-2xl font-black text-xs text-white">خطتي</a>
             </div>
 
-            <div class="glass-card p-8 text-center" style="--color: #f97316; --shadow: rgba(249, 115, 22, 0.3);">
-                <div class="text-5xl mb-4 text-orange-500">👨‍🏫</div>
-                <h3 class="text-xl font-black mb-2 italic">أساتذة المنصة</h3>
-                <p class="text-gray-500 text-[11px] mb-6 font-bold leading-relaxed">طاقمنا التعليمي المتميز.</p>
-                <a href="teachers.html" class="btn-premium block py-3">دخول</a>
+            <div class="premium-card p-8 group text-center" style="--color: #f97316; --shadow: rgba(249, 115, 22, 0.3);">
+                <div class="text-5xl mb-6 transform transition-transform group-hover:scale-110">👨‍🏫</div>
+                <h3 class="text-xl font-black mb-3 italic">أساتذة المنصة</h3>
+                <p class="text-gray-500 text-xs mb-8 font-bold italic">نخبة الكفاءات لمرافقتك.</p>
+                <a href="teachers.html" class="btn-modern block py-3.5 rounded-2xl font-black text-xs text-white">تعرف عليهم</a>
             </div>
 
-            <div class="glass-card p-8 text-center" style="--color: #ec4899; --shadow: rgba(236, 72, 153, 0.3);">
-                <div class="text-5xl mb-4 text-pink-500">🔥</div>
-                <h3 class="text-xl font-black mb-2 italic text-pink-400 underline">اربح نقاط</h3>
-                <p class="text-gray-500 text-[11px] mb-6 font-bold leading-relaxed">تحديات وهدايا للمجتهدين.</p>
-                <a href="points.html" class="btn-premium block py-3">إجمع النقاط</a>
+            <div class="premium-card p-8 group text-center" style="--color: #ec4899; --shadow: rgba(236, 72, 153, 0.3);">
+                <div class="text-5xl mb-6 transform transition-transform group-hover:scale-110">🔥</div>
+                <h3 class="text-xl font-black mb-3 italic">اربح نقاط</h3>
+                <p class="text-gray-500 text-xs mb-8 font-bold italic">تحديات يومية وهدايا قيّمة.</p>
+                <a href="points.html" class="btn-modern block py-3.5 rounded-2xl font-black text-xs text-white">ابدأ الآن</a>
             </div>
 
-            <div class="glass-card p-8 text-center" style="--color: #06b6d4; --shadow: rgba(6, 182, 212, 0.3);">
-                <div class="text-5xl mb-4 text-cyan-400">🤝</div>
-                <h3 class="text-xl font-black mb-2 italic">تواصل معنا</h3>
-                <p class="text-gray-500 text-[11px] mb-6 font-bold leading-relaxed">دعم فني واستفسارات.</p>
-                <a href="tawasal.html" class="btn-premium block py-3">تواصل معنا</a>
+            <div class="premium-card p-8 group text-center" style="--color: #06b6d4; --shadow: rgba(6, 182, 212, 0.3);">
+                <div class="text-5xl mb-6 transform transition-transform group-hover:scale-110">🤝</div>
+                <h3 class="text-xl font-black mb-3 italic">تواصل معنا</h3>
+                <p class="text-gray-500 text-xs mb-8 font-bold italic">نحن هنا لدعمك في كل خطوة.</p>
+                <a href="tawasal.html" class="btn-modern block py-3.5 rounded-2xl font-black text-xs text-white">مراسلة</a>
             </div>
-
         </div>
     </main>
 
-    <footer class="text-center py-10 text-gray-700 font-bold uppercase text-[10px] tracking-[0.3em]">
-        BAC PLUS // PREMIER PLATFORM 2026
+    <footer class="text-center py-20 opacity-30 italic">
+        <p class="text-[10px] font-black tracking-[0.5em] uppercase text-white">BAC PLUS PREMIUM EXPERIENCE // 2026</p>
     </footer>
 
     <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
         const countDownDate = new Date("June 15, 2026 08:00:00").getTime();
-        const updateTimer = setInterval(function() {
+        setInterval(function() {
             const now = new Date().getTime();
             const distance = countDownDate - now;
-
             document.getElementById("days").innerHTML = Math.floor(distance / (1000 * 60 * 60 * 24));
             document.getElementById("hours").innerHTML = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             document.getElementById("minutes").innerHTML = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             document.getElementById("seconds").innerHTML = Math.floor((distance % (1000 * 60)) / 1000);
-
-            if (distance < 0) {
-                clearInterval(updateTimer);
-                document.getElementById("timer").innerHTML = "<h3 class='text-blue-500 font-black'>بالتوفيق في البكالوريا!</h3>";
-            }
         }, 1000);
     </script>
 </body>
