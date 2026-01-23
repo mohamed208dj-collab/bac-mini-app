@@ -1,17 +1,38 @@
-<main class="max-w-2xl mx-auto space-y-6">
-        <div class="subject-card" style="--c: #ca8a04;">
-            <div class="top-line"></div><div class="text-4xl mb-4 text-center">🗣️</div>
-            <h2 class="text-xl font-black text-center">اللغة الثالثة (ألمانية/إسبانية..)</h2>
-            <a href="#" class="btn">دخول</a>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لغات أجنبية | BAC PLUS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #0f172a; color: white; }
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 2rem; transition: 0.3s; }
+        .glass-card:hover { transform: translateY(-10px); border-color: var(--color); box-shadow: 0 0 30px var(--shadow); }
+        .btn-study { background: var(--color); box-shadow: 0 5px 15px var(--shadow); transition: 0.3s; }
+    </style>
+</head>
+<body class="p-6 md:p-12">
+    <header class="max-w-6xl mx-auto flex justify-between items-center mb-16">
+        <h1 class="text-4xl font-black bg-gradient-to-l from-yellow-400 to-orange-300 bg-clip-text text-transparent">شعبة لغات أجنبية</h1>
+        <a href="divisions.html" class="bg-white/10 px-8 py-3 rounded-2xl font-bold border border-white/20">رجوع</a>
+    </header>
+    <main class="max-w-6xl mx-auto">
+        <h2 class="text-2xl font-black mb-8 flex items-center gap-3"><span class="w-3 h-8 bg-yellow-500 rounded-full"></span> اللغات الأساسية</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="glass-card p-8 text-center" style="--color: #eab308; --shadow: rgba(234, 179, 8, 0.3);"><div class="text-5xl mb-4">🌍</div><h3 class="text-xl font-black mb-4">اللغة الثالثة (ألمانية/إسبانية/إيطالية)</h3><a href="#" class="btn-study block py-3 rounded-xl font-bold">تصفح</a></div>
+            <div class="glass-card p-8 text-center" style="--color: #3b82f6; --shadow: rgba(59, 130, 246, 0.3);"><div class="text-5xl mb-4">🇫🇷</div><h3 class="text-xl font-black mb-4">اللغة الفرنسية</h3><a href="#" class="btn-study block py-3 rounded-xl font-bold">تصفح</a></div>
+            <div class="glass-card p-8 text-center" style="--color: #ef4444; --shadow: rgba(239, 68, 68, 0.3);"><div class="text-5xl mb-4">🇬🇧</div><h3 class="text-xl font-black mb-4">اللغة الإنجليزية</h3><a href="#" class="btn-study block py-3 rounded-xl font-bold">تصفح</a></div>
         </div>
-        <div class="subject-card" style="--c: #2563eb;">
-            <div class="top-line"></div><div class="text-4xl mb-4 text-center">🇫🇷</div>
-            <h2 class="text-xl font-black text-center">اللغة الفرنسية</h2>
-            <a href="#" class="btn">دخول</a>
-        </div>
-        <div class="subject-card" style="--c: #dc2626;">
-            <div class="top-line"></div><div class="text-4xl mb-4 text-center">🇬🇧</div>
-            <h2 class="text-xl font-black text-center">اللغة الإنجليزية</h2>
-            <a href="#" class="btn">دخول</a>
+        <h2 class="text-2xl font-black mb-8 flex items-center gap-3"><span class="w-3 h-8 bg-slate-500 rounded-full"></span> المواد المشتركة</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <div class="glass-card p-6 text-center" style="--color: #a855f7;"><div class="text-2xl mb-2">🖋️</div><h4 class="font-bold text-xs mb-2">لغة عربية</h4><a href="#" class="btn-study block py-2 rounded-lg text-xs">دخول</a></div>
+            <div class="glass-card p-6 text-center" style="--color: #f97316;"><div class="text-2xl mb-2">💡</div><h4 class="font-bold text-xs mb-2">فلسفة</h4><a href="#" class="btn-study block py-2 rounded-lg text-xs">دخول</a></div>
+            <div class="glass-card p-6 text-center" style="--color: #06b6d4;"><div class="text-2xl mb-2">🗺️</div><h4 class="font-bold text-xs mb-2">تاريخ/جغرافيا</h4><a href="#" class="btn-study block py-2 rounded-lg text-xs">دخول</a></div>
+            <div class="glass-card p-6 text-center" style="--color: #22c55e;"><div class="text-2xl mb-2">🕌</div><h4 class="font-bold text-xs mb-2">إسلامية</h4><a href="#" class="btn-study block py-2 rounded-lg text-xs">دخول</a></div>
+            <div class="glass-card p-6 text-center" style="--color: #ef4444;"><div class="text-2xl mb-2">🔢</div><h4 class="font-bold text-xs mb-2">رياضيات</h4><a href="#" class="btn-study block py-2 rounded-lg text-xs">دخول</a></div>
         </div>
     </main>
+</body>
+</html>
