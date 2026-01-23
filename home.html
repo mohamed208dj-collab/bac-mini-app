@@ -6,22 +6,26 @@
     <title>منصة BAC PLUS | الرئيسية</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #f1f5f9; }
+        body { font-family: 'Cairo', sans-serif; background-color: #f1f5f9; overflow-x: hidden; }
         .countdown-card { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); }
         .teacher-avatar { 
             border: 3px solid #3b82f6; 
             transition: all 0.3s ease; 
         }
         .teacher-avatar:hover { 
-            transform: scale(1.1); 
+            transform: scale(1.1) rotate(5deg); 
             border-color: #f97316; 
         }
+        .main-card { transition: all 0.3s ease; }
+        .main-card:hover { transform: translateY(-10px); }
     </style>
 </head>
 <body class="bg-slate-50">
 
-    <header class="bg-white shadow-sm p-6 mb-8">
+    <header class="bg-white shadow-sm p-6 mb-8 animate__animated animate__fadeInDown">
         <div class="container mx-auto flex justify-between items-center">
             <h1 class="text-2xl font-black text-blue-600">BAC PLUS</h1>
             <div class="text-sm font-bold bg-blue-100 text-blue-700 px-4 py-2 rounded-full">BAC2026 نجاحك يبدأ من هنا</div>
@@ -30,7 +34,7 @@
 
     <main class="container mx-auto px-6">
         
-        <div class="countdown-card text-white p-8 rounded-[2rem] shadow-2xl mb-12 text-center">
+        <div class="countdown-card text-white p-8 rounded-[2rem] shadow-2xl mb-12 text-center animate__animated animate__zoomIn">
             <h2 class="text-xl mb-6 opacity-90 font-bold">⏳ العد التنازلي لشهادة البكالوريا</h2>
             <div class="flex justify-center gap-4 md:gap-8">
                 <div class="flex flex-col"><span id="days" class="text-4xl md:text-6xl font-black text-blue-400">00</span><span class="text-xs opacity-70">يوم</span></div>
@@ -40,7 +44,7 @@
             </div>
         </div>
 
-        <div class="mb-12">
+        <div class="mb-12 animate__animated animate__fadeInUp animate__delay-1s">
             <h3 class="text-xl font-black mb-6 text-gray-800 border-r-4 border-blue-600 pr-3">👨‍🏫 أساتذة المنصة</h3>
             <div class="flex flex-wrap justify-center gap-6 bg-white p-6 rounded-3xl shadow-sm">
                 <div class="text-center w-24">
@@ -59,73 +63,7 @@
                     <div class="w-16 h-16 md:w-20 md:h-20 mx-auto bg-gray-100 rounded-full mb-2 teacher-avatar flex items-center justify-center text-3xl shadow-inner">👩‍🏫</div>
                     <p class="text-xs md:text-sm font-bold text-gray-700">أ. العربية</p>
                 </div>
-                <div class="text-center w-24">
-                    <div class="w-16 h-16 md:w-20 md:h-20 mx-auto bg-gray-100 rounded-full mb-2 teacher-avatar flex items-center justify-center text-3xl shadow-inner">👩‍🏫</div>
-                    <p class="text-xs md:text-sm font-bold text-gray-700">أ. الفرنسية</p>
-                </div>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-12">
-            
-            <a href="divisions.html" class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all border-b-8 border-blue-500 text-center block">
-                <div class="text-5xl mb-4">📘</div>
-                <h3 class="text-xl font-bold mb-2">الدروس والملخصات</h3>
-                <p class="text-gray-500 text-sm italic">ملخصات حصرية لجميع المواد</p>
-            </a>
-
-            <a href="#" class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all border-b-8 border-green-500 text-center block">
-                <div class="text-5xl mb-4">📜</div>
-                <h3 class="text-xl font-bold mb-2">بكالوريات سابقة</h3>
-                <p class="text-gray-500 text-sm italic">مواضيع رسمية وحلول نموذجية</p>
-            </a>
-
-            <a href="#" class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all border-b-8 border-purple-500 text-center block">
-                <div class="text-5xl mb-4">🎯</div>
-                <h3 class="text-xl font-bold mb-2">خطط الامتياز</h3>
-                <p class="text-gray-500 text-sm italic">خطط تميز و مراجعة مدروسة</p>
-            </a>
-
-            <a href="#" class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all border-b-8 border-red-500 text-center block">
-                <div class="text-5xl mb-4">🧪</div>
-                <h3 class="text-xl font-bold mb-2">امتحانات تجريبية</h3>
-                <p class="text-gray-500 text-sm italic">اختبر مستواك الحقيقي</p>
-            </a>
-
-            <a href="#" class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all border-b-8 border-yellow-500 text-center block">
-                <div class="text-5xl mb-4">🎬</div>
-                <h3 class="text-xl font-bold mb-2">فيديوهات دراسة</h3>
-                <p class="text-gray-500 text-sm italic">شروحات فيديو تفاعلية</p>
-            </a>
-
-            <a href="#" class="bg-blue-600 text-white p-8 rounded-3xl shadow-lg hover:shadow-2xl transition-all text-center block">
-                <div class="text-5xl mb-4">💎</div>
-                <h3 class="text-xl font-bold mb-2">لعبة النقاط</h3>
-                <p class="text-blue-100 text-sm italic">اجمع النقاط واربح جوائز</p>
-            </a>
-        </div>
-    </main>
-
-    <script>
-        function updateTimer() {
-            const eventDate = new Date("June 10, 2026 08:00:00").getTime();
-            const now = new Date().getTime();
-            const diff = eventDate - now;
-
-            if (diff > 0) {
-                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const s = Math.floor((diff % (1000 * 60)) / 1000);
-
-                document.getElementById("days").innerText = d < 10 ? '0'+d : d;
-                document.getElementById("hours").innerText = h < 10 ? '0'+h : h;
-                document.getElementById("minutes").innerText = m < 10 ? '0'+m : m;
-                document.getElementById("seconds").innerText = s < 10 ? '0'+s : s;
-            }
-        }
-        setInterval(updateTimer, 1000);
-        updateTimer();
-    </script>
-</body>
-</html>
+        <div class="grid
