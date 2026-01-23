@@ -3,165 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BAC PLUS | المعدل الفصلي</title>
+    <title>BAC PLUS | الحاسبة الشاملة</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
-        body { font-family: 'Cairo', sans-serif; background-color: #030712; color: #f3f4f6; margin: 0; padding: 15px; overflow-x: hidden; }
+        * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Cairo', sans-serif; background-color: #020617; color: #f8fafc; margin: 0; padding: 10px; }
 
-        /* ستايل الحقول الصغيرة */
-        .sub-input {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            color: white;
+        /* ستايل الجدول الاحترافي */
+        .main-table { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
+        .table-head th { padding: 12px 5px; font-size: 10px; color: #64748b; text-transform: uppercase; font-weight: 900; }
+        
+        .row-card { background: rgba(30, 41, 59, 0.5); backdrop-filter: blur(10px); transition: 0.3s; }
+        .row-card td { padding: 12px 5px; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .row-card td:first-child { border-right: 4px solid var(--br-color); border-top-right-radius: 12px; border-bottom-right-radius: 12px; }
+        .row-card td:last-child { border-top-left-radius: 12px; border-bottom-left-radius: 12px; }
+
+        /* ستايل الإدخال */
+        .cell-input {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            width: 45px;
+            height: 35px;
             text-align: center;
-            font-weight: 700;
-            width: 100%;
-            padding: 8px 0;
+            border-radius: 8px;
+            font-weight: 900;
             font-size: 13px;
             outline: none;
             -webkit-user-select: text !important;
-            user-select: text !important;
         }
-        .sub-input:focus { border-color: var(--br-color); background: rgba(255, 255, 255, 0.08); }
+        .cell-input:focus { border-color: var(--br-color); box-shadow: 0 0 10px var(--br-shadow); }
 
-        .subject-card {
-            background: rgba(17, 24, 39, 0.8);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 24px;
-            padding: 16px;
-            margin-bottom: 15px;
-            transition: 0.3s;
+        .shoba-btn.active { background: var(--br-color); color: white; box-shadow: 0 8px 15px var(--br-shadow); }
+
+        .sticky-footer {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: rgba(2, 6, 23, 0.9);
+            backdrop-filter: blur(15px);
+            padding: 15px; border-top: 1px solid rgba(255,255,255,0.1);
+            z-index: 100;
         }
-
-        .shoba-btn.active { background: var(--br-color); color: white; box-shadow: 0 10px 20px var(--br-shadow); }
-
-        .success-bg { background: linear-gradient(135deg, #059669, #064e3b) !important; }
-        .fail-bg { background: linear-gradient(135deg, #dc2626, #7f1d1d) !important; }
 
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="pb-24">
+<body class="pb-32">
 
-    <div class="flex items-center justify-between mb-6 pt-4 px-2">
-        <a href="home.html" class="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-black uppercase tracking-tighter active:scale-95 transition">خروج</a>
-        <div class="text-center">
-            <h1 class="text-xl font-black italic">المعدل <span class="text-blue-500">الفصلي</span></h1>
-            <p id="branchTitle" class="text-[8px] font-bold text-gray-500 tracking-[0.3em]">اختر الشعبة</p>
-        </div>
-        <div class="w-12"></div>
+    <div class="flex items-center justify-between p-4 mb-4">
+        <a href="home.html" class="w-10 h-10 flex items-center justify-center bg-white/5 rounded-full border border-white/10">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+        </a>
+        <h1 class="text-lg font-black italic">الحساب <span class="text-blue-500">الفصلي</span></h1>
+        <div class="w-10"></div>
     </div>
 
-    <div class="flex overflow-x-auto gap-3 mb-6 pb-2 no-scrollbar px-2">
-        <button onclick="init('science', '#3b82f6')" id="btn-science" class="shoba-btn px-6 py-3 rounded-2xl border border-white/10 bg-white/5 font-black text-xs whitespace-nowrap transition-all">علوم تجريبية</button>
-        <button onclick="init('math', '#ef4444')" id="btn-math" class="shoba-btn px-6 py-3 rounded-2xl border border-white/10 bg-white/5 font-black text-xs whitespace-nowrap transition-all">رياضيات</button>
-        <button onclick="init('adab', '#a855f7')" id="btn-adab" class="shoba-btn px-6 py-3 rounded-2xl border border-white/10 bg-white/5 font-black text-xs whitespace-nowrap transition-all">أدب وفلسفة</button>
+    <div class="flex overflow-x-auto gap-2 mb-6 no-scrollbar px-2">
+        <button onclick="render('science', '#3b82f6')" id="btn-science" class="shoba-btn px-5 py-2.5 rounded-xl border border-white/5 bg-white/5 font-black text-[10px] whitespace-nowrap">علوم تجريبية</button>
+        <button onclick="render('math', '#ef4444')" id="btn-math" class="shoba-btn px-5 py-2.5 rounded-xl border border-white/5 bg-white/5 font-black text-[10px] whitespace-nowrap">رياضيات</button>
+        <button onclick="render('tech', '#f97316')" id="btn-tech" class="shoba-btn px-5 py-2.5 rounded-xl border border-white/5 bg-white/5 font-black text-[10px] whitespace-nowrap">تقني رياضي</button>
+        <button onclick="render('adab', '#a855f7')" id="btn-adab" class="shoba-btn px-5 py-2.5 rounded-xl border border-white/5 bg-white/5 font-black text-[10px] whitespace-nowrap">أدب وفلسفة</button>
+        <button onclick="render('lang', '#10b981')" id="btn-lang" class="shoba-btn px-5 py-2.5 rounded-xl border border-white/5 bg-white/5 font-black text-[10px] whitespace-nowrap">لغات أجنبية</button>
+        <button onclick="render('gestion', '#facc15')" id="btn-gestion" class="shoba-btn px-5 py-2.5 rounded-xl border border-white/5 bg-white/5 font-black text-[10px] whitespace-nowrap">تسيير واقتصاد</button>
     </div>
 
-    <div id="cardsGrid"></div>
+    <div class="px-2 overflow-x-auto">
+        <table class="main-table">
+            <thead class="table-head">
+                <tr>
+                    <th class="text-right">المادة</th>
+                    <th>تقويم</th>
+                    <th>فرض</th>
+                    <th>اختبار</th>
+                    <th>معدل</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
 
-    <div class="fixed bottom-4 left-4 right-4 z-50">
-        <div id="resultPanel" class="p-5 rounded-[2rem] bg-gray-900 border border-white/10 shadow-2xl transition-all duration-500 overflow-hidden">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-[8px] font-black uppercase opacity-50 mb-1">المعدل العام</p>
-                    <h2 id="finalGpa" class="text-4xl font-black italic tracking-tighter">00.00</h2>
+    <div class="sticky-footer">
+        <div class="flex justify-between items-center max-w-md mx-auto">
+            <div>
+                <p class="text-[8px] font-black opacity-40 uppercase tracking-widest">المعدل العام</p>
+                <div class="flex items-baseline gap-1">
+                    <span id="finalGpa" class="text-4xl font-black italic">00.00</span>
+                    <span id="statusLabel" class="text-[9px] font-bold text-gray-500 uppercase">--</span>
                 </div>
-                <div id="statusBadge" class="px-5 py-2 rounded-full bg-white/5 border border-white/10 text-[10px] font-black italic">انتظار البيانات</div>
             </div>
+            <div id="resultCircle" class="w-12 h-12 rounded-full border-4 border-white/10 flex items-center justify-center font-black text-[10px]">0%</div>
         </div>
     </div>
 
     <script>
         const db = {
-            science: { n: "علوم تجريبية", c: "#3b82f6", s: "rgba(59, 130, 246, 0.4)", m: [{n:"علوم الطبيعة", c:6}, {n:"الفيزياء", c:5}, {n:"الرياضيات", c:5}, {n:"اللغة العربية", c:3}, {n:"إسلامية", c:2}] },
-            math: { n: "رياضيات", c: "#ef4444", s: "rgba(239, 68, 68, 0.4)", m: [{n:"الرياضيات", c:7}, {n:"الفيزياء", c:6}, {n:"اللغة العربية", c:3}] },
-            adab: { n: "أدب وفلسفة", c: "#a855f7", s: "rgba(168, 85, 247, 0.4)", m: [{n:"فلسفة", c:6}, {n:"اللغة العربية", c:6}, {n:"اجتماعيات", c:4}] }
+            science: {c:'#3b82f6', s:'rgba(59,130,246,0.3)', m:[{n:"علوم",c:6},{n:"فيزياء",c:5},{n:"رياضيات",c:5},{n:"عربية",c:3},{n:"اجتماعيات",c:2},{n:"فرنسية",c:2},{n:"إنجليزية",c:2},{n:"إسلامية",c:2},{n:"فلسفة",c:2},{n:"رياضة",c:1}]},
+            math: {c:'#ef4444', s:'rgba(239,68,68,0.3)', m:[{n:"رياضيات",c:7},{n:"فيزياء",c:6},{n:"عربية",c:3},{n:"علوم",c:2},{n:"اجتماعيات",c:2},{n:"فلسفة",c:2},{n:"فرنسية",c:2},{n:"إنجليزية",c:2},{n:"إسلامية",c:2},{n:"رياضة",c:1}]},
+            tech: {c:'#f97316', s:'rgba(249,115,22,0.3)', m:[{n:"هندسة",c:7},{n:"رياضيات",c:6},{n:"فيزياء",c:6},{n:"عربية",c:3},{n:"اجتماعيات",c:2},{n:"فلسفة",c:2},{n:"فرنسية",c:2},{n:"إنجليزية",c:2},{n:"إسلامية",c:2},{n:"رياضة",c:1}]},
+            adab: {c:'#a855f7', s:'rgba(168,85,247,0.3)', m:[{n:"فلسفة",c:6},{n:"عربية",c:6},{n:"اجتماعيات",c:4},{n:"فرنسية",c:3},{n:"إنجليزية",c:3},{n:"إسلامية",c:2},{n:"رياضيات",c:2},{n:"رياضة",c:1}]},
+            lang: {c:'#10b981', s:'rgba(16,185,129,0.3)', m:[{n:"عربية",c:5},{n:"فرنسية",c:4},{n:"إنجليزية",c:5},{n:"لغة 3",c:5},{n:"اجتماعيات",c:2},{n:"فلسفة",c:2},{n:"رياضيات",c:2},{n:"إسلامية",c:2},{n:"رياضة",c:1}]},
+            gestion: {c:'#facc15', s:'rgba(250,204,21,0.3)', m:[{n:"محاسبة",c:6},{n:"اقتصاد",c:5},{n:"رياضيات",c:5},{n:"قانون",c:2},{n:"عربية",c:3},{n:"اجتماعيات",c:4},{n:"فرنسية",c:2},{n:"إنجليزية",c:2},{n:"فلسفة",c:2},{n:"إسلامية",c:2},{n:"رياضة",c:1}]}
         };
 
-        function init(key, color) {
+        function render(key, color) {
             document.documentElement.style.setProperty('--br-color', color);
             document.documentElement.style.setProperty('--br-shadow', db[key].s);
-            document.getElementById('branchTitle').innerText = "شعبة " + db[key].n;
             document.querySelectorAll('.shoba-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('btn-'+key).classList.add('active');
 
-            const grid = document.getElementById('cardsGrid');
-            grid.innerHTML = '';
-            db[key].m.forEach((s, idx) => {
-                grid.innerHTML += `
-                    <div class="subject-card border-r-4" style="border-color: ${color}">
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="font-black text-sm">${s.n} <span class="text-[10px] text-gray-500">(معامل ${s.c})</span></span>
-                            <span id="sub-res-${idx}" class="text-xs font-black text-blue-400">00.00</span>
-                        </div>
-                        <div class="grid grid-cols-3 gap-2">
-                            <div>
-                                <p class="text-[8px] font-bold text-center mb-1 text-gray-400">تقويم</p>
-                                <input type="number" oninput="val(this); calc();" class="sub-input t-in" data-idx="${idx}" placeholder="--">
-                            </div>
-                            <div>
-                                <p class="text-[8px] font-bold text-center mb-1 text-gray-400">فرض</p>
-                                <input type="number" oninput="val(this); calc();" class="sub-input f-in" data-idx="${idx}" placeholder="--">
-                            </div>
-                            <div>
-                                <p class="text-[8px] font-bold text-center mb-1 text-gray-400">اختبار</p>
-                                <input type="number" oninput="val(this); calc();" class="sub-input x-in" data-idx="${idx}" placeholder="--">
-                            </div>
-                        </div>
-                    </div>`;
+            const body = document.getElementById('tableBody');
+            body.innerHTML = '';
+            db[key].m.forEach((s, i) => {
+                body.innerHTML += `
+                    <tr class="row-card">
+                        <td class="text-right pr-3 font-bold text-xs">${s.n} <small class="opacity-40">x${s.c}</small></td>
+                        <td class="text-center"><input type="number" oninput="v(this);calc();" class="cell-input t-in" data-c="${s.c}" placeholder="-"></td>
+                        <td class="text-center"><input type="number" oninput="v(this);calc();" class="cell-input f-in" placeholder="-"></td>
+                        <td class="text-center"><input type="number" oninput="v(this);calc();" class="cell-input x-in" placeholder="-"></td>
+                        <td class="text-center font-black text-xs text-blue-400 sub-avg">0.00</td>
+                    </tr>`;
             });
             calc();
         }
 
-        function val(el) {
-            if (parseFloat(el.value) > 20) el.value = 20;
-            if (parseFloat(el.value) < 0) el.value = 0;
-        }
+        function v(el) { if(parseFloat(el.value)>20) el.value=20; if(parseFloat(el.value)<0) el.value=0; }
 
         function calc() {
-            let totalPoints = 0, totalCoeffs = 0, filledCount = 0;
-            const branch = document.getElementById('branchTitle').innerText.replace("شعبة ", "");
-            const key = Object.keys(db).find(k => db[k].n === branch);
-            
-            db[key].m.forEach((s, idx) => {
-                const t = parseFloat(document.querySelectorAll('.t-in')[idx].value) || 0;
-                const f = parseFloat(document.querySelectorAll('.f-in')[idx].value) || 0;
-                const x = parseFloat(document.querySelectorAll('.x-in')[idx].value) || 0;
+            let sumPts = 0, sumCfs = 0;
+            const rows = document.querySelectorAll('.row-card');
+            rows.forEach(row => {
+                const t = parseFloat(row.querySelector('.t-in').value) || 0;
+                const f = parseFloat(row.querySelector('.f-in').value) || 0;
+                const x = parseFloat(row.querySelector('.x-in').value) || 0;
+                const c = parseFloat(row.querySelector('.t-in').dataset.c);
                 
-                // معدل المادة = ((تقويم + فرض)/2 + اختبار*2) / 3
-                let subAvg = (((t + f) / 2) + (x * 2)) / 3;
-                document.getElementById(`sub-res-${idx}`).innerText = subAvg.toFixed(2);
-                
-                totalPoints += (subAvg * s.c);
-                totalCoeffs += s.c;
-                if(document.querySelectorAll('.x-in')[idx].value !== "") filledCount++;
+                let m = (((t + f) / 2) + (x * 2)) / 3;
+                row.querySelector('.sub-avg').innerText = m.toFixed(2);
+                sumPts += (m * c); sumCfs += c;
             });
 
-            const gpa = totalPoints / totalCoeffs;
-            document.getElementById('finalGpa').innerText = gpa.toFixed(2);
-            
-            const panel = document.getElementById('resultPanel');
-            const badge = document.getElementById('statusBadge');
+            const gpa = sumPts / sumCfs;
+            const finalGpaEl = document.getElementById('finalGpa');
+            finalGpaEl.innerText = gpa.toFixed(2);
 
-            if (filledCount === 0) {
-                panel.className = "p-5 rounded-[2rem] bg-gray-900 border border-white/10 transition-all";
-                badge.innerText = "انتظار البيانات";
-            } else if (gpa >= 10) {
-                panel.className = "p-5 rounded-[2rem] success-bg transition-all shadow-2xl shadow-emerald-900/40";
-                badge.innerText = "ناجح ✅";
-            } else {
-                panel.className = "p-5 rounded-[2rem] fail-bg transition-all shadow-2xl shadow-red-900/40";
-                badge.innerText = "راسب ❌";
+            const label = document.getElementById('statusLabel');
+            const circle = document.getElementById('resultCircle');
+            
+            if(gpa >= 10) { 
+                finalGpaEl.style.color = "#10b981"; 
+                label.innerText = "ناجح ✅";
+                circle.style.borderColor = "#10b981";
+            } else { 
+                finalGpaEl.style.color = "#ef4444"; 
+                label.innerText = "راسب ❌";
+                circle.style.borderColor = "#ef4444";
             }
+            circle.innerText = Math.round((gpa/20)*100) + "%";
         }
 
-        window.onload = () => init('science', '#3b82f6');
+        window.onload = () => render('science', '#3b82f6');
     </script>
 </body>
 </html>
