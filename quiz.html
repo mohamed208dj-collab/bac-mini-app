@@ -1,1 +1,45 @@
+<div id="sidebar" class="fixed top-0 right-[-320px] w-[300px] h-full bg-[#030712]/95 backdrop-blur-xl border-l border-white/10 z-[1000] transition-all duration-500 cubic-bezier(0.4, 0, 0.2, 1) p-6">
+    
+    <div class="flex justify-between items-center mb-10">
+        <div class="text-xl font-black italic text-white">BAC <span class="text-blue-500">PLUS</span></div>
+        <button onclick="toggleSidebar()" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 text-gray-400 hover:text-white transition">✕</button>
+    </div>
 
+    <div class="space-y-3">
+        <a href="home.html" class="menu-item active-link">
+            <span class="icon">🏠</span>
+            <span class="text-sm font-bold">الرئيسية</span>
+        </a>
+
+        <a href="leaderboard.html" class="menu-item">
+            <span class="icon">🏆</span>
+            <span class="text-sm font-bold">قائمة المتصدرين</span>
+        </a>
+
+        <a href="daily-check.html" class="menu-item">
+            <span class="icon">📅</span>
+            <span class="text-sm font-bold">التحضير اليومي</span>
+        </a>
+
+        <a href="quiz.html" class="menu-item">
+            <span class="icon">⚡</span>
+            <span class="text-sm font-bold">تحدي الذكاء (Quiz)</span>
+        </a>
+
+        <div class="my-6 border-t border-white/5"></div> <a href="profile.html" class="menu-item">
+            <span class="icon">👤</span>
+            <span class="text-sm font-bold">الملف الشخصي</span>
+        </a>
+
+        <a href="settings.html" class="menu-item text-red-400/70 hover:text-red-400">
+            <span class="icon">⚙️</span>
+            <span class="text-sm font-bold">الإعدادات</span>
+        </a>
+    </div>
+
+    <div class="absolute bottom-6 left-0 w-full text-center">
+        <p class="text-[9px] text-gray-600 font-black tracking-widest uppercase italic">Version 2.0.1 // Beta</p>
+    </div>
+</div>
+
+<div id="overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[999] hidden opacity-0 transition-opacity duration-500"></div>
