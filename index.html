@@ -3,66 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مرحباً بك في BAC PLUS</title>
+    <title>BAC PLUS | جاري التحميل</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; background: #0f172a; overflow: hidden; }
-        .progress-bar { animation: load 10s linear forwards; }
-        @keyframes load { 0% { width: 0%; } 100% { width: 100%; } }
-        .welcome-text { animation: pulseText 2s infinite; }
-        @keyframes pulseText { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        body { 
+            font-family: 'Cairo', sans-serif; 
+            background: #030712; 
+            color: white; 
+            overflow: hidden; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* حاوية النصوص */
+        .content-box { text-align: center; max-width: 90%; }
+
+        /* أنيميشن الظهور والاختفاء */
+        .step {
+            display: none;
+            animation: slideInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .step.active { display: block; }
+        .step.exit { animation: slideOutUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(40px); filter: blur(10px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        @keyframes slideOutUp {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-40px); filter: blur(10px); }
+        }
+
+        /* شريط الوقت العلوي */
+        .timer-bar {
+            position: absolute; top: 0; left: 0; height: 3px;
+            background: linear-gradient(to right, #3b82f6, #60a5fa);
+            width: 0%; z-index: 100;
+        }
+
+        .bg-glow {
+            position: absolute; width: 500px; height: 500px; 
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+            filter: blur(80px); border-radius: 50%; z-index: -1;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 99px;
+            color: #3b82f6;
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
     </style>
 </head>
-<body class="flex items-center justify-center h-screen text-white">
+<body>
 
-    <div class="max-w-md w-full px-8 text-center">
-        <div class="mb-6">
-            <h1 class="text-2xl font-bold text-blue-400 welcome-text">مرحباً بك في منصة</h1>
-            <h2 class="text-5xl font-black mt-2 tracking-tighter">BAC <span class="text-blue-500">PLUS</span></h2>
+    <div class="bg-glow"></div>
+    <div class="timer-bar" id="progressBar"></div>
+
+    <div class="content-box">
+        <div class="step active" id="step1">
+            <span class="badge">المحتوى التعليمي</span>
+            <div class="text-6xl mb-6">📚</div>
+            <h1 class="text-4xl font-black mb-4 italic leading-tight">دروس وملخصات ممتازة</h1>
+            <p class="text-gray-500 font-bold italic uppercase tracking-tighter">معدة خصيصاً للتفوق في البكالوريا</p>
         </div>
 
-        <div class="relative inline-block mb-10">
-            <img src="images/splash.jpg" alt="Splash" class="w-64 h-64 object-cover rounded-full border-8 border-slate-800 shadow-2xl mx-auto">
-            <div class="absolute inset-0 rounded-full border-4 border-blue-500 border-t-transparent animate-spin"></div>
+        <div class="step" id="step2">
+            <span class="badge">التعلم المرئي</span>
+            <div class="text-6xl mb-6">📽️</div>
+            <h1 class="text-4xl font-black mb-4 italic leading-tight">فيديوهات دراسية بدقة عالية</h1>
+            <p class="text-gray-500 font-bold italic uppercase tracking-tighter">شروحات مفصلة لكل المحاور</p>
         </div>
 
-        <div class="relative pt-1">
-            <div class="flex mb-2 items-center justify-between">
-                <div>
-                    <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200">
-                        جاري التحميل
-                    </span>
-                </div>
-                <div class="text-right">
-                    <span id="percent" class="text-xs font-semibold inline-block text-blue-400">0%</span>
-                </div>
-            </div>
-            <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-slate-700">
-                <div class="progress-bar shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
-            </div>
+        <div class="step" id="step3">
+            <span class="badge">التنظيم الذكي</span>
+            <div class="text-6xl mb-6">📅</div>
+            <h1 class="text-4xl font-black mb-4 italic leading-tight">خطط دراسية ذكية</h1>
+            <p class="text-gray-500 font-bold italic uppercase tracking-tighter">نظم وقتك كالمحترفين</p>
         </div>
-        
-        <p class="text-slate-500 text-sm mt-4 italic">استعد للتميز.. لحظات وننطلق</p>
+
+        <div class="step" id="step4">
+            <span class="badge">المرافقة</span>
+            <div class="text-6xl mb-6">👨‍🏫</div>
+            <h1 class="text-4xl font-black mb-4 italic leading-tight">متابعة من أساتذة مختصين وذو كفاءة</h1>
+            <p class="text-gray-500 font-bold italic uppercase tracking-tighter">نحن معك حتى باب الجامعة</p>
+        </div>
     </div>
 
     <script>
-        // 1. تحديث النسبة المئوية وهمياً لغاية 100%
-        let count = 0;
-        const interval = setInterval(() => {
-            count++;
-            if (count <= 100) {
-                document.getElementById('percent').innerText = count + "%";
+        const steps = document.querySelectorAll('.step');
+        const progressBar = document.getElementById('progressBar');
+        let currentStep = 0;
+        const durationPerStep = 2500; // مدة عرض كل جملة (2.5 ثانية)
+
+        function nextStep() {
+            // إضافة أنيميشن الخروج للمرحلة الحالية
+            steps[currentStep].classList.add('exit');
+            
+            setTimeout(() => {
+                steps[currentStep].classList.remove('active', 'exit');
+                currentStep++;
+
+                if (currentStep < steps.length) {
+                    // إظهار المرحلة التالية
+                    steps[currentStep].classList.add('active');
+                    startBar();
+                } else {
+                    // الانتقال النهائي
+                    finish();
+                }
+            }, 800); // مدة أنيميشن الخروج
+        }
+
+        function startBar() {
+            progressBar.style.transition = 'none';
+            progressBar.style.width = '0%';
+            setTimeout(() => {
+                progressBar.style.transition = `width ${durationPerStep}ms linear`;
+                progressBar.style.width = '100%';
+            }, 50);
+        }
+
+        function finish() {
+            document.body.style.opacity = '0';
+            document.body.style.transition = '1s';
+            setTimeout(() => {
+                window.location.href = "home.html";
+            }, 1000);
+        }
+
+        // البداية
+        startBar();
+        const mainInterval = setInterval(() => {
+            if (currentStep < steps.length) {
+                nextStep();
             } else {
-                clearInterval(interval);
+                clearInterval(mainInterval);
             }
-        }, 100); // 100 ميلي ثانية * 100 = 10 ثواني
-
-        // 2. التحويل التلقائي لصفحة home.html بعد 10 ثواني بالضبط
-        setTimeout(function() {
-            window.location.href = "home.html";
-        }, 10000);
+        }, durationPerStep + 800);
     </script>
-
 </body>
 </html>
