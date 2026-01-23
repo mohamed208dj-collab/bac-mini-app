@@ -1,1 +1,104 @@
-focus.html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BAC PLUS | معاملات المواد</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* 1. منع كل أنواع القوائم والتحديد (الحماية القصوى) */
+        * {
+            -webkit-touch-callout: none !important;
+            -webkit-user-select: none !important;
+            user-select: none !important;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        body { 
+            font-family: 'Cairo', sans-serif; 
+            background-color: #030712; 
+            color: #f3f4f6;
+            margin: 0;
+            padding: 20px;
+            background-image: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
+        }
+
+        /* 2. تصميم الجدول الزجاجي */
+        .glass-card {
+            background: rgba(17, 24, 39, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .table-row {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.3s;
+        }
+
+        .table-row:last-child { border-bottom: none; }
+
+        /* 3. تأثير عند الضغط */
+        .table-row:active {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .badge-coeff {
+            background: linear-gradient(45deg, #3b82f6, #2563eb);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+    </style>
+</head>
+<body class="pb-10">
+
+    <div class="flex items-center justify-between mb-10">
+        <a href="home.html" class="w-10 h-10 flex items-center justify-center bg-white/5 rounded-full border border-white/10">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </a>
+        <div class="text-center">
+            <h1 class="text-xl font-black italic tracking-tighter">معاملات المواد</h1>
+            <p class="text-[9px] text-blue-500 font-bold uppercase tracking-widest">شعبة علوم تجريبية</p>
+        </div>
+        <div class="w-10"></div>
+    </div>
+
+    <div class="glass-card">
+        <div class="grid grid-cols-2 bg-white/5 p-4 border-bottom border-white/10">
+            <span class="text-xs font-black text-gray-400 uppercase italic text-right">المادة</span>
+            <span class="text-xs font-black text-gray-400 uppercase italic text-center">المعامل</span>
+        </div>
+
+        <div class="flex flex-col">
+            <div class="grid grid-cols-2 p-5 items-center table-row">
+                <div class="flex items-center gap-4">
+                    <span class="text-2xl">🧬</span>
+                    <span class="font-bold text-sm">علوم الطبيعة</span>
+                </div>
+                <div class="flex justify-center">
+                    <span class="badge-coeff w-8 h-8 flex items-center justify-center rounded-lg font-black text-white">6</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 p-5 items-center table-row">
+                <div class="flex items-center gap-4">
+                    <span class="text-2xl">🧪</span>
+                    <span class="font-bold text-sm">فيزياء</span>
+                </div>
+                <div class="flex justify-center">
+                    <span class="badge-coeff w-8 h-8 flex items-center justify-center rounded-lg font-black text-white">5</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 p-5 items-center table-row">
+                <div class="flex items-center gap-4">
+                    <span class="text-2xl">📐</span>
+                    <span class="font-bold text-sm">رياضيات</span>
+                </div>
+                <div class="flex justify-center">
+                    <span class="badge-coeff w-8 h-8 flex items-center justify-center rounded-lg font-black text-white">5
