@@ -66,4 +66,49 @@
             </div>
         </div>
 
-        <div class="grid
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-12 animate__animated animate__fadeInUp animate__delay-1s">
+            
+            <a href="divisions.html" class="main-card bg-white p-8 rounded-3xl shadow-sm hover:shadow-xl border-b-8 border-blue-500 text-center block">
+                <div class="text-5xl mb-4">📘</div>
+                <h3 class="text-xl font-bold mb-2">الدروس والملخصات</h3>
+                <p class="text-gray-500 text-sm italic">ملخصات حصرية لجميع المواد</p>
+            </a>
+
+            <a href="#" class="main-card bg-white p-8 rounded-3xl shadow-sm hover:shadow-xl border-b-8 border-green-500 text-center block">
+                <div class="text-5xl mb-4">📜</div>
+                <h3 class="text-xl font-bold mb-2">بكالوريات سابقة</h3>
+                <p class="text-gray-500 text-sm italic">مواضيع رسمية وحلول نموذجية</p>
+            </a>
+
+            <a href="#" class="main-card bg-white p-8 rounded-3xl shadow-sm hover:shadow-xl border-b-8 border-purple-500 text-center block">
+                <div class="text-5xl mb-4">🎯</div>
+                <h3 class="text-xl font-bold mb-2">خطط الامتياز</h3>
+                <p class="text-gray-500 text-sm italic">خطط تميز و مراجعة مدروسة</p>
+            </a>
+
+            <a href="#" class="main-card bg-blue-600 text-white p-8 rounded-3xl shadow-lg hover:shadow-2xl text-center block">
+                <div class="text-5xl mb-4">💎</div>
+                <h3 class="text-xl font-bold mb-2">لعبة النقاط</h3>
+                <p class="text-blue-100 text-sm italic">اجمع النقاط واربح جوائز</p>
+            </a>
+        </div>
+    </main>
+
+    <script>
+        function updateTimer() {
+            const eventDate = new Date("June 10, 2026 08:00:00").getTime();
+            const now = new Date().getTime();
+            const diff = eventDate - now;
+
+            if (diff > 0) {
+                document.getElementById("days").innerText = Math.floor(diff / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+                document.getElementById("hours").innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+                document.getElementById("minutes").innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+                document.getElementById("seconds").innerText = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
+            }
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+    </script>
+</body>
+</html>
