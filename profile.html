@@ -8,83 +8,88 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Cairo', sans-serif; background-color: #020617; color: #fff; padding: 20px; }
-        .glass-card { background: rgba(17, 24, 39, 0.6); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.05); border-radius: 35px; }
-        .tg-btn { background: #24A1DE; transition: 0.3s; box-shadow: 0 10px 20px rgba(36, 161, 222, 0.2); }
-        .tg-btn:active { transform: scale(0.95); }
+        .glass-card { background: rgba(17, 24, 39, 0.6); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.05); border-radius: 35px; position: relative; overflow: hidden; }
+        .tg-badge { background: #24A1DE; color: white; padding: 2px 10px; border-radius: 8px; font-size: 10px; font-weight: bold; }
+        #user-img { transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen">
 
-    <div class="glass-card w-full max-w-sm p-8 text-center shadow-2xl border-t border-blue-500/20">
-        
-        <div id="active-profile" class="hidden">
-            <div class="relative inline-block mb-4">
-                <img id="user-img" src="" class="w-24 h-24 rounded-[2.5rem] border-4 border-blue-500/30 object-cover mx-auto">
-                <div class="absolute -bottom-1 -right-1 bg-blue-500 p-1.5 rounded-lg border-2 border-[#020617]">
-                    <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18.717-.962 4.084-1.362 5.441-.168.568-.42.758-.622.777-.444.041-.781-.293-1.21-.573-.672-.438-1.052-.712-1.704-1.14-.754-.495-.265-.767.165-1.214.112-.117 2.062-1.892 2.1-2.063.004-.022.009-.105-.041-.149-.049-.044-.122-.03-.175-.018-.075.016-1.272.808-3.583 2.37-.339.233-.646.347-.92.34-.303-.008-.885-.173-1.318-.314-.53-.172-.953-.264-.916-.557.019-.153.23-.309.632-.468 2.47-1.076 4.116-1.786 4.938-2.13 2.344-.98 2.83-1.15 3.148-1.156.07 0 .227.017.329.1.086.07.11.164.119.231.01.074.012.213 0 .272z"/></svg>
-                </div>
+    <div class="glass-card w-full max-w-sm p-8 text-center shadow-2xl">
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-blue-400"></div>
+
+        <div class="relative inline-block mb-6 mt-4">
+            <div id="img-loader" class="absolute inset-0 bg-blue-500/20 animate-pulse rounded-[2.5rem]"></div>
+            <img id="user-img" src="https://ui-avatars.com/api/?name=User&background=1e293b&color=fff" 
+                 class="w-24 h-24 rounded-[2.5rem] border-4 border-blue-500/20 object-cover relative z-10"
+                 onload="document.getElementById('img-loader').style.display='none'">
+        </div>
+
+        <div class="mb-8">
+            <div class="flex items-center justify-center gap-2 mb-2">
+                <h2 id="display-name" class="text-2xl font-black italic">تحميل...</h2>
+                <span class="tg-badge">Telegram</span>
             </div>
-            <h2 id="display-name" class="text-xl font-black mb-1">...</h2>
-            <p class="text-blue-500 text-[10px] font-black uppercase tracking-[0.2em] mb-6">Verified Student</p>
+            <p id="user-status" class="text-gray-500 text-[10px] font-bold tracking-widest uppercase">جاري التحقق من الهوية...</p>
         </div>
 
-        <div id="login-section">
-            <div class="w-20 h-20 bg-white/5 rounded-[2rem] mx-auto flex items-center justify-center text-4xl mb-6 shadow-inner">👤</div>
-            <h3 class="text-sm font-black mb-2 italic">حساب غير مفعّل</h3>
-            <p class="text-[10px] text-gray-500 mb-8 px-4 font-bold">اضغط على الزر أدناه لربط حساب التلغرام الخاص بك وإظهار هويتك الدراسية.</p>
-            
-            <button onclick="startTelegramAuth()" class="tg-btn w-full py-4 rounded-2xl flex items-center justify-center gap-3 text-xs font-black mb-4">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18.717-.962 4.084-1.362 5.441-.168.568-.42.758-.622.777-.444.041-.781-.293-1.21-.573-.672-.438-1.052-.712-1.704-1.14-.754-.495-.265-.767.165-1.214.112-.117 2.062-1.892 2.1-2.063.004-.022.009-.105-.041-.149-.049-.044-.122-.03-.175-.018-.075.016-1.272.808-3.583 2.37-.339.233-.646.347-.92.34-.303-.008-.885-.173-1.318-.314-.53-.172-.953-.264-.916-.557.019-.153.23-.309.632-.468 2.47-1.076 4.116-1.786 4.938-2.13 2.344-.98 2.83-1.15 3.148-1.156.07 0 .227.017.329.1.086.07.11.164.119.231.01.074.012.213 0 .272z"/></svg>
-                تفعيل عبر تليجرام
-            </button>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3 mb-8">
+        <div class="grid grid-cols-2 gap-4 mb-8">
             <div class="bg-white/5 p-4 rounded-3xl border border-white/5">
-                <p class="text-[9px] text-gray-400 font-black mb-1">النقاط</p>
+                <p class="text-[9px] text-gray-400 font-bold mb-1">النقاط</p>
                 <h4 id="pts" class="text-xl font-black text-yellow-400">0</h4>
             </div>
             <div class="bg-white/5 p-4 rounded-3xl border border-white/5">
-                <p class="text-[9px] text-gray-400 font-black mb-1">المعرف</p>
-                <h4 id="uid" class="text-[10px] font-mono text-blue-400">#---</h4>
+                <p class="text-[9px] text-gray-400 font-bold mb-1">المعرف</p>
+                <h4 id="uid" class="text-[10px] font-mono text-blue-400 italic">#BAC-000</h4>
             </div>
         </div>
 
-        <a href="home.html" class="block w-full py-4 bg-white/5 rounded-2xl text-[10px] font-black border border-white/5 hover:bg-white/10 transition">الرجوع للرئيسية</a>
+        <div class="space-y-3">
+            <a href="home.html" class="block w-full py-4 bg-blue-600 hover:bg-blue-700 rounded-2xl text-xs font-black shadow-lg shadow-blue-600/20 transition">العودة للرئيسية</a>
+            
+            <button id="retry-btn" onclick="location.reload()" class="text-[10px] text-gray-500 font-bold hover:text-white underline">
+                لم يظهر اسمي؟ تحديث الصفحة
+            </button>
+        </div>
     </div>
 
     <script>
-        // دالة لبدء عملية الدخول
-        function startTelegramAuth() {
-            // هنا في الحقيقة نفتح نافذة التلغرام
-            // لكن للتدريب، سنحاكي النجاح فوراً ببيانات تجريبية
-            alert("سيتم الآن نقلك لتأكيد الهوية عبر تلجرام...");
-            
-            // محاكاة البيانات التي تأتي من تلجرام
-            const mockUser = {
-                first_name: "مستخدم تليجرام",
-                photo_url: "https://ui-avatars.com/api/?name=Telegram+User&background=3b82f6&color=fff&size=128",
-                id: "123456"
-            };
-
-            localStorage.setItem('userName', mockUser.first_name);
-            localStorage.setItem('userPhoto', mockUser.photo_url);
+        // دالة يتم استدعاؤها من الـ Widget (إذا كان موجوداً في الهوم)
+        function onTelegramAuth(user) {
+            localStorage.setItem('userName', user.first_name + (user.last_name ? ' ' + user.last_name : ''));
+            localStorage.setItem('userPhoto', user.photo_url);
             localStorage.setItem('is_logged_in', 'true');
-            
-            location.reload(); // تحديث الصفحة لإظهار البروفايل
+            updateUI();
         }
 
-        window.onload = function() {
-            const logged = localStorage.getItem('is_logged_in');
-            if (logged === 'true') {
-                document.getElementById('login-section').classList.add('hidden');
-                document.getElementById('active-profile').classList.remove('hidden');
-                document.getElementById('display-name').innerText = localStorage.getItem('userName');
-                document.getElementById('user-img').src = localStorage.getItem('userPhoto');
+        function updateUI() {
+            // جلب البيانات المخزنة
+            const name = localStorage.getItem('userName');
+            const photo = localStorage.getItem('userPhoto');
+            const points = localStorage.getItem('userPoints') || 0;
+            const id = localStorage.getItem('bac_user_id') || 'BAC-NEW';
+
+            // إذا وجدنا الاسم، نعرضه فوراً
+            if (name) {
+                document.getElementById('display-name').innerText = name;
+                document.getElementById('user-status').innerText = "طالب متميز متصل";
+                document.getElementById('user-status').classList.add('text-green-500');
+            } else {
+                document.getElementById('display-name').innerText = "مستخدم تلجرام";
+                document.getElementById('user-status').innerText = "تأكد من فتح الموقع عبر البوت";
             }
-            document.getElementById('pts').innerText = localStorage.getItem('userPoints') || 0;
-            document.getElementById('uid').innerText = localStorage.getItem('bac_user_id') || '#NEW';
-        };
+
+            // إذا وجدنا الصورة، نعرضها
+            if (photo) {
+                document.getElementById('user-img').src = photo;
+            }
+
+            document.getElementById('pts').innerText = points;
+            document.getElementById('uid').innerText = "#" + id;
+        }
+
+        // تشغيل التحديث عند فتح الصفحة
+        window.onload = updateUI;
     </script>
 </body>
 </html>
