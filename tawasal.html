@@ -1,74 +1,129 @@
-<div id="contact" class="page px-6 pt-4 animate-fade-in pb-28">
+<div id="contact-section" class="bac-terminal">
     
-    <div class="relative py-12 mb-8 overflow-hidden rounded-[40px] border border-white/5 bg-[#020617]">
-        <div class="absolute -top-10 -left-10 w-40 h-40 bg-blue-600/20 blur-[60px]"></div>
-        <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-cyan-400/20 blur-[60px]"></div>
-        
-        <div class="relative z-10 text-center px-4">
-            <h1 class="text-4xl font-[900] italic tracking-tighter text-white">
-                DIRECT <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 drop-shadow-[0_0_15px_rgba(34,211,238,0.8)]">ACCESS</span>
-            </h1>
-            <p class="text-[10px] font-black text-gray-500 uppercase tracking-[0.5em] mt-3">تواصل مباشرة مع طاقم المنصة</p>
+    <div class="nav-back" onclick="hideContactPage()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+            <path d="M15 19l-7-7 7-7"/>
+        </svg>
+    </div>
+
+    <div class="hero-section fade-in">
+        <h1 class="main-logo">BAC <span class="neon-text">PLUS</span></h1>
+        <div class="glow-line"></div>
+    </div>
+
+    <div onclick="contactAction('TEAM_USER')" class="action-btn team-btn fade-in">
+        <div class="btn-inner">
+            <span class="btn-label">مراسلة فريق العمل</span>
+            <div class="icon-circle">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.13 7.19c-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.05-.21.05-.36-.05-.18-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+            </div>
         </div>
     </div>
 
-    <div class="relative group mb-10">
-        <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-400 rounded-[35px] blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
-        
-        <div class="relative bg-[#020617] rounded-[32px] p-8 border border-white/10 flex flex-col items-center text-center">
-            <div class="relative mb-6">
-                <div class="absolute inset-0 bg-blue-500 blur-2xl opacity-20 animate-pulse"></div>
-                <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-3xl flex items-center justify-center shadow-[0_0_30px_rgba(59,130,246,0.5)] rotate-3 group-hover:rotate-0 transition-transform duration-500">
-                    <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
-                </div>
-            </div>
-
-            <h3 class="text-xl font-black italic text-white mb-2">TELEGRAM SUPPORT</h3>
-            <p class="text-xs text-gray-400 font-bold mb-8 leading-relaxed">راسلنا الآن للحصول على دعم فوري، حل المشاكل التقنية، أو للاستفسار عن الدورات.</p>
-
-            <a href="https://t.me/your_tele" class="w-full bg-white text-black py-5 rounded-[22px] font-[900] italic text-xs tracking-widest uppercase hover:bg-blue-500 hover:text-white transition-all duration-300 shadow-[0_15px_40px_rgba(0,0,0,0.4)] flex items-center justify-center gap-3 active:scale-95">
-                OPEN TELEGRAM
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-            </a>
+    <div class="dev-wrapper fade-in">
+        <div onclick="contactAction('DEV_USER')" class="dev-crystal-btn">
+            <div class="shimmer"></div>
+            <svg class="dev-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
+            </svg>
+            <span class="dev-name">مراسلة المطور</span>
         </div>
     </div>
 
-    <div class="glass-card p-8 border border-white/5 relative overflow-hidden group">
-        <div class="absolute top-0 right-0 w-24 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-50"></div>
-        
-        <h4 class="text-[9px] font-black text-blue-400 uppercase tracking-[0.4em] mb-8 italic">Quick Message Protocol</h4>
-        
-        <div class="space-y-6">
-            <div class="relative border-r-2 border-blue-600 pr-4">
-                <input type="text" id="name" required class="w-full bg-transparent py-2 text-sm font-bold text-white focus:outline-none placeholder:text-gray-700" placeholder="الإسم الكامل">
-            </div>
-
-            <div class="relative border-r-2 border-white/10 pr-4 focus-within:border-cyan-400 transition-all">
-                <textarea id="msg" rows="2" class="w-full bg-transparent py-2 text-sm font-bold text-white focus:outline-none placeholder:text-gray-700 resize-none" placeholder="اكتب استفسارك هنا..."></textarea>
-            </div>
-
-            <button onclick="sendToTelegram()" class="w-full py-4 bg-blue-600/10 border border-blue-500/20 text-blue-400 rounded-2xl font-black italic text-[10px] tracking-widest hover:bg-blue-600 hover:text-white transition-all active:scale-95">
-                SEND TO SYSTEM
-            </button>
-        </div>
-    </div>
-
-    <div class="mt-12 flex justify-center gap-10 opacity-30 group-hover:opacity-100 transition-opacity">
-        <span class="text-[10px] font-black italic hover:text-pink-500 transition-colors cursor-pointer">INSTAGRAM</span>
-        <span class="text-[10px] font-black italic hover:text-red-600 transition-colors cursor-pointer">YOUTUBE</span>
-        <span class="text-[10px] font-black italic hover:text-blue-400 transition-colors cursor-pointer">FACEBOOK</span>
-    </div>
 </div>
 
-<script>
-    function sendToTelegram() {
-        const name = document.getElementById('name').value;
-        if(!name) return showNotify("يرجى كتابة الإسم أولاً", "⚠️");
-        
-        showNotify("جاري التحويل إلى تليجرام...", "✈️");
-        setTimeout(() => {
-            // هنا تقدر تخليه يفتح رابط تليجرام مع رسالة جاهزة
-            window.open(`https://t.me/your_tele?text=إسمي: ${name}`);
-        }, 1500);
+<style>
+    .bac-terminal {
+        background: #02040a !important;
+        min-height: 100vh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        font-family: 'Cairo', sans-serif;
+        color: white;
+        direction: rtl;
+        z-index: 10000;
     }
+
+    /* العودة */
+    .nav-back {
+        position: absolute;
+        top: 40px;
+        right: 30px;
+        cursor: pointer;
+        transition: 0.3s;
+        padding: 10px;
+    }
+    .nav-back svg { width: 28px; height: 28px; color: #64748b; }
+    .nav-back:active { transform: scale(0.8); }
+
+    /* الهيدر */
+    .hero-section { text-align: center; margin-bottom: 60px; }
+    .main-logo { font-size: 3rem; font-weight: 1000; font-style: italic; margin: 0; letter-spacing: -2px; }
+    .neon-text { color: #2563eb; }
+    .glow-line { width: 40px; height: 4px; background: #2563eb; margin: 15px auto; border-radius: 10px; }
+
+    /* زر فريق العمل */
+    .team-btn {
+        width: 85%;
+        max-width: 340px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        padding: 15px 20px;
+        margin-bottom: 40px;
+        cursor: pointer;
+    }
+    .btn-inner { display: flex; justify-content: space-between; align-items: center; }
+    .btn-label { font-weight: 800; font-size: 13px; }
+    .icon-circle { width: 38px; height: 38px; background: #2563eb; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+    .icon-circle svg { width: 18px; height: 18px; color: white; }
+
+    /* زر المطور: الفخامة المركزة */
+    .dev-wrapper { position: relative; display: flex; align-items: center; justify-content: center; }
+    
+    .dev-crystal-btn {
+        position: relative;
+        width: 140px; height: 140px;
+        background: #020617;
+        border: 2px solid #3b82f6;
+        border-radius: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+        cursor: pointer;
+        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .dev-crystal-btn:active { transform: scale(0.9); }
+
+    .dev-svg { width: 45px; height: 45px; color: #3b82f6; margin-bottom: 10px; }
+    .dev-name { font-weight: 900; font-size: 10px; color: white; letter-spacing: 1px; text-transform: uppercase; }
+
+    /* لمعة خفيفة */
+    .shimmer {
+        position: absolute;
+        top: -100%; left: -100%; width: 200%; height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.05), transparent);
+        transform: rotate(45deg);
+        animation: shine 5s infinite;
+    }
+
+    @keyframes shine { 0% { top: -100%; left: -100%; } 100% { top: 100%; left: 100%; } }
+    
+    .fade-in { animation: fadeInUp 0.6s forwards; opacity: 0; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+
+<script>
+    function contactAction(type) {
+        const u = { 'TEAM_USER': 'TEAM_USER', 'DEV_USER': 'DEV_USER' };
+        window.open(`https://t.me/${u[type]}`, '_blank');
+    }
+    function hideContactPage() { document.getElementById('contact-section').style.display = 'none'; }
 </script>
