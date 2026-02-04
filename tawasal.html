@@ -1,10 +1,10 @@
 <div id="contact-section" class="bac-terminal">
     
-    <div class="nav-back" onclick="hideContactPage()">
+    <a href="index.html" class="nav-back">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
             <path d="M15 19l-7-7 7-7"/>
         </svg>
-    </div>
+    </a>
 
     <div class="hero-section fade-in">
         <h1 class="main-logo">BAC <span class="neon-text">PLUS</span></h1>
@@ -20,12 +20,6 @@
         </div>
     </div>
 
-    <div class="dev-wrapper fade-in">
-        <div onclick="contactAction('DEV_USER')" class="dev-crystal-btn">
-            <div class="shimmer"></div>
-            </div>
-    </div>
-
 </div>
 
 <style>
@@ -38,6 +32,7 @@
         align-items: center;
         justify-content: center;
         position: fixed;
+        top: 0; left: 0;
         font-family: 'Cairo', sans-serif;
         color: white;
         direction: rtl;
@@ -51,8 +46,10 @@
         cursor: pointer;
         transition: 0.3s;
         padding: 10px;
+        text-decoration: none; /* نحي الخط اللي تحت الرابط */
     }
     .nav-back svg { width: 28px; height: 28px; color: #64748b; }
+    .nav-back:hover svg { color: #2563eb; }
     .nav-back:active { transform: scale(0.8); }
 
     .hero-section { text-align: center; margin-bottom: 60px; }
@@ -67,52 +64,23 @@
         border: 1px solid rgba(255, 255, 255, 0.05);
         border-radius: 20px;
         padding: 15px 20px;
-        margin-bottom: 60px;
         cursor: pointer;
+        transition: 0.3s;
     }
+    .team-btn:hover { background: rgba(37, 99, 235, 0.1); border-color: #2563eb; }
     .btn-inner { display: flex; justify-content: space-between; align-items: center; }
     .btn-label { font-weight: 800; font-size: 13px; }
     .icon-circle { width: 38px; height: 38px; background: #2563eb; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
     .icon-circle svg { width: 18px; height: 18px; color: white; }
 
-    /* زر المطور: الصمت الفخم */
-    .dev-wrapper { position: relative; }
-    
-    .dev-crystal-btn {
-        position: relative;
-        width: 120px; height: 120px;
-        background: #020617;
-        border: 3px solid #3b82f6;
-        border-radius: 40px;
-        overflow: hidden;
-        box-shadow: 0 0 30px rgba(59, 130, 246, 0.2), inset 0 0 15px rgba(59, 130, 246, 0.1);
-        cursor: pointer;
-        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    .dev-crystal-btn:active { 
-        transform: scale(0.9) rotate(5deg); 
-        box-shadow: 0 0 50px rgba(59, 130, 246, 0.5);
-    }
-
-    .shimmer {
-        position: absolute;
-        top: -100%; left: -100%; width: 200%; height: 200%;
-        background: linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-        transform: rotate(45deg);
-        animation: shine 4s infinite linear;
-    }
-
-    @keyframes shine { 0% { top: -100%; left: -100%; } 100% { top: 100%; left: 100%; } }
-    
     .fade-in { animation: fadeInUp 0.6s forwards; opacity: 0; }
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 
 <script>
     function contactAction(type) {
-        const u = { 'TEAM_USER': 'TEAM_USER', 'DEV_USER': 'DEV_USER' };
-        window.open(`https://t.me/${u[type]}`, '_blank');
+        // حط يوزر نيم التيليجرام تاعك هنا
+        const usernames = { 'TEAM_USER': 'BAC_PLUS_TEAM' }; 
+        window.open(`https://t.me/${usernames[type]}`, '_blank');
     }
-    function hideContactPage() { document.getElementById('contact-section').style.display = 'none'; }
 </script>
