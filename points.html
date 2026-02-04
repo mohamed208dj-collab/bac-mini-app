@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -6,54 +5,63 @@
     <title>BAC PLUS | مركز المكافآت</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    
     <style>
         * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; box-sizing: border-box; }
-        body { font-family: 'Cairo', sans-serif; background-color: #020617; color: #fff; padding: 15px; }
+        body { font-family: 'Cairo', sans-serif; background-color: #020617; color: #fff; padding: 15px; overflow-x: hidden; }
 
-        /* ستايل العجلة */
-        #wheel { transition: transform 3s cubic-bezier(0.15, 0, 0.15, 1); filter: drop-shadow(0 0 25px rgba(59, 130, 246, 0.3)); }
-        .pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 20px solid #ef4444; z-index: 50; }
+        /* زر العودة */
+        .nav-back { position: absolute; top: 20px; right: 20px; cursor: pointer; z-index: 100; transition: 0.3s; text-decoration: none; }
+        .nav-back svg { width: 28px; height: 28px; color: #64748b; }
+        .nav-back:hover svg { color: #3b82f6; }
 
-        /* ستايل المهام */
+        /* العجلة - التوقيت لازم يوافق الـ setTimeout */
+        #wheel { transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1); filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.2)); }
+        .pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #ef4444; z-index: 50; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
+
         .quest-item { background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; padding: 14px; margin-bottom: 10px; transition: 0.3s; cursor: pointer; }
         .quest-item.completed { opacity: 0.3; pointer-events: none; border-color: #10b981; filter: grayscale(1); }
 
-        /* التنبيهات */
         #customAlert { display: none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 200; padding: 12px 25px; border-radius: 15px; font-weight: 900; font-size: 13px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 
-        /* Modal */
         #taskModal { display: none; background: rgba(2, 6, 23, 0.98); backdrop-filter: blur(20px); z-index: 100; }
-        .opt-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 14px; border-radius: 15px; width: 100%; text-align: right; font-weight: 700; margin-bottom: 8px; transition: 0.2s; }
-        .opt-btn:active { background: #3b82f6; }
+        .opt-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 14px; border-radius: 15px; width: 100%; text-align: right; font-weight: 700; margin-bottom: 8px; transition: 0.2s; color: white; }
     </style>
 </head>
 <body class="pb-10">
 
     <div id="customAlert"></div>
 
-    <div class="flex items-center justify-between mb-8 pt-4">
+    <a href="home.html" class="nav-back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+            <path d="M15 19l-7-7 7-7"/>
+        </svg>
+    </a>
+
+    <div class="flex items-center justify-between mb-8 pt-4 px-2">
         <div class="flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 px-5 py-2 rounded-2xl shadow-inner">
             <span class="text-yellow-400">⭐</span>
             <span id="score" class="font-black text-xl">0</span>
         </div>
         <div class="text-left">
-            <h1 class="text-lg font-black italic">BAC <span class="text-blue-500">PLUS</span></h1>
-            <p class="text-[8px] text-gray-500 font-bold uppercase tracking-widest text-left">Rewards Center</p>
+            <h1 class="text-lg font-black italic uppercase">BAC <span class="text-blue-500">Plus</span></h1>
+            <p class="text-[8px] text-gray-500 font-bold tracking-widest">REWARDS CENTER</p>
         </div>
     </div>
 
     <div class="text-center mb-10">
-        <div class="relative w-64 h-64 mx-auto mb-6">
+        <div class="relative w-64 h-64 mx-auto mb-8">
             <div class="pointer"></div>
             <canvas id="wheel" width="256" height="256"></canvas>
         </div>
-        <button id="spinBtn" onclick="spin()" class="bg-blue-600 px-10 py-3 rounded-2xl font-black text-xs shadow-lg active:scale-95 transition">تدوير العجلة اليومي</button>
+        <button id="spinBtn" onclick="spin()" class="bg-blue-600 px-10 py-4 rounded-2xl font-black text-xs shadow-lg active:scale-95 transition-all border-b-4 border-blue-800">تدوير العجلة اليومي</button>
     </div>
 
     <div class="px-2">
-        <h3 class="text-xs font-black opacity-50 mb-4 tracking-[0.2em] uppercase flex justify-between">
+        <h3 class="text-[10px] font-black opacity-50 mb-4 tracking-[0.2em] uppercase flex justify-between items-center">
             <span>المهام التعليمية اليومية</span>
-            <span class="text-blue-500">7 مهام</span>
+            <span class="text-blue-500 bg-blue-500/10 px-2 py-1 rounded-lg">7 مهام</span>
         </h3>
         <div id="tasksList"></div>
     </div>
@@ -67,16 +75,9 @@
     </div>
 
     <script>
-        // --- منطق تصفير النقاط لأول مرة ---
-        if (localStorage.getItem('firstLaunch') === null) {
-            localStorage.setItem('userPoints', '0');
-            localStorage.setItem('firstLaunch', 'done');
-        }
-        
         let points = parseInt(localStorage.getItem('userPoints')) || 0;
         document.getElementById('score').innerText = points;
 
-        // --- العجلة ---
         const canvas = document.getElementById('wheel');
         const ctx = canvas.getContext('2d');
         const sectors = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -98,21 +99,31 @@
                 showAlert("عد غداً للمحاولة ثانية!", "#ef4444");
                 return;
             }
-            const btn = document.getElementById('spinBtn'); btn.disabled = true;
-            const deg = Math.floor(Math.random() * 360) + 2160; 
-            canvas.style.transform = `rotate(${deg}deg)`;
+            
+            const btn = document.getElementById('spinBtn');
+            btn.disabled = true;
+            
+            const extraDeg = Math.floor(Math.random() * 360);
+            const totalDeg = 3600 + extraDeg; // 10 دورات + الزاوية العشوائية
+            
+            canvas.style.transform = `rotate(${totalDeg}deg)`;
 
             setTimeout(() => {
-                const actualDeg = deg % 360;
-                const idx = sectors.length - 1 - Math.floor(((actualDeg + 18) % 360) / (360 / sectors.length));
-                addPoints(sectors[idx]);
+                // التصحيح التقني للحساب:
+                const actualDeg = extraDeg % 360;
+                const sectorAngle = 360 / sectors.length;
+                // حساب الفائز بناءً على موقع السهم (Top = 270 deg)
+                const index = Math.floor(((360 - actualDeg + 270) % 360) / sectorAngle);
+                const winValue = sectors[index];
+
+                addPoints(winValue);
                 localStorage.setItem('lastSpin', new Date().toDateString());
-                showAlert(`مبروك! ربحت ${sectors[idx]} نقطة`, "#10b981");
-                btn.innerText = "انتهت اللفة";
-            }, 3000);
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+                showAlert(`مبروك! ربحت ${winValue} نقطة`, "#10b981");
+                btn.innerText = "تمت اللفة اليومية";
+            }, 4000);
         }
 
-        // --- المهام (كل مهمة بـ 1 نقطة) ---
         const bank = [
             {id:1, s:"عربية", q:"ما هو جمع 'حليب'؟", o:["أحلبة", "لا يوجد", "حلبات"], a:1},
             {id:2, s:"رياضيات", q:"مشتق x² هو:", o:["x", "2x", "1"], a:1},
@@ -132,7 +143,7 @@
                     <div class="quest-item ${done ? 'completed' : ''}" onclick="openTask(${t.id})">
                         <div class="flex justify-between items-center">
                             <div><h4 class="text-xs font-black">سؤال في الـ ${t.s}</h4><p class="text-[9px] text-gray-500">أجب لتربح نقطة واحدة</p></div>
-                            <span class="text-blue-400 font-black">+1</span>
+                            <span class="text-blue-400 font-black">${done ? '✓' : '+1'}</span>
                         </div>
                     </div>`;
             });
@@ -153,11 +164,11 @@
         function checkTask(id, chosen, correct) {
             document.getElementById('taskModal').style.display = 'none';
             if(chosen === correct) {
-                addPoints(1); // نقطة واحدة فقط كما طلبت
+                addPoints(1);
                 localStorage.setItem(`task_${id}_${new Date().toDateString()}`, true);
                 showAlert("صحيح! +1 نقطة 🌟", "#10b981");
             } else {
-                showAlert("خاطئ! حاول في مادة أخرى", "#ef4444");
+                showAlert("إجابة خاطئة! حاول لاحقاً", "#ef4444");
             }
             loadTasks();
         }
@@ -170,10 +181,8 @@
 
         function showAlert(msg, color) {
             const alert = document.getElementById('customAlert');
-            alert.innerText = msg;
-            alert.style.backgroundColor = color;
-            alert.style.display = 'block';
-            setTimeout(() => { alert.style.display = 'none'; }, 2500);
+            alert.innerText = msg; alert.style.backgroundColor = color; alert.style.display = 'block';
+            setTimeout(() => alert.style.display = 'none', 3000);
         }
 
         drawWheel(); loadTasks();
