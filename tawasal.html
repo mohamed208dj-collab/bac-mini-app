@@ -1,10 +1,10 @@
 <div id="contact-section" class="bac-terminal">
     
-    <div class="nav-back" onclick="backToHome()">
+    <a href="home.html" class="nav-back">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
             <path d="M15 19l-7-7 7-7"/>
         </svg>
-    </div>
+    </a>
 
     <div class="hero-section fade-in">
         <h1 class="main-logo">BAC <span class="neon-text">PLUS</span></h1>
@@ -22,20 +22,7 @@
 
 </div>
 
-<script>
-    // الدالة المعدلة لترجعك لـ home.html
-    function backToHome() {
-        window.location.href = "home.html";
-    }
-
-    function contactAction(type) {
-        const u = { 'TEAM_USER': 'BAC_PLUS_TEAM' }; 
-        window.open(`https://t.me/${u[type]}`, '_blank');
-    }
-</script>
-
 <style>
-    /* ... (نفس الستايل اللي بعثتهولك قبل) ... */
     .bac-terminal {
         background: #02040a !important;
         min-height: 100vh;
@@ -51,16 +38,47 @@
         direction: rtl;
         z-index: 10000;
     }
-    .nav-back { position: absolute; top: 40px; right: 30px; cursor: pointer; transition: 0.3s; padding: 10px; }
+
+    .nav-back {
+        position: absolute;
+        top: 40px;
+        right: 30px;
+        cursor: pointer;
+        transition: 0.3s;
+        padding: 10px;
+        text-decoration: none; /* باش ما يجيش سطر تحت السهم */
+    }
     .nav-back svg { width: 28px; height: 28px; color: #64748b; }
     .nav-back:hover svg { color: #2563eb; }
+    .nav-back:active { transform: scale(0.8); }
+
     .hero-section { text-align: center; margin-bottom: 60px; }
     .main-logo { font-size: 3rem; font-weight: 1000; font-style: italic; margin: 0; letter-spacing: -2px; }
     .neon-text { color: #2563eb; }
     .glow-line { width: 40px; height: 4px; background: #2563eb; margin: 15px auto; border-radius: 10px; }
-    .team-btn { width: 85%; max-width: 340px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; padding: 15px 20px; cursor: pointer; }
+
+    .team-btn {
+        width: 85%;
+        max-width: 340px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        padding: 15px 20px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .team-btn:hover { background: rgba(37, 99, 235, 0.1); border-color: #2563eb; }
     .btn-inner { display: flex; justify-content: space-between; align-items: center; }
+    .btn-label { font-weight: 800; font-size: 13px; }
     .icon-circle { width: 38px; height: 38px; background: #2563eb; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+
     .fade-in { animation: fadeInUp 0.6s forwards; opacity: 0; }
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 </style>
+
+<script>
+    function contactAction(type) {
+        const u = { 'TEAM_USER': 'BAC_PLUS_TEAM' }; // حط معرف التيليجرام الحقيقي هنا
+        window.open(`https://t.me/${u[type]}`, '_blank');
+    }
+</script>
