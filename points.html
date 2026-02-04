@@ -18,7 +18,7 @@
             background-image: radial-gradient(circle at top right, rgba(59, 130, 246, 0.1), transparent);
         }
 
-        /* زر العودة الجديد (عائم في الأسفل) */
+        /* زر العودة العائم */
         .floating-back { 
             position: fixed; 
             bottom: 30px; 
@@ -28,24 +28,21 @@
             background: #2563eb; 
             border-radius: 20px; 
             display: flex; 
-            items-center; 
+            align-items: center; 
             justify-content: center; 
             box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4); 
             z-index: 1000; 
             transition: 0.3s;
             text-decoration: none;
         }
-        .floating-back:active { transform: scale(0.85) rotate(-10deg); }
+        .floating-back:active { transform: scale(0.85); }
 
         /* العجلة */
-        #wheel { 
-            transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1); 
-            filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.3));
-        }
+        #wheel { transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1); filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.3)); }
         .wheel-container { position: relative; padding: 10px; border-radius: 50%; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.05); }
         .pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid #ef4444; z-index: 50; }
 
-        /* ستايل المهام الملونة */
+        /* بطاقات المهام */
         .quest-card { 
             background: rgba(255, 255, 255, 0.03); 
             border: 1px solid rgba(255, 255, 255, 0.08); 
@@ -60,10 +57,9 @@
             overflow: hidden;
         }
         .quest-card::before { content: ''; position: absolute; left: 0; top: 0; width: 4px; height: 100%; background: var(--m-color); }
-        .quest-card:active { transform: scale(0.97); background: rgba(255, 255, 255, 0.07); }
         .quest-card.completed { opacity: 0.4; filter: grayscale(0.8); pointer-events: none; }
 
-        #customAlert { display: none; position: fixed; top: 30px; left: 50%; transform: translateX(-50%); z-index: 2000; padding: 15px 30px; border-radius: 20px; font-weight: 900; box-shadow: 0 15px 40px rgba(0,0,0,0.6); animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+        #customAlert { display: none; position: fixed; top: 30px; left: 50%; transform: translateX(-50%); z-index: 2000; padding: 15px 30px; border-radius: 20px; font-weight: 900; box-shadow: 0 15px 40px rgba(0,0,0,0.6); animation: bounceIn 0.5s ease; }
         @keyframes bounceIn { from { opacity: 0; transform: translate(-50%, -50px); } }
 
         #taskModal { display: none; background: rgba(2, 6, 23, 0.95); backdrop-filter: blur(15px); z-index: 5000; }
@@ -74,45 +70,34 @@
     <div id="customAlert"></div>
 
     <a href="home.html" class="floating-back">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M19 12H5M12 19l-7-7 7-7"/>
-        </svg>
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
     </a>
 
-    <div class="flex items-center justify-between mb-10 pt-4">
+    <div class="flex items-center justify-between mb-10 pt-4 px-2">
         <div class="bg-blue-600/20 border border-blue-500/30 px-6 py-3 rounded-2xl flex items-center gap-3">
             <span class="text-2xl">⭐</span>
-            <span id="score" class="font-black text-2xl tracking-tighter text-blue-400">0</span>
+            <span id="score" class="font-black text-2xl text-blue-400">0</span>
         </div>
-        <div class="text-left">
-            <h1 class="text-xl font-black italic text-white uppercase tracking-tighter">BAC <span class="text-blue-500">Plus</span></h1>
-            <div class="h-1 w-8 bg-blue-500 ml-auto rounded-full"></div>
-        </div>
+        <div class="text-left font-black italic">BAC <span class="text-blue-500">Plus</span></div>
     </div>
 
     <div class="text-center mb-12">
-        <div class="wheel-container w-72 h-72 mx-auto mb-8 flex items-center justify-center">
+        <div class="wheel-container w-64 h-64 mx-auto mb-8 flex items-center justify-center">
             <div class="pointer"></div>
             <canvas id="wheel" width="260" height="260"></canvas>
         </div>
-        <button id="spinBtn" onclick="spin()" class="bg-blue-600 w-full max-w-xs py-5 rounded-[2rem] font-black text-sm shadow-[0_15px_30px_rgba(37,99,235,0.3)] border-b-4 border-blue-800 active:border-b-0 active:translate-y-1 transition-all">
-            جرب حظك اليومي
-        </button>
+        <button id="spinBtn" onclick="spin()" class="bg-blue-600 w-full max-w-xs py-4 rounded-[2rem] font-black text-sm border-b-4 border-blue-800 active:border-0 transition-all">تدوير العجلة اليومي</button>
     </div>
 
     <div class="px-1">
-        <h3 class="text-[11px] font-black text-gray-500 mb-5 tracking-[0.2em] uppercase flex items-center gap-2">
-            <span class="w-2 h-2 bg-blue-500 rounded-full animate-ping"></span>
-            المهام اليومية المتاحة
-        </h3>
+        <h3 class="text-[11px] font-black text-gray-500 mb-5 tracking-[0.2em] uppercase">المهام التعليمية اليومية</h3>
         <div id="tasksList"></div>
     </div>
 
     <div id="taskModal" class="fixed inset-0 flex items-center justify-center p-6">
         <div class="w-full max-w-sm bg-slate-900 border border-white/10 p-10 rounded-[3rem] text-center shadow-2xl">
-            <div id="mSubjectIcon" class="text-4xl mb-4">📚</div>
-            <h4 id="mSubject" class="text-xs font-black text-blue-500 mb-2 tracking-widest uppercase">--</h4>
-            <p id="mQuestion" class="text-lg font-bold mb-8 leading-snug">--</p>
+            <h4 id="mSubject" class="text-xs font-black text-blue-500 mb-2 uppercase tracking-widest">--</h4>
+            <p id="mQuestion" class="text-lg font-bold mb-8">--</p>
             <div id="mOptions" class="space-y-3"></div>
         </div>
     </div>
@@ -121,11 +106,11 @@
         let points = parseInt(localStorage.getItem('userPoints')) || 0;
         document.getElementById('score').innerText = points;
 
+        // رسم العجلة (نفس المنطق السابق)
         const canvas = document.getElementById('wheel');
         const ctx = canvas.getContext('2d');
         const sectors = [1, 5, 2, 10, 3, 5, 4, 1, 2, 5];
         const colors = ['#1e293b', '#3b82f6', '#1e293b', '#3b82f6', '#1e293b', '#3b82f6', '#1e293b', '#3b82f6', '#1e293b', '#ef4444'];
-
         function drawWheel() {
             const arc = (2 * Math.PI) / sectors.length;
             sectors.forEach((s, i) => {
@@ -139,21 +124,19 @@
 
         function spin() {
             if(localStorage.getItem('lastSpin') === new Date().toDateString()) {
-                showAlert("عد غداً للمحاولة! 🛑", "#ef4444"); return;
+                showAlert("عد غداً للمحاولة ثانية!", "#ef4444"); return;
             }
-            const btn = document.getElementById('spinBtn'); btn.disabled = true; btn.style.opacity = "0.5";
+            const btn = document.getElementById('spinBtn'); btn.disabled = true;
             const extraDeg = Math.floor(Math.random() * 360);
             const totalDeg = 3600 + extraDeg;
             canvas.style.transform = `rotate(${totalDeg}deg)`;
-
             setTimeout(() => {
                 const actualDeg = extraDeg % 360;
                 const index = Math.floor(((360 - actualDeg + 270) % 360) / (360 / sectors.length));
-                const winValue = sectors[index];
-                addPoints(winValue);
+                addPoints(sectors[index]);
                 localStorage.setItem('lastSpin', new Date().toDateString());
-                confetti({ particleCount: 200, spread: 80, origin: { y: 0.7 } });
-                showAlert(`مبروك! ربحت ${winValue} نقطة ✨`, "#10b981");
+                confetti({ particleCount: 150 });
+                showAlert(`ربحت ${sectors[index]} نقطة! ✨`, "#10b981");
                 btn.innerText = "عد غداً";
             }, 4000);
         }
@@ -161,28 +144,22 @@
         const bank = [
             {id:1, s:"عربية", q:"ما هو جمع 'حليب'؟", o:["أحلبة", "لا يوجد", "حلبات"], a:1, c:"#ef4444", i:"📖"},
             {id:2, s:"رياضيات", q:"مشتق x² هو:", o:["x", "2x", "1"], a:1, c:"#3b82f6", i:"📐"},
-            {id:3, s:"إنجليزي", q:"Opposite of 'Fast'?", o:["Slow", "Quick", "Smart"], a:0, c:"#facc15", i:"🇬🇧"},
-            {id:4, s:"إسلامية", q:"كم عدد سور القرآن؟", o:["110", "114", "120"], a:1, c:"#10b981", i:"🌙"},
-            {id:5, s:"تاريخ", q:"اندلاع الثورة كان في:", o:["1954", "1962", "1945"], a:0, c:"#8b5cf6", i:"🇩🇿"},
-            {id:6, s:"علوم", q:"مقر التركيب الضوئي:", o:["الجذور", "الصانعات الخضراء", "النواة"], a:1, c:"#ec4899", i:"🧬"},
-            {id:7, s:"فرنسية", q:"Feminin de 'Beau'?", o:["Belle", "Bon", "Beauté"], a:0, c:"#06b6d4", i:"🇫🇷"}
+            {id:3, s:"إسلامية", q:"كم عدد سور القرآن؟", o:["110", "114", "120"], a:1, c:"#10b981", i:"🌙"},
+            {id:4, s:"تاريخ", q:"اندلاع الثورة التحريرية:", o:["1954", "1962", "1945"], a:0, c:"#8b5cf6", i:"🇩🇿"}
         ];
 
         function loadTasks() {
             const list = document.getElementById('tasksList');
             list.innerHTML = '';
             bank.forEach(t => {
-                const done = localStorage.getItem(`task_${t.id}_${new Date().toDateString()}`);
+                const tried = localStorage.getItem(`task_tried_${t.id}_${new Date().toDateString()}`);
                 list.innerHTML += `
-                    <div class="quest-card ${done ? 'completed' : ''}" style="--m-color: ${t.c}" onclick="openTask(${t.id})">
+                    <div class="quest-card ${tried ? 'completed' : ''}" style="--m-color: ${t.c}" onclick="openTask(${t.id})">
                         <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl bg-white/5 border border-white/5">${t.i}</div>
-                            <div>
-                                <h4 class="text-sm font-black italic">تحدي الـ ${t.s}</h4>
-                                <p class="text-[10px] text-gray-500 font-bold">اربح +1 نقطة الآن</p>
-                            </div>
+                            <div class="w-10 h-10 flex items-center justify-center text-xl">${t.i}</div>
+                            <div><h4 class="text-sm font-black">تحدي الـ ${t.s}</h4><p class="text-[9px] text-gray-500">اربح +1 نقطة</p></div>
                         </div>
-                        <div class="text-blue-500 font-black text-sm">${done ? '✓' : '+1'}</div>
+                        <div class="text-blue-500 font-black">${tried ? 'تمت' : '+1'}</div>
                     </div>`;
             });
         }
@@ -190,25 +167,27 @@
         function openTask(id) {
             const t = bank.find(x => x.id === id);
             document.getElementById('mSubject').innerText = t.s;
-            document.getElementById('mSubjectIcon').innerText = t.i;
             document.getElementById('mQuestion').innerText = t.q;
             const opts = document.getElementById('mOptions');
             opts.innerHTML = '';
             t.o.forEach((opt, i) => {
-                opts.innerHTML += `<button onclick="checkTask(${id}, ${i}, ${t.a})" class="opt-btn w-full bg-white/5 py-4 rounded-2xl font-bold border border-white/5 active:bg-blue-600 transition"> ${opt} </button>`;
+                opts.innerHTML += `<button onclick="checkTask(${id}, ${i}, ${t.a})" class="w-full bg-white/5 py-4 rounded-2xl font-bold active:bg-blue-600 transition"> ${opt} </button>`;
             });
             document.getElementById('taskModal').style.display = 'flex';
         }
 
         function checkTask(id, chosen, correct) {
             document.getElementById('taskModal').style.display = 'none';
+            
+            // تسجيل أن الطالب "حاول" في المهمة اليوم، سواء كان صح أو خطأ
+            localStorage.setItem(`task_tried_${id}_${new Date().toDateString()}`, "true");
+
             if(chosen === correct) {
                 addPoints(1);
-                localStorage.setItem(`task_${id}_${new Date().toDateString()}`, true);
-                confetti({ particleCount: 60, spread: 50 });
+                confetti({ particleCount: 50 });
                 showAlert("إجابة صحيحة! +1 🌟", "#10b981");
             } else {
-                showAlert("خاطئ! ركز أكثر ❌", "#ef4444");
+                showAlert("إجابة خاطئة! حظاً أوفر غداً ❌", "#ef4444");
             }
             loadTasks();
         }
