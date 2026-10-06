@@ -3,93 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <title>BAC PLUS | حسابي</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #020617; color: #fff; padding: 20px; }
-        .glass-card { background: rgba(17, 24, 39, 0.6); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.05); border-radius: 35px; position: relative; overflow: hidden; }
-        .tg-badge { background: #24A1DE; color: white; padding: 2px 10px; border-radius: 8px; font-size: 10px; font-weight: bold; }
-        #user-img { transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #020617;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .glass-card {
+            background: rgba(17, 24, 39, 0.6);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 35px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tg-badge {
+            background: #24A1DE;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        #user-img {
+            transition: 0.5s;
+        }
     </style>
 </head>
+
 <body class="flex flex-col items-center justify-center min-h-screen">
 
     <div class="glass-card w-full max-w-sm p-8 text-center shadow-2xl">
+
         <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-blue-400"></div>
 
+        <!-- صورة المستخدم -->
         <div class="relative inline-block mb-6 mt-4">
-            <div id="img-loader" class="absolute inset-0 bg-blue-500/20 animate-pulse rounded-[2.5rem]"></div>
-            <img id="user-img" src="https://ui-avatars.com/api/?name=User&background=1e293b&color=fff" 
-                 class="w-24 h-24 rounded-[2.5rem] border-4 border-blue-500/20 object-cover relative z-10"
-                 onload="document.getElementById('img-loader').style.display='none'">
+
+            <div id="img-loader"
+                 class="absolute inset-0 bg-blue-500/20 animate-pulse rounded-[2.5rem]">
+            </div>
+
+            <img
+                id="user-img"
+                src="https://ui-avatars.com/api/?name=User&background=1e293b&color=fff"
+                class="w-24 h-24 rounded-[2.5rem] border-4 border-blue-500/20 object-cover relative z-10"
+                onload="document.getElementById('img-loader').style.display='none'"
+            >
+
         </div>
 
+        <!-- الاسم -->
         <div class="mb-8">
+
             <div class="flex items-center justify-center gap-2 mb-2">
-                <h2 id="display-name" class="text-2xl font-black italic">تحميل...</h2>
-                <span class="tg-badge">Telegram</span>
+
+                <h2 id="display-name"
+                    class="text-2xl font-black italic">
+                    جاري التحميل...
+                </h2>
+
+                <span class="tg-badge">
+                    Telegram
+                </span>
+
             </div>
-            <p id="user-status" class="text-gray-500 text-[10px] font-bold tracking-widest uppercase">جاري التحقق من الهوية...</p>
+
+            <p id="user-status"
+               class="text-gray-500 text-[10px] font-bold tracking-widest uppercase">
+                جاري التحقق من الهوية...
+            </p>
+
         </div>
 
+        <!-- المعلومات -->
         <div class="grid grid-cols-2 gap-4 mb-8">
+
             <div class="bg-white/5 p-4 rounded-3xl border border-white/5">
-                <p class="text-[9px] text-gray-400 font-bold mb-1">النقاط</p>
-                <h4 id="pts" class="text-xl font-black text-yellow-400">0</h4>
+
+                <p class="text-[9px] text-gray-400 font-bold mb-1">
+                    النقاط
+                </p>
+
+                <h4 id="pts"
+                    class="text-xl font-black text-yellow-400">
+                    0
+                </h4>
+
             </div>
+
+
             <div class="bg-white/5 p-4 rounded-3xl border border-white/5">
-                <p class="text-[9px] text-gray-400 font-bold mb-1">المعرف</p>
-                <h4 id="uid" class="text-[10px] font-mono text-blue-400 italic">#BAC-000</h4>
+
+                <p class="text-[9px] text-gray-400 font-bold mb-1">
+                    المعرف
+                </p>
+
+                <h4 id="uid"
+                    class="text-[10px] font-mono text-blue-400 italic">
+                    #BAC-000
+                </h4>
+
             </div>
+
         </div>
 
+        <!-- زر العودة -->
         <div class="space-y-3">
-            <a href="home.html" class="block w-full py-4 bg-blue-600 hover:bg-blue-700 rounded-2xl text-xs font-black shadow-lg shadow-blue-600/20 transition">العودة للرئيسية</a>
-            
-            <button id="retry-btn" onclick="location.reload()" class="text-[10px] text-gray-500 font-bold hover:text-white underline">
+
+            <a href="home.html"
+               class="block w-full py-4 bg-blue-600 hover:bg-blue-700 rounded-2xl text-xs font-black shadow-lg shadow-blue-600/20 transition">
+                العودة للرئيسية
+            </a>
+
+            <button
+                id="retry-btn"
+                onclick="location.reload()"
+                class="text-[10px] text-gray-500 font-bold hover:text-white underline">
                 لم يظهر اسمي؟ تحديث الصفحة
             </button>
+
         </div>
+
     </div>
 
-    <script>
-        // دالة يتم استدعاؤها من الـ Widget (إذا كان موجوداً في الهوم)
-        function onTelegramAuth(user) {
-            localStorage.setItem('userName', user.first_name + (user.last_name ? ' ' + user.last_name : ''));
-            localStorage.setItem('userPhoto', user.photo_url);
-            localStorage.setItem('is_logged_in', 'true');
-            updateUI();
+
+<script>
+
+    // رابط الـBackend
+    const API_URL = "https://bac-api-vipd.onrender.com";
+
+
+    // تشغيل Telegram WebApp
+    const tg = window.Telegram.WebApp;
+
+    tg.ready();
+    tg.expand();
+
+
+    // تحديث بيانات الصفحة
+    function updateProfile(user) {
+
+        if (!user) {
+            document.getElementById("display-name").innerText =
+                "مستخدم تلجرام";
+
+            document.getElementById("user-status").innerText =
+                "تأكد من فتح الموقع عبر البوت";
+
+            return;
         }
 
-        function updateUI() {
-            // جلب البيانات المخزنة
-            const name = localStorage.getItem('userName');
-            const photo = localStorage.getItem('userPhoto');
-            const points = localStorage.getItem('userPoints') || 0;
-            const id = localStorage.getItem('bac_user_id') || 'BAC-NEW';
 
-            // إذا وجدنا الاسم، نعرضه فوراً
-            if (name) {
-                document.getElementById('display-name').innerText = name;
-                document.getElementById('user-status').innerText = "طالب متميز متصل";
-                document.getElementById('user-status').classList.add('text-green-500');
-            } else {
-                document.getElementById('display-name').innerText = "مستخدم تلجرام";
-                document.getElementById('user-status').innerText = "تأكد من فتح الموقع عبر البوت";
-            }
+        // الاسم
+        const fullName =
+            (user.first_name || "") +
+            (user.last_name ? " " + user.last_name : "");
 
-            // إذا وجدنا الصورة، نعرضها
-            if (photo) {
-                document.getElementById('user-img').src = photo;
-            }
 
-            document.getElementById('pts').innerText = points;
-            document.getElementById('uid').innerText = "#" + id;
+        document.getElementById("display-name").innerText =
+            fullName || "مستخدم تلجرام";
+
+
+        // الحالة
+        document.getElementById("user-status").innerText =
+            "طالب متميز متصل";
+
+        document.getElementById("user-status").classList.remove(
+            "text-gray-500"
+        );
+
+        document.getElementById("user-status").classList.add(
+            "text-green-500"
+        );
+
+
+        // الصورة
+        if (user.photo_url) {
+
+            document.getElementById("user-img").src =
+                user.photo_url;
+
         }
 
-        // تشغيل التحديث عند فتح الصفحة
-        window.onload = updateUI;
-    </script>
+
+        // النقاط
+        document.getElementById("pts").innerText =
+            user.points ?? 0;
+
+
+        // Telegram ID
+        document.getElementById("uid").innerText =
+            "#" + user.telegram_id;
+    }
+
+
+    // تسجيل الدخول عبر Backend
+    async function loginWithTelegram() {
+
+        const initData = tg.initData;
+
+
+        // إذا الصفحة مفتوحة خارج Telegram
+        if (!initData) {
+
+            document.getElementById("display-name").innerText =
+                "مستخدم تلجرام";
+
+            document.getElementById("user-status").innerText =
+                "افتح المنصة من داخل Telegram";
+
+            document.getElementById("user-status").classList.add(
+                "text-red-500"
+            );
+
+            return;
+        }
+
+
+        try {
+
+            const response = await fetch(
+                API_URL + "/api/auth/telegram",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        initData: initData
+                    })
+                }
+            );
+
+
+            const data = await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.error || "فشل تسجيل الدخول"
+                );
+
+            }
+
+
+            if (data.success && data.user) {
+
+                updateProfile(data.user);
+
+            }
+
+        } catch (error) {
+
+            console.error(error);
+
+            document.getElementById("display-name").innerText =
+                "حدث خطأ";
+
+            document.getElementById("user-status").innerText =
+                "تعذر الاتصال بالخادم";
+
+            document.getElementById("user-status").classList.remove(
+                "text-gray-500"
+            );
+
+            document.getElementById("user-status").classList.add(
+                "text-red-500"
+            );
+
+        }
+
+    }
+
+
+    // بدء تسجيل الدخول
+    loginWithTelegram();
+
+</script>
+
 </body>
 </html>
