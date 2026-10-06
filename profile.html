@@ -1,298 +1,263 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <title>BAC PLUS | حسابي</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Telegram WebApp -->
+    <script src="https://telegram.org/js/telegram-web-app.js?63"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap"
+        rel="stylesheet"
+    >
 
     <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
+            margin: 0;
+            min-height: 100vh;
             font-family: 'Cairo', sans-serif;
-            background-color: #020617;
-            color: #fff;
+            background:
+                radial-gradient(circle at top, #172554 0%, #020617 45%, #000 100%);
+            color: white;
             padding: 20px;
         }
 
-        .glass-card {
-            background: rgba(17, 24, 39, 0.6);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 35px;
-            position: relative;
-            overflow: hidden;
+        .card {
+            width: 100%;
+            max-width: 390px;
+            background: rgba(15, 23, 42, 0.90);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 30px;
+            padding: 28px 22px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.45);
         }
 
-        .tg-badge {
-            background: #24A1DE;
-            color: white;
-            padding: 2px 10px;
-            border-radius: 8px;
-            font-size: 10px;
-            font-weight: bold;
+        .avatar {
+            width: 105px;
+            height: 105px;
+            object-fit: cover;
+            border-radius: 32px;
+            border: 4px solid rgba(59,130,246,0.35);
+            background: #1e293b;
         }
 
-        #user-img {
-            transition: 0.5s;
-        }
-
-        #debug {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 12px;
+        .stat {
             background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 18px 10px;
+        }
+
+        .debug {
+            margin-top: 20px;
+            padding: 14px;
+            border-radius: 16px;
+            background: rgba(0,0,0,0.35);
+            border: 1px solid rgba(255,255,255,0.06);
             color: #94a3b8;
+            font-family: monospace;
             font-size: 11px;
             direction: ltr;
+            text-align: left;
+            white-space: pre-wrap;
             word-break: break-all;
         }
+
     </style>
 </head>
 
-<body class="flex flex-col items-center justify-center min-h-screen">
 
-    <div class="glass-card w-full max-w-sm p-8 text-center shadow-2xl">
+<body>
 
-        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-blue-400"></div>
+<div class="min-h-screen flex items-center justify-center">
 
-        <div class="relative inline-block mb-6 mt-4">
+    <div class="card text-center">
 
-            <div id="img-loader"
-                 class="absolute inset-0 bg-blue-500/20 animate-pulse rounded-[2.5rem]">
-            </div>
+        <!-- الصورة -->
 
-            <img
-                id="user-img"
-                src="https://ui-avatars.com/api/?name=User&background=1e293b&color=fff"
-                class="w-24 h-24 rounded-[2.5rem] border-4 border-blue-500/20 object-cover relative z-10"
-                onload="document.getElementById('img-loader').style.display='none'"
-            >
+        <img
+            id="user-img"
+            class="avatar mx-auto mb-5"
+            src="https://ui-avatars.com/api/?name=BAC+PLUS&background=1e293b&color=fff"
+            alt="Telegram User"
+        >
 
-        </div>
 
-        <div class="mb-8">
+        <!-- الاسم -->
 
-            <div class="flex items-center justify-center gap-2 mb-2">
+        <h1
+            id="display-name"
+            class="text-2xl font-black mb-2"
+        >
+            جاري التحميل...
+        </h1>
 
-                <h2 id="display-name"
-                    class="text-2xl font-black italic">
-                    جاري التحميل...
-                </h2>
 
-                <span class="tg-badge">
-                    Telegram
-                </span>
+        <!-- الحالة -->
 
-            </div>
+        <p
+            id="user-status"
+            class="text-gray-400 text-xs mb-8"
+        >
+            جاري التحقق من حسابك...
+        </p>
 
-            <p id="user-status"
-               class="text-gray-500 text-[10px] font-bold tracking-widest uppercase">
-                جاري التحقق من الهوية...
-            </p>
 
-        </div>
+        <!-- المعلومات -->
 
-        <div class="grid grid-cols-2 gap-4 mb-8">
+        <div class="grid grid-cols-2 gap-4">
 
-            <div class="bg-white/5 p-4 rounded-3xl border border-white/5">
+            <div class="stat">
 
-                <p class="text-[9px] text-gray-400 font-bold mb-1">
+                <p class="text-gray-400 text-xs mb-2">
                     النقاط
                 </p>
 
-                <h4 id="pts"
-                    class="text-xl font-black text-yellow-400">
+                <p
+                    id="points"
+                    class="text-yellow-400 text-2xl font-black"
+                >
                     0
-                </h4>
+                </p>
 
             </div>
 
-            <div class="bg-white/5 p-4 rounded-3xl border border-white/5">
 
-                <p class="text-[9px] text-gray-400 font-bold mb-1">
+            <div class="stat">
+
+                <p class="text-gray-400 text-xs mb-2">
                     المعرف
                 </p>
 
-                <h4 id="uid"
-                    class="text-[10px] font-mono text-blue-400 italic">
-                    #BAC-000
-                </h4>
+                <p
+                    id="telegram-id"
+                    class="text-blue-400 text-xs font-bold break-all"
+                >
+                    ---
+                </p>
 
             </div>
 
         </div>
 
-        <div class="space-y-3">
 
-            <a href="home.html"
-               class="block w-full py-4 bg-blue-600 hover:bg-blue-700 rounded-2xl text-xs font-black shadow-lg shadow-blue-600/20 transition">
-                العودة للرئيسية
-            </a>
+        <!-- الرجوع -->
 
-        </div>
+        <a
+            href="home.html"
+            class="block mt-6 w-full py-4 rounded-2xl bg-blue-600 hover:bg-blue-700 transition text-white font-black text-sm"
+        >
+            العودة للرئيسية
+        </a>
 
-        <div id="debug">
+
+        <!-- التشخيص -->
+
+        <div
+            id="debug"
+            class="debug"
+        >
             جاري فحص Telegram...
         </div>
 
     </div>
 
+</div>
+
+
 <script>
 
-    const API_URL = "https://bac-api-vipd.onrender.com";
-
-    const tg = window.Telegram.WebApp;
-
-    tg.ready();
-    tg.expand();
-
-
-    function updateProfile(user) {
-
-        if (!user) {
-
-            document.getElementById("display-name").innerText =
-                "مستخدم تلجرام";
-
-            document.getElementById("user-status").innerText =
-                "لم تصل بيانات المستخدم";
-
-            return;
-        }
+    /*
+    ==========================================
+    BAC PLUS
+    Telegram Mini App Authentication
+    ==========================================
+    */
 
 
-        const fullName =
-            (user.first_name || "") +
-            (user.last_name ? " " + user.last_name : "");
+    const API_URL =
+        "https://bac-api-vipd.onrender.com";
 
 
-        document.getElementById("display-name").innerText =
-            fullName || "مستخدم تلجرام";
+    const debug =
+        document.getElementById("debug");
+
+    const displayName =
+        document.getElementById("display-name");
+
+    const userStatus =
+        document.getElementById("user-status");
+
+    const points =
+        document.getElementById("points");
+
+    const telegramId =
+        document.getElementById("telegram-id");
+
+    const userImage =
+        document.getElementById("user-img");
 
 
-        document.getElementById("user-status").innerText =
-            "طالب متميز متصل";
+    /*
+    ==========================================
+    التحقق من Telegram
+    ==========================================
+    */
 
 
-        document.getElementById("user-status").classList.remove(
-            "text-gray-500"
-        );
+    if (!window.Telegram) {
 
-        document.getElementById("user-status").classList.add(
-            "text-green-500"
-        );
-
-
-        if (user.photo_url) {
-
-            document.getElementById("user-img").src =
-                user.photo_url;
-
-        }
-
-
-        document.getElementById("pts").innerText =
-            user.points ?? 0;
-
-
-        document.getElementById("uid").innerText =
-            "#" + user.telegram_id;
-    }
-
-
-    async function loginWithTelegram() {
-
-        const initData = tg.initData;
-
-
-        // اختبار Telegram
-        document.getElementById("debug").innerText =
-            "initData length = " + initData.length;
-
-
-        // إذا initData فارغ
-        if (!initData) {
-
-            document.getElementById("display-name").innerText =
-                "مستخدم تلجرام";
-
-            document.getElementById("user-status").innerText =
-                "Telegram لم يرسل initData";
-
-            document.getElementById("user-status").classList.add(
-                "text-red-500"
-            );
-
-            return;
-        }
-
-
-        try {
-
-            const response = await fetch(
-                API_URL + "/api/auth/telegram",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        initData: initData
-                    })
-                }
-            );
-
-
-            const data = await response.json();
-
-
-            if (!response.ok) {
-
-                throw new Error(
-                    data.error || "فشل تسجيل الدخول"
-                );
-
-            }
-
-
-            if (data.success && data.user) {
-
-                updateProfile(data.user);
-
-            }
-
-        } catch (error) {
-
-            console.error(error);
-
-            document.getElementById("display-name").innerText =
-                "حدث خطأ";
-
-            document.getElementById("user-status").innerText =
-                "تعذر الاتصال بالخادم";
-
-            document.getElementById("user-status").classList.add(
-                "text-red-500"
-            );
-
-            document.getElementById("debug").innerText =
-                error.message;
-
-        }
+        debug.innerText =
+            "❌ Telegram غير موجود\n\n" +
+            "الصفحة مفتوحة خارج Telegram.";
 
     }
 
+    else if (!window.Telegram.WebApp) {
 
-    loginWithTelegram();
+        debug.innerText =
+            "❌ Telegram WebApp غير موجود\n\n" +
+            "هذه الصفحة لم يتم فتحها كـ Mini App.";
 
-</script>
+    }
 
-</body>
-</html>
+    else {
+
+        /*
+        Telegram WebApp موجود
+        */
+
+        const tg =
+            window.Telegram.WebApp;
+
+
+        /*
+        تشغيل Mini App
+        */
+
+        tg.ready();
+
+        tg.expand();
+
+
+        /*
+        الحصول على initData
+        */
+
+        const initData =
+            tg.initData || ""
