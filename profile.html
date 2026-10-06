@@ -40,6 +40,17 @@
         #user-img {
             transition: 0.5s;
         }
+
+        #debug {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            color: #94a3b8;
+            font-size: 11px;
+            direction: ltr;
+            word-break: break-all;
+        }
     </style>
 </head>
 
@@ -49,7 +60,6 @@
 
         <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-blue-400"></div>
 
-        <!-- صورة المستخدم -->
         <div class="relative inline-block mb-6 mt-4">
 
             <div id="img-loader"
@@ -65,7 +75,6 @@
 
         </div>
 
-        <!-- الاسم -->
         <div class="mb-8">
 
             <div class="flex items-center justify-center gap-2 mb-2">
@@ -88,7 +97,6 @@
 
         </div>
 
-        <!-- المعلومات -->
         <div class="grid grid-cols-2 gap-4 mb-8">
 
             <div class="bg-white/5 p-4 rounded-3xl border border-white/5">
@@ -103,7 +111,6 @@
                 </h4>
 
             </div>
-
 
             <div class="bg-white/5 p-4 rounded-3xl border border-white/5">
 
@@ -120,7 +127,6 @@
 
         </div>
 
-        <!-- زر العودة -->
         <div class="space-y-3">
 
             <a href="home.html"
@@ -128,46 +134,38 @@
                 العودة للرئيسية
             </a>
 
-            <button
-                id="retry-btn"
-                onclick="location.reload()"
-                class="text-[10px] text-gray-500 font-bold hover:text-white underline">
-                لم يظهر اسمي؟ تحديث الصفحة
-            </button>
+        </div>
 
+        <div id="debug">
+            جاري فحص Telegram...
         </div>
 
     </div>
 
-
 <script>
 
-    // رابط الـBackend
     const API_URL = "https://bac-api-vipd.onrender.com";
 
-
-    // تشغيل Telegram WebApp
     const tg = window.Telegram.WebApp;
 
     tg.ready();
     tg.expand();
 
 
-    // تحديث بيانات الصفحة
     function updateProfile(user) {
 
         if (!user) {
+
             document.getElementById("display-name").innerText =
                 "مستخدم تلجرام";
 
             document.getElementById("user-status").innerText =
-                "تأكد من فتح الموقع عبر البوت";
+                "لم تصل بيانات المستخدم";
 
             return;
         }
 
 
-        // الاسم
         const fullName =
             (user.first_name || "") +
             (user.last_name ? " " + user.last_name : "");
@@ -177,9 +175,9 @@
             fullName || "مستخدم تلجرام";
 
 
-        // الحالة
         document.getElementById("user-status").innerText =
             "طالب متميز متصل";
+
 
         document.getElementById("user-status").classList.remove(
             "text-gray-500"
@@ -190,7 +188,6 @@
         );
 
 
-        // الصورة
         if (user.photo_url) {
 
             document.getElementById("user-img").src =
@@ -199,31 +196,33 @@
         }
 
 
-        // النقاط
         document.getElementById("pts").innerText =
             user.points ?? 0;
 
 
-        // Telegram ID
         document.getElementById("uid").innerText =
             "#" + user.telegram_id;
     }
 
 
-    // تسجيل الدخول عبر Backend
     async function loginWithTelegram() {
 
         const initData = tg.initData;
 
 
-        // إذا الصفحة مفتوحة خارج Telegram
+        // اختبار Telegram
+        document.getElementById("debug").innerText =
+            "initData length = " + initData.length;
+
+
+        // إذا initData فارغ
         if (!initData) {
 
             document.getElementById("display-name").innerText =
                 "مستخدم تلجرام";
 
             document.getElementById("user-status").innerText =
-                "افتح المنصة من داخل Telegram";
+                "Telegram لم يرسل initData";
 
             document.getElementById("user-status").classList.add(
                 "text-red-500"
@@ -279,20 +278,18 @@
             document.getElementById("user-status").innerText =
                 "تعذر الاتصال بالخادم";
 
-            document.getElementById("user-status").classList.remove(
-                "text-gray-500"
-            );
-
             document.getElementById("user-status").classList.add(
                 "text-red-500"
             );
+
+            document.getElementById("debug").innerText =
+                error.message;
 
         }
 
     }
 
 
-    // بدء تسجيل الدخول
     loginWithTelegram();
 
 </script>
