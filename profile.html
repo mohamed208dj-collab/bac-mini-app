@@ -7,8 +7,8 @@
 
     <title>BAC PLUS | حسابي</title>
 
-    <!-- Telegram WebApp -->
-    <script src="https://telegram.org/js/telegram-web-app.js?64"></script>
+    <!-- Telegram Mini App -->
+    <script src="https://telegram.org/js/telegram-web-app.js?63"></script>
 
     <style>
         * {
@@ -18,7 +18,8 @@
         body {
             margin: 0;
             min-height: 100vh;
-            background: #07111f;
+            background:
+                radial-gradient(circle at top, #172b45 0%, #07111f 55%, #030812 100%);
             color: white;
             font-family: Arial, sans-serif;
 
@@ -31,30 +32,34 @@
 
         .card {
             width: 100%;
-            max-width: 420px;
+            max-width: 430px;
 
-            background: #101c2c;
+            background: rgba(16, 28, 44, 0.96);
 
-            border-radius: 22px;
+            border: 1px solid rgba(255, 212, 59, 0.12);
+
+            border-radius: 24px;
 
             padding: 30px 20px;
 
             text-align: center;
 
-            box-shadow: 0 10px 40px rgba(0, 0, 0, .4);
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.45);
         }
 
-        h1 {
-            margin: 0 0 25px;
+        .logo {
+            font-size: 30px;
+            font-weight: 900;
 
             color: #ffd43b;
 
-            font-size: 28px;
+            margin-bottom: 25px;
         }
 
         .avatar {
-            width: 90px;
-            height: 90px;
+            width: 100px;
+            height: 100px;
 
             border-radius: 50%;
 
@@ -63,88 +68,105 @@
             border: 3px solid #ffd43b;
 
             background: #243447;
+
+            display: block;
+
+            margin: 0 auto;
+        }
+
+        .avatar.hidden {
+            display: none;
+        }
+
+        .avatar-placeholder {
+            width: 100px;
+            height: 100px;
+
+            border-radius: 50%;
+
+            margin: 0 auto;
+
+            background: #243447;
+
+            border: 3px solid #ffd43b;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            font-size: 42px;
+
+            color: #ffd43b;
         }
 
         .name {
-            margin-top: 15px;
+            margin-top: 18px;
 
-            font-size: 22px;
+            font-size: 23px;
 
             font-weight: bold;
         }
 
         .username {
-            margin-top: 6px;
+            margin-top: 7px;
 
             color: #9aa9ba;
+
+            font-size: 15px;
         }
 
         .points {
-            margin-top: 25px;
+            margin-top: 28px;
 
-            padding: 18px;
+            padding: 20px;
 
-            border-radius: 15px;
+            border-radius: 17px;
 
             background: #17263a;
         }
 
-        .points span {
-            display: block;
-
+        .points-title {
             color: #9aa9ba;
 
             font-size: 14px;
         }
 
-        .points strong {
-            display: block;
+        .points-number {
+            margin-top: 8px;
 
-            margin-top: 7px;
+            font-size: 34px;
 
-            font-size: 30px;
+            font-weight: bold;
 
             color: #ffd43b;
         }
 
-        #status {
+        .status {
             margin-top: 20px;
 
+            font-size: 14px;
+
             color: #ffd43b;
         }
 
-        #error {
-            margin-top: 15px;
+        .error {
+            margin-top: 12px;
 
             color: #ff6b6b;
 
             font-size: 13px;
 
-            white-space: pre-line;
-
-            word-break: break-word;
-
             line-height: 1.7;
+
+            white-space: pre-line;
         }
 
-        #debug {
-            margin-top: 15px;
+        .loading {
+            color: #9aa9ba;
 
-            padding: 10px;
-
-            border-radius: 10px;
-
-            background: #0b1422;
-
-            color: #8494a8;
-
-            font-size: 11px;
-
-            direction: ltr;
-
-            text-align: left;
-
-            white-space: pre-line;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -154,15 +176,28 @@
 
 <div class="card">
 
-    <h1>BAC PLUS</h1>
+    <div class="logo">
+        BAC PLUS
+    </div>
 
+
+    <!-- صورة المستخدم -->
+
+    <div
+        id="avatarPlaceholder"
+        class="avatar-placeholder"
+    >
+        👤
+    </div>
 
     <img
         id="avatar"
-        class="avatar"
-        alt="User"
+        class="avatar hidden"
+        alt="Telegram User"
     >
 
+
+    <!-- الاسم -->
 
     <div
         id="name"
@@ -172,35 +207,47 @@
     </div>
 
 
+    <!-- username -->
+
     <div
         id="username"
         class="username"
-    ></div>
+    >
+    </div>
 
+
+    <!-- النقاط -->
 
     <div class="points">
 
-        <span>
+        <div class="points-title">
             النقاط
-        </span>
+        </div>
 
-        <strong id="points">
+        <div
+            id="points"
+            class="points-number"
+        >
             0
-        </strong>
+        </div>
 
     </div>
 
 
-    <div id="status">
+    <!-- الحالة -->
+
+    <div
+        id="status"
+        class="status"
+    >
         جاري التحقق من حسابك...
     </div>
 
 
-    <div id="error"></div>
-
-
-    <div id="debug">
-        جاري تشغيل Telegram...
+    <div
+        id="error"
+        class="error"
+    >
     </div>
 
 </div>
@@ -211,26 +258,17 @@
 "use strict";
 
 
-/* =========================
-   إعدادات السيرفر
-========================= */
+/* =====================================
+   رابط الـ API
+===================================== */
 
 const API =
     "https://bac-api-vipd.onrender.com";
 
 
-/* =========================
+/* =====================================
    عناصر الصفحة
-========================= */
-
-const statusBox =
-    document.getElementById("status");
-
-const errorBox =
-    document.getElementById("error");
-
-const debugBox =
-    document.getElementById("debug");
+===================================== */
 
 const nameBox =
     document.getElementById("name");
@@ -241,15 +279,41 @@ const usernameBox =
 const pointsBox =
     document.getElementById("points");
 
+const statusBox =
+    document.getElementById("status");
+
+const errorBox =
+    document.getElementById("error");
+
 const avatarBox =
     document.getElementById("avatar");
 
+const avatarPlaceholder =
+    document.getElementById("avatarPlaceholder");
 
-/* =========================
-   إظهار الخطأ
-========================= */
 
-function fail(message) {
+/* =====================================
+   Telegram
+===================================== */
+
+function getTelegram() {
+
+    if (
+        window.Telegram &&
+        window.Telegram.WebApp
+    ) {
+        return window.Telegram.WebApp;
+    }
+
+    return null;
+}
+
+
+/* =====================================
+   عرض الخطأ
+===================================== */
+
+function showError(message) {
 
     statusBox.textContent =
         "❌ فشل التحقق";
@@ -262,89 +326,120 @@ function fail(message) {
 }
 
 
-/* =========================
-   Debug
-========================= */
+/* =====================================
+   عرض المستخدم
+===================================== */
 
-function debug(message) {
+function showUser(user) {
 
-    debugBox.textContent =
-        message;
-}
+    /*
+       إذا عندو username
+       نعرضوه
 
+       مثال:
+       @souhaib123
 
-/* =========================
-   انتظار Telegram
-========================= */
+       إذا ما عندوش
+       نعرض الاسم
+    */
 
-async function waitForTelegram() {
+    if (user.username) {
 
-    for (
-        let i = 0;
-        i < 50;
-        i++
-    ) {
+        nameBox.textContent =
+            "@" + user.username;
 
-        if (
-            window.Telegram &&
-            window.Telegram.WebApp
-        ) {
+        usernameBox.textContent =
+            "حساب Telegram";
 
-            return window.Telegram.WebApp;
-        }
+    } else {
 
+        const fullName =
+            (
+                user.first_name || ""
+            ) +
+            " " +
+            (
+                user.last_name || ""
+            );
 
-        await new Promise(
-            function(resolve) {
+        nameBox.textContent =
+            fullName.trim() ||
+            "مستخدم Telegram";
 
-                setTimeout(
-                    resolve,
-                    100
-                );
-
-            }
-        );
+        usernameBox.textContent =
+            "حساب Telegram";
 
     }
 
 
-    return null;
+    /* النقاط */
+
+    pointsBox.textContent =
+        user.points ?? 0;
+
+
+    /* الصورة */
+
+    if (user.photo_url) {
+
+        avatarBox.src =
+            user.photo_url;
+
+        avatarBox.classList.remove(
+            "hidden"
+        );
+
+        avatarPlaceholder.style.display =
+            "none";
+
+    } else {
+
+        avatarBox.classList.add(
+            "hidden"
+        );
+
+        avatarPlaceholder.style.display =
+            "flex";
+    }
+
+
+    /* نجاح */
+
+    statusBox.textContent =
+        "✅ تم التحقق من حسابك";
+
+    statusBox.style.color =
+        "#52e878";
+
+    errorBox.textContent =
+        "";
 }
 
 
-/* =========================
+/* =====================================
    تسجيل الدخول
-========================= */
+===================================== */
 
 async function login() {
 
 
-    /* ننتظر Telegram */
+    /* نتأكد من Telegram */
 
     const tg =
-        await waitForTelegram();
+        getTelegram();
 
-
-    /* Telegram غير موجود */
 
     if (!tg) {
 
-        fail(
-            "Telegram WebApp غير موجود.\n\n" +
-            "تأكد أنك فتحت BAC PLUS من داخل Telegram."
+        showError(
+            "افتح BAC PLUS من داخل Telegram."
         );
-
-
-        debug(
-            "Telegram WebApp = NOT FOUND"
-        );
-
 
         return;
     }
 
 
-    /* تشغيل Telegram */
+    /* تشغيل Mini App */
 
     try {
 
@@ -354,69 +449,40 @@ async function login() {
 
     } catch (e) {
 
-        console.log(e);
-
+        console.log(
+            "Telegram error:",
+            e
+        );
     }
 
 
-    /* =========================
-       أخذ initData
-    ========================= */
+    /*
+       initData هي البيانات الرسمية
+       التي يرسلها Telegram
+       للسيرفر للتحقق من الحساب.
+    */
 
     const initData =
         tg.initData || "";
 
 
-    /* معلومات التشخيص */
-
-    debug(
-
-        "Telegram WebApp: OK\n" +
-
-        "Version: " +
-        (tg.version || "unknown") +
-
-        "\n" +
-
-        "Platform: " +
-        (tg.platform || "unknown") +
-
-        "\n" +
-
-        "initData length: " +
-        initData.length
-
-    );
-
-
-    /* =========================
-       إذا Telegram ما عطاش البيانات
-    ========================= */
+    /* إذا ما وصلتش البيانات */
 
     if (!initData) {
 
-        fail(
-
+        showError(
             "Telegram لم يرسل بيانات الحساب.\n\n" +
-
-            "هذا يعني أن Mini App مفتوح، " +
-
-            "لكن Telegram لم يرسل initData."
-
+            "افتح BAC PLUS من زر Open App داخل Telegram."
         );
-
 
         return;
     }
 
 
-    /* =========================
-       الاتصال بالسيرفر
-    ========================= */
+    /* حالة التحميل */
 
     statusBox.textContent =
-        "جاري الاتصال بالسيرفر...";
-
+        "جاري التحقق من حسابك...";
 
     statusBox.style.color =
         "#ffd43b";
@@ -425,227 +491,86 @@ async function login() {
     try {
 
 
+        /* إرسال بيانات Telegram للسيرفر */
+
         const response =
             await fetch(
-
-                API +
-                "/api/auth/telegram",
-
+                API + "/api/auth/telegram",
                 {
-
                     method: "POST",
 
                     headers: {
-
                         "Content-Type":
                             "application/json"
-
                     },
 
                     body:
                         JSON.stringify({
-
                             initData:
                                 initData
-
                         })
-
                 }
-
             );
 
 
-        /* =========================
-           قراءة الرد
-        ========================= */
+        /* قراءة الرد */
 
-        let data;
-
-
-        try {
-
-            data =
-                await response.json();
-
-        } catch (e) {
-
-            fail(
-
-                "السيرفر رد برد غير مفهوم.\n\n" +
-
-                "HTTP: " +
-                response.status
-
-            );
-
-            return;
-        }
+        const data =
+            await response.json();
 
 
-        /* =========================
-           السيرفر رفض الطلب
-        ========================= */
+        /* خطأ من السيرفر */
 
         if (!response.ok) {
 
-            fail(
-
+            showError(
                 data.error ||
-
-                data.message ||
-
-                "السيرفر رفض المصادقة."
-
+                "السيرفر رفض التحقق."
             );
-
 
             return;
         }
 
 
-        /* =========================
-           التأكد من نجاح تسجيل الدخول
-        ========================= */
+        /* التأكد من نجاح العملية */
 
         if (
-
             data.success !== true ||
-
             !data.user
-
         ) {
 
-            fail(
-
-                "السيرفر اشتغل، " +
-
-                "لكن لم يرجع بيانات المستخدم."
-
+            showError(
+                "لم تصل بيانات الحساب من السيرفر."
             );
-
 
             return;
         }
 
 
-        /* =========================
-           بيانات المستخدم
-        ========================= */
+        /* عرض الحساب */
 
-        const user =
-            data.user;
-
-
-        /* الاسم */
-
-        nameBox.textContent =
-
-            user.first_name ||
-
-            user.username ||
-
-            "مستخدم Telegram";
-
-
-        /* username */
-
-        if (user.username) {
-
-            usernameBox.textContent =
-                "@" + user.username;
-
-        } else {
-
-            usernameBox.textContent =
-                "Telegram User";
-
-        }
-
-
-        /* النقاط */
-
-        pointsBox.textContent =
-            user.points ?? 0;
-
-
-        /* الصورة */
-
-        if (user.photo_url) {
-
-            avatarBox.src =
-                user.photo_url;
-
-        } else {
-
-            avatarBox.style.display =
-                "none";
-
-        }
-
-
-        /* =========================
-           نجاح
-        ========================= */
-
-        statusBox.textContent =
-            "✅ تم التحقق من حسابك";
-
-
-        statusBox.style.color =
-            "#52e878";
-
-
-        errorBox.textContent =
-            "";
-
-
-        debug(
-
-            "Telegram: OK\n" +
-
-            "Server: OK\n" +
-
-            "Authentication: OK\n" +
-
-            "Telegram ID: " +
-
-            user.telegram_id
-
+        showUser(
+            data.user
         );
 
 
-    } catch (e) {
+    } catch (error) {
 
+        console.error(
+            error
+        );
 
-        /* =========================
-           خطأ الاتصال
-        ========================= */
-
-        fail(
-
+        showError(
             "تعذر الاتصال بالسيرفر.\n\n" +
-
-            e.message
-
+            error.message
         );
-
-
-        debug(
-
-            "API ERROR\n" +
-
-            API
-
-        );
-
     }
-
 }
 
 
-/* =========================
-   تشغيل تسجيل الدخول
-========================= */
+/* =====================================
+   تشغيل
+===================================== */
 
 login();
 
