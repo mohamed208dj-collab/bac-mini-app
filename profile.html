@@ -7,7 +7,7 @@
 
     <title>BAC PLUS | حسابي</title>
 
-    <!-- Telegram -->
+    <!-- Telegram WebApp -->
     <script src="https://telegram.org/js/telegram-web-app.js?63"></script>
 
     <style>
@@ -92,6 +92,7 @@
             margin-top: 15px;
             color: #ff6b6b;
             font-size: 13px;
+            white-space: pre-line;
             word-break: break-word;
         }
     </style>
@@ -106,7 +107,6 @@
     <img
         id="avatar"
         class="avatar"
-        src=""
         alt="User"
     >
 
@@ -130,6 +130,7 @@
 </div>
 
 <script>
+"use strict";
 
 const API = "https://bac-api-vipd.onrender.com";
 
@@ -140,42 +141,124 @@ const usernameBox = document.getElementById("username");
 const pointsBox = document.getElementById("points");
 const avatarBox = document.getElementById("avatar");
 
-function error(message) {
+
+function showError(message) {
+
     statusBox.textContent = "❌ فشل التحقق";
     statusBox.style.color = "#ff6b6b";
+
     errorBox.textContent = message;
 }
 
-async function login() {
 
-    // نتأكد أن Telegram موجود
-    if (!window.Telegram || !window.Telegram.WebApp) {
-        error(
-            "هذه الصفحة لم يتم فتحها كـ Telegram Mini App."
+function showSuccess(message) {
+
+    statusBox.textContent = message;
+    statusBox.style.color = "#52e878";
+
+    errorBox.textContent = "";
+}
+
+
+async function loginWithTelegram() {
+
+    /*
+     * ننتظر قليلاً حتى يكون Telegram WebApp
+     * جاهزاً داخل Mini App.
+     */
+
+    let attempts = 0;
+
+    while (
+        (!window.Telegram || !window.Telegram.WebApp) &&
+        attempts < 30
+    ) {
+
+        await new Promise(resolve =>
+            setTimeout(resolve, 100)
         );
+
+        attempts++;
+    }
+
+
+    /*
+     * Telegram غير موجود
+     */
+
+    if (!window.Telegram) {
+
+        showError(
+            "Telegram غير موجود.\n\n" +
+            "تأكد أنك فتحت BAC PLUS من داخل Telegram."
+        );
+
         return;
     }
+
+
+    /*
+     * Telegram موجود لكن WebApp غير موجود
+     */
+
+    if (!window.Telegram.WebApp) {
+
+        showError(
+            "Telegram موجود لكن WebApp غير موجود.\n\n" +
+            "افتح المنصة من زر Open App داخل Telegram."
+        );
+
+        return;
+    }
+
 
     const tg = window.Telegram.WebApp;
 
-    // إخبار Telegram أن التطبيق جاهز
-    tg.ready();
-    tg.expand();
 
-    // بيانات Telegram الأصلية
-    const initData = tg.initData;
+    /*
+     * نخبر Telegram أن التطبيق جاهز
+     */
 
-    // إذا لم تصل البيانات
+    try {
+        tg.ready();
+        tg.expand();
+    } catch (e) {
+        console.log("Telegram ready error:", e);
+    }
+
+
+    /*
+     * هذه هي بيانات Telegram الأصلية.
+     * لا نستعمل initDataUnsafe للمصادقة.
+     */
+
+    const initData = tg.initData || "";
+
+
+    /*
+     * Telegram لم يرسل بيانات المستخدم
+     */
+
     if (!initData) {
-        error(
-            "Telegram لم يرسل initData.\n" +
-            "افتح التطبيق من زر Open App داخل Telegram."
+
+        showError(
+            "Telegram لم يرسل بيانات الحساب.\n\n" +
+            "افتح BAC PLUS من زر Open App داخل Telegram."
         );
+
         return;
     }
 
-    statusBox.textContent = "جاري التحقق من حسابك...";
+
+    /*
+     * بدأ الاتصال بالسيرفر
+     */
+
+    statusBox.textContent =
+        "جاري الاتصال بالسيرفر...";
+
     statusBox.style.color = "#ffd43b";
+
 
     try {
 
@@ -194,69 +277,125 @@ async function login() {
             }
         );
 
-        const data = await response.json();
+
+        /*
+         * نحاول قراءة رد السيرفر
+         */
+
+        let data;
+
+        try {
+            data = await response.json();
+        } catch (e) {
+
+            showError(
+                "السيرفر رد برد غير مفهوم.\n\n" +
+                "HTTP: " + response.status
+            );
+
+            return;
+        }
+
+
+        /*
+         * السيرفر رفض المصادقة
+         */
 
         if (!response.ok) {
-            error(
+
+            showError(
                 data.error ||
                 data.message ||
-                "الخادم رفض عملية التحقق."
+                "السيرفر رفض عملية التحقق.\n\n" +
+                "HTTP: " + response.status
             );
+
             return;
         }
 
+
+        /*
+         * التأكد من وجود المستخدم
+         */
+
         if (!data.ok || !data.user) {
-            error("لم تصل بيانات المستخدم من الخادم.");
+
+            showError(
+                "السيرفر اشتغل، لكن لم يرجع بيانات المستخدم."
+            );
+
             return;
         }
+
 
         const user = data.user;
 
-        // الاسم
+
+        /*
+         * الاسم
+         */
+
         nameBox.textContent =
             user.first_name ||
             user.username ||
             "مستخدم Telegram";
 
-        // Username
-        if (user.username) {
-            usernameBox.textContent =
-                "@" + user.username;
-        } else {
-            usernameBox.textContent =
-                "Telegram User";
-        }
 
-        // النقاط
+        /*
+         * Username
+         */
+
+        usernameBox.textContent =
+            user.username
+                ? "@" + user.username
+                : "Telegram User";
+
+
+        /*
+         * النقاط
+         */
+
         pointsBox.textContent =
             user.points ?? 0;
 
-        // الصورة
+
+        /*
+         * صورة الحساب
+         */
+
         if (user.photo_url) {
+
             avatarBox.src = user.photo_url;
+
         } else {
+
             avatarBox.style.display = "none";
         }
 
-        // نجاح
-        statusBox.textContent =
-            "✅ تم التحقق من حسابك";
 
-        statusBox.style.color = "#52e878";
+        /*
+         * نجاح
+         */
 
-        errorBox.textContent = "";
+        showSuccess(
+            "✅ تم التحقق من حسابك"
+        );
 
     } catch (e) {
 
-        error(
-            "تعذر الاتصال بالخادم.\n" +
+        showError(
+            "تعذر الاتصال بالسيرفر.\n\n" +
             e.message
         );
     }
 }
 
-// تشغيل المصادقة
-login();
+
+/*
+ * تشغيل المصادقة
+ */
+
+loginWithTelegram();
 
 </script>
 
